@@ -1,11 +1,11 @@
-﻿namespace WebStore.Data
+﻿using System.Linq;
+
+using WebStore.Data.Common.Models;
+
+using Microsoft.EntityFrameworkCore;
+
+namespace WebStore.Data
 {
-    using System.Linq;
-
-    using WebStore.Data.Common.Models;
-
-    using Microsoft.EntityFrameworkCore;
-
     internal static class EntityIndexesConfiguration
     {
         public static void Configure(ModelBuilder modelBuilder)

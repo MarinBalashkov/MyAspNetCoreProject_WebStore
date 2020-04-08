@@ -26,6 +26,30 @@
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Address> Addresses { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Manufacturer> Manufacturers { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<CategoryProduct> CategoriesProducts { get; set; }
+
+        public DbSet<ProductItem> ProductItems { get; set; }
+
+        public DbSet<FavoriteProduct> FavoritesProducts { get; set; }
+
+        public DbSet<Image> Images { get; set; }
+
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderProductItem> OrderProductItems { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -47,6 +71,19 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Category>()
+                    .HasOne(c => c.ParentCategory)
+                    .WithMany()
+                    .HasForeignKey(c => c.ParentCartegoryId);
+
+            builder.Entity<CategoryProduct>().HasKey(x => new { x.CategoryId, x.ProductId });
+
+            builder.Entity<FavoriteProduct>().HasKey(x => new { x.ProductId, x.UserId });
+
+            builder.Entity<ShoppingCartItem>().HasKey(x => new { x.ProductItemId, x.UserId });
+
+            builder.Entity<OrderProductItem>().HasKey(x => new { x.OrderId, x.ProductItemId });
+
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 
