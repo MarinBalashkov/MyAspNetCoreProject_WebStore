@@ -8,6 +8,23 @@
 
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true" />
+
+    <!-- Favicon -->
+    <link href="~/BootstrapThem/img/favicon.ico" rel="shortcut icon" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
+
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="~/BootstrapThem/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/BootstrapThem/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/BootstrapThem/css/flaticon.css" />
+    <link rel="stylesheet" href="~/BootstrapThem/css/slicknav.min.css" />
+    <link rel="stylesheet" href="~/BootstrapThem/css/jquery-ui.min.css" />
+    <link rel="stylesheet" href="~/BootstrapThem/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="~/BootstrapThem/css/animate.css" />
+    <link rel="stylesheet" href="~/BootstrapThem/css/style.css" />
 </head>
 <body>
     <header>
@@ -35,14 +52,14 @@
             </div>
         </nav>
     </header>
-    
+
     <div class="container">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
     </div>
-    
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -55,5 +72,14 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
     @this.RenderSection("Scripts", required: false)
+    <!--====== Javascripts & Jquery ======-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.slicknav.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.nicescroll.min.js"></script>
+    <script src="js/jquery.zoom.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
