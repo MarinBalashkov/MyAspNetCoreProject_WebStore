@@ -32,7 +32,7 @@ namespace WebStore.Data.Models
         [StringLength(maximumLength: 100)]
         public string LastName { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }
