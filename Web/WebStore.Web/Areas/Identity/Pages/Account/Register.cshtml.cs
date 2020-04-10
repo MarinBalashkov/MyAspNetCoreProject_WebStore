@@ -15,6 +15,7 @@
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.AspNetCore.WebUtilities;
     using Microsoft.Extensions.Logging;
+    using WebStore.Common;
     using WebStore.Data.Models;
     using WebStore.Data.Models.Enums;
     using WebStore.Services.Messaging;
@@ -106,7 +107,7 @@
                         values: new { area = "Identity", userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync("Mkbalashkov@students.softuni.bg", "Marin", Input.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(GlobalConstants.SenfGridEmailFrom, GlobalConstants.SenfGridNameFrom, Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."    );
 
                     

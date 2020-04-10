@@ -10,11 +10,9 @@
 
     public class SendGridEmailSender : IEmailSender
     {
-        private readonly string apiKey = Environment.GetEnvironmentVariable("SendGrid", EnvironmentVariableTarget.User);
-
         private readonly SendGridClient client;
 
-        public SendGridEmailSender()
+        public SendGridEmailSender(string apiKey)
         {
             this.client = new SendGridClient(apiKey);
         }
