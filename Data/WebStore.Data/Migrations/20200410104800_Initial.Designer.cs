@@ -10,8 +10,8 @@ using WebStore.Data;
 namespace WebStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200409181412_AdddateofbirthNullebel")]
-    partial class AdddateofbirthNullebel
+    [Migration("20200410104800_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
