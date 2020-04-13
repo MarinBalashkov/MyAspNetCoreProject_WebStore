@@ -1,7 +1,7 @@
 ﻿namespace WebStore.Web
 {
     using System.Reflection;
-
+    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -52,6 +52,20 @@
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     });
             services.AddRazorPages();
+
+            services.AddAuthentication()
+                .AddFacebook(facebookOptions =>
+                    {
+                        facebookOptions.AppId = this.configuration["Authentication:Facebook:AppId"];
+                        facebookOptions.AppSecret = this.configuration["Authentication:Facebook:AppSecret"];
+
+
+                        facebookOptions.ClaimActions.MapJsonKey("urn:facebook:first_name", "first_name", "string");
+                        facebookOptions.ClaimActions.MapJsonKey("urn:facebook:last_name", "last_name", "string");
+                        facebookOptions.ClaimActions.MapJsonKey("urn:facebook:gender", "gender", "string");
+                        facebookOptions.ClaimActions.MapJsonKey("urn:facebook:birthday", "birthday", "string");
+                        facebookOptions.ClaimActions.MapJsonKey("urn:facebook:profile_pic", "profile_pic", "string");
+                    });
 
             services.AddSingleton(this.configuration);
 

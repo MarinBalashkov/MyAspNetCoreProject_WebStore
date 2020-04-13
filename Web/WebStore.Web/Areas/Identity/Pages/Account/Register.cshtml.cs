@@ -49,14 +49,15 @@
 
         public class InputModel
         {
-            [Required]
             public Gender Gender { get; set; }
 
             [Required]
-            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
+            [Display(Name = "First Name")]
+            [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             public string FirstName { get; set; }
 
             [Required]
+            [Display(Name = "Last Name")]
             [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
             public string LastName { get; set; }
 
@@ -107,7 +108,7 @@
                         values: new { area = "Identity", userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(GlobalConstants.SenfGridEmailFrom, GlobalConstants.SenfGridNameFrom, Input.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>."    );
 
                     
