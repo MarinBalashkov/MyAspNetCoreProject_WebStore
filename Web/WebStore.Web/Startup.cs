@@ -59,7 +59,6 @@
                         facebookOptions.AppId = this.configuration["Authentication:Facebook:AppId"];
                         facebookOptions.AppSecret = this.configuration["Authentication:Facebook:AppSecret"];
 
-
                         facebookOptions.ClaimActions.MapJsonKey("urn:facebook:first_name", "first_name", "string");
                         facebookOptions.ClaimActions.MapJsonKey("urn:facebook:last_name", "last_name", "string");
                         facebookOptions.ClaimActions.MapJsonKey("urn:facebook:gender", "gender", "string");

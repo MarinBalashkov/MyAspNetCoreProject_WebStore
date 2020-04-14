@@ -4,7 +4,40 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav">
+<div class="col-xl-4 col-lg-5">
+    <div class="user-panel">
+        @if (!this.SignInManager.IsSignedIn(this.User))
+        {
+            <div class="up-item">
+                <i class="flaticon-profile"></i>
+                <a asp-area="Identity" asp-page="/Account/Login">SignIn</a> or <a asp-area="Identity" asp-page="/Account/Register">Create Account</a>
+            </div>
+        }
+        else
+        {
+            <div class="up-item">
+                <i class="flaticon-profile"></i>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(this.User.Identity.Name)!</a>
+            </div>
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <div class="up-item">
+                    <i class="flaticon-profile"></i>
+                    <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin</a>
+                </div>
+            }
+        }
+        <div class="up-item">
+            <div class="shopping-card">
+                <i class="flaticon-bag"></i>
+                <span>0</span>
+            </div>
+            <a href="#">Shopping Cart</a>
+        </div>
+    </div>
+</div>
+
+@*<ul class="navbar-nav">
     @if (this.SignInManager.IsSignedIn(this.User))
     {
         <li class="nav-item">
@@ -31,4 +64,4 @@
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
     }
-</ul>
+</ul>*@

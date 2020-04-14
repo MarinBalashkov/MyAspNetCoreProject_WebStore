@@ -130,11 +130,6 @@ namespace WebStore.Web.Areas.Identity.Pages.Account
                     {
                         Input.Gender = Enum.Parse<Gender>(info.Principal.FindFirstValue("urn:facebook:gender"));
                     }
-
-                    if (info.Principal.HasClaim(c => c.Type == "urn:facebook:birthday"))
-                    {
-                        Input.DateOfBirth = DateTime.Parse(info.Principal.FindFirstValue("urn:facebook:birthday"));
-                    }
                 }
                 return Page();
             }
