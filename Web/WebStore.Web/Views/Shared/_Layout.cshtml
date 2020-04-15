@@ -61,19 +61,21 @@
         <div class="header-top">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-2 text-center text-lg-left">
+                    <div class="col-xl-2 col-lg-2 col-md-2 text-center text-lg-left">
                         <!-- logo -->
                         <a asp-area="" asp-controller="Home" asp-action="Index" class="site-logo">
                             <img src="~/BootstrapThem/img/NeroboutiqueLogo.png" alt="">
                         </a>
                     </div>
-                    <div class="col-xl-6 col-lg-5">
+                    <div class="col-xl-4 col-lg-4 col-md-4">
                         <form class="header-search-form">
                             <input type="text" placeholder="Search on NERO boutique ....">
                             <button><i class="flaticon-search"></i></button>
                         </form>
                     </div>
-                    <partial name="_LoginPartial" />
+                    <div class="col-xl-6 col-lg-6 col-md-6">
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </div>
