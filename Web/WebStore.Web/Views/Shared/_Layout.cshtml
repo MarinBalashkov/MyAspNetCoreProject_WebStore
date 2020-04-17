@@ -1,4 +1,5 @@
 ﻿@using WebStore.Common
+@inject ICategoryService categoryService
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,14 +18,14 @@
 
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="~/BootstrapThem/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/BootstrapThem/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="~/BootstrapThem/css/flaticon.css" />
-    <link rel="stylesheet" href="~/BootstrapThem/css/slicknav.min.css" />
-    <link rel="stylesheet" href="~/BootstrapThem/css/jquery-ui.min.css" />
-    <link rel="stylesheet" href="~/BootstrapThem/css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="~/BootstrapThem/css/animate.css" />
-    <link rel="stylesheet" href="~/BootstrapThem/css/style.css" />
+    <link  href="~/BootstrapThem/css/bootstrap.min.css" rel="stylesheet" />
+    <link  href="~/BootstrapThem/css/font-awesome.min.css" rel="stylesheet" />
+    <link  href="~/BootstrapThem/css/flaticon.css" rel="stylesheet" />
+    <link  href="~/BootstrapThem/css/slicknav.min.css" rel="stylesheet" />
+    <link  href="~/BootstrapThem/css/jquery-ui.min.css" rel="stylesheet" />
+    <link  href="~/BootstrapThem/css/owl.carousel.min.css" rel="stylesheet" />
+    <link  href="~/BootstrapThem/css/animate.css" rel="stylesheet" />
+    <link  href="~/BootstrapThem/css/style.css" rel="stylesheet" />
 </head>
 <body>
     @*<header>
@@ -79,6 +80,50 @@
                 </div>
             </div>
         </div>
+        <nav class="main-navbar">
+            <div class="container" >
+                <!-- menu -->
+                <ul class="main-menu">
+                    <li>
+                        <a href="#">Men</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Coats</a></li>
+                            <li><a href="#">Dresses</a></li>
+                            <li><a href="#">Footwears Shoes</a></li>
+                            <li><a href="#">Jackets</a></li>
+                            <li><a href="#">Lounge wear</a></li>
+                            <li><a href="#">T-Shirts</a></li>
+                            <li><a href="#">Shorts</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Women</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Coats</a></li>
+                            <li><a href="#">Dresses</a></li>
+                            <li><a href="#">Footwears Shoes</a></li>
+                            <li><a href="#">Jackets</a></li>
+                            <li><a href="#">Lounge wear</a></li>
+                            <li><a href="#">T-Shirts</a></li>
+                            <li><a href="#">Shorts</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Kids</a>
+                        <ul class="sub-menu">
+                            <li><a href="#">Coats</a></li>
+                            <li><a href="#">Dresses</a></li>
+                            <li><a href="#">Footwears Shoes</a></li>
+                            <li><a href="#">Jackets</a></li>
+                            <li><a href="#">Lounge wear</a></li>
+                            <li><a href="#">T-Shirts</a></li>
+                            <li><a href="#">Shorts</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
     </header>
 
     <div class="container">
