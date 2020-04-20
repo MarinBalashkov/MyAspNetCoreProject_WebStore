@@ -11,6 +11,7 @@ namespace WebStore.Data.Models
         public ProductItem()
         {
             this.ShoppingCartItems = new HashSet<ShoppingCartItem>();
+            this.OrdersProductItems = new HashSet<OrderProductItem>();
         }
 
         [StringLength(maximumLength: 30)]
@@ -23,5 +24,8 @@ namespace WebStore.Data.Models
         public virtual Product Product { get; set; }
 
         public virtual ICollection<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        public virtual ICollection<OrderProductItem> OrdersProductItems { get; set; }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿@using WebStore.Common
+@model WebStore.Web.ViewModels.Home.IndexViewModel
 @{
     this.ViewData["Title"] = "Home Page";
 }
@@ -7,3 +8,89 @@
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<!-- letest product section -->
+
+<section class="top-letest-product-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>LATEST PRODUCTS</h2>
+        </div>
+        <div class="product-slider owl-carousel">
+            @foreach (var product in Model.LatestProducts)
+            {
+                <div class="product-item">
+                    <div class="pi-pic">
+                        <img src="@product.MainImages.ImageUrl" alt="">
+                        <div class="pi-links">
+                            <a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
+                            <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                        </div>
+                    </div>
+                    <div class="pi-text">
+                        <h6>@product.Price</h6>
+                        <p>@product.Name</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<!-- letest product section end -->
+<!-- Product filter section -->
+<section class="product-filter-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>BROWSE MOST LIKED PRODUCTS</h2>
+        </div>
+        <ul class="product-filter-menu">
+            @foreach (var categoryNane in Model.SubCategoriesNames)
+            {
+                <li><a href="#">@categoryNane</a></li>
+
+            }
+        </ul>
+        <div class="row">
+            @*@foreach (var topSellingProduct in Model.TopSellingProducts)
+                {
+                    <div class="col-lg-3 col-sm-6">
+                        <div class="product-item">
+                            <div class="pi-pic">
+                                <img src="@topSellingProduct.MainImages.ImageUrl" alt="">
+                                <div class="pi-links">
+                                    <a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
+                                    <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                                </div>
+                            </div>
+                            <div class="pi-text">
+                                <h6>@topSellingProduct.Price</h6>
+                                <p>@topSellingProduct.Name </p>
+                            </div>
+                        </div>
+                    </div>
+                }*@
+            @foreach (var MostLikedProduct in Model.MostLikedProducts)
+            {
+                <div class="col-lg-3 col-sm-6">
+                    <div class="product-item">
+                        <div class="pi-pic">
+                            <img src="@MostLikedProduct.MainImages.ImageUrl" alt="">
+                            <div class="pi-links">
+                                <a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
+                                <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                            </div>
+                        </div>
+                        <div class="pi-text">
+                            <h6>@MostLikedProduct.Price</h6>
+                            <p>@MostLikedProduct.Name </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="text-center pt-5">
+            <button class="site-btn sb-line sb-dark">LOAD MORE</button>
+        </div>
+    </div>
+</section>
+<!-- Product filter section end -->

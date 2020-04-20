@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebStore.Data.Models;
-using WebStore.Data.Models.Enums;
-
-namespace WebStore.Data.Seeding
+﻿namespace WebStore.Data.Seeding
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using WebStore.Data.Models;
+    using WebStore.Data.Models.Enums;
+
     public class ImageSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
@@ -41,7 +42,7 @@ namespace WebStore.Data.Seeding
                 "https://res.cloudinary.com/dlrc2oa6y/image/upload/v1587057580/NERO_Boutique/Products/4_y3ychy.jpg",
             };
 
-            var productsIds = dbContext.ProductItems.Select(x => x.Id).ToList();
+            var productsIds = dbContext.Products.Select(x => x.Id).ToList();
             var images = new List<Image>();
             var random = new Random();
 
@@ -69,7 +70,7 @@ namespace WebStore.Data.Seeding
                 }
             }
 
-            await dbContext.Images.AddRangeAsync();
+            await dbContext.Images.AddRangeAsync(images);
             await dbContext.SaveChangesAsync();
         }
     }

@@ -51,5 +51,32 @@
 
             return query.To<T>().ToList();
         }
+
+        public IEnumerable<string> GetAllSubCategoriesNames(int? count = null)
+        {
+            IQueryable<string> query =
+               this.categoriesRepository.All()
+               .Where(x => x.ParentCartegoryId != null)
+               .Select(x => x.Name)
+               .Distinct();
+
+            if (!query.Any())
+            {
+                return null;
+            }
+
+            if (count.HasValue)
+            {
+                query = query.Take(count.Value);
+            }
+
+            return query.ToList();
+        }
+
+        public IEnumerable<T> GetParentCategoryIdByName<T>(int? count = null)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

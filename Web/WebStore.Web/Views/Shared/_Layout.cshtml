@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>
 
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" asp-append-version="true" />
-    <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true" />
 
     <!-- Favicon -->
     <link href="~/BootstrapThem/img/favicon.ico" rel="shortcut icon" />
@@ -18,51 +16,22 @@
 
 
     <!-- Stylesheets -->
-    <link  href="~/BootstrapThem/css/bootstrap.min.css" rel="stylesheet" />
-    <link  href="~/BootstrapThem/css/font-awesome.min.css" rel="stylesheet" />
-    <link  href="~/BootstrapThem/css/flaticon.css" rel="stylesheet" />
-    <link  href="~/BootstrapThem/css/slicknav.min.css" rel="stylesheet" />
-    <link  href="~/BootstrapThem/css/jquery-ui.min.css" rel="stylesheet" />
-    <link  href="~/BootstrapThem/css/owl.carousel.min.css" rel="stylesheet" />
-    <link  href="~/BootstrapThem/css/animate.css" rel="stylesheet" />
-    <link  href="~/BootstrapThem/css/style.css" rel="stylesheet" />
+    <link href="~/BootstrapThem/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/BootstrapThem/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/BootstrapThem/css/flaticon.css" rel="stylesheet" />
+    <link href="~/BootstrapThem/css/slicknav.min.css" rel="stylesheet" />
+    <link href="~/BootstrapThem/css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/BootstrapThem/css/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/BootstrapThem/css/animate.css" rel="stylesheet" />
+    <link href="~/BootstrapThem/css/style.css" rel="stylesheet" />
 </head>
 <body>
-    @*<header>
-            <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <partial name="_LoginPartial" />
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                            @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="Index">Settings</a>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>*@
-
     <!-- Header section -->
     <header class="header-section">
         <div class="header-top">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-2 col-lg-2 col-md-2 text-center text-lg-left">
+                    <div class="col-lg-2  text-center text-lg-left">
                         <!-- logo -->
                         <a asp-area="" asp-controller="Home" asp-action="Index" class="site-logo">
                             <img src="~/BootstrapThem/img/NeroboutiqueLogo.png" alt="">
@@ -81,45 +50,47 @@
             </div>
         </div>
         <nav class="main-navbar">
-            <div class="container" >
+            <div class="container">
                 <!-- menu -->
+
                 <ul class="main-menu">
-                    <li>
-                        <a href="#">Men</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Coats</a></li>
-                            <li><a href="#">Dresses</a></li>
-                            <li><a href="#">Footwears Shoes</a></li>
-                            <li><a href="#">Jackets</a></li>
-                            <li><a href="#">Lounge wear</a></li>
-                            <li><a href="#">T-Shirts</a></li>
-                            <li><a href="#">Shorts</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">Women</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Coats</a></li>
-                            <li><a href="#">Dresses</a></li>
-                            <li><a href="#">Footwears Shoes</a></li>
-                            <li><a href="#">Jackets</a></li>
-                            <li><a href="#">Lounge wear</a></li>
-                            <li><a href="#">T-Shirts</a></li>
-                            <li><a href="#">Shorts</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">Kids</a>
-                        <ul class="sub-menu">
-                            <li><a href="#">Coats</a></li>
-                            <li><a href="#">Dresses</a></li>
-                            <li><a href="#">Footwears Shoes</a></li>
-                            <li><a href="#">Jackets</a></li>
-                            <li><a href="#">Lounge wear</a></li>
-                            <li><a href="#">T-Shirts</a></li>
-                            <li><a href="#">Shorts</a></li>
-                        </ul>
-                    </li>
+                    <partial name="_NavbarPartial" />
+                    @*<li>
+                            <a href="#">Men</a>
+                            <ul class="sub-menu">
+                                <li><a href="#">Coats</a></li>
+                                <li><a href="#">Dresses</a></li>
+                                <li><a href="#">Footwears Shoes</a></li>
+                                <li><a href="#">Jackets</a></li>
+                                <li><a href="#">Lounge wear</a></li>
+                                <li><a href="#">T-Shirts</a></li>
+                                <li><a href="#">Shorts</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Women</a>
+                            <ul class="sub-menu">
+                                <li><a href="#">Coats</a></li>
+                                <li><a href="#">Dresses</a></li>
+                                <li><a href="#">Footwears Shoes</a></li>
+                                <li><a href="#">Jackets</a></li>
+                                <li><a href="#">Lounge wear</a></li>
+                                <li><a href="#">T-Shirts</a></li>
+                                <li><a href="#">Shorts</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Kids</a>
+                            <ul class="sub-menu">
+                                <li><a href="#">Coats</a></li>
+                                <li><a href="#">Dresses</a></li>
+                                <li><a href="#">Footwears Shoes</a></li>
+                                <li><a href="#">Jackets</a></li>
+                                <li><a href="#">Lounge wear</a></li>
+                                <li><a href="#">T-Shirts</a></li>
+                                <li><a href="#">Shorts</a></li>
+                            </ul>
+                        </li>*@
                 </ul>
             </div>
         </nav>
@@ -245,13 +216,13 @@
     <script src="~/js/site.min.js" asp-append-version="true"></script>
     @this.RenderSection("Scripts", required: false)
     <!--====== Javascripts & Jquery ======-->
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.slicknav.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.nicescroll.min.js"></script>
-    <script src="js/jquery.zoom.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="~/BootstrapThem/js/jquery-3.2.1.min.js"></script>
+    <script src="~/BootstrapThem/js/bootstrap.min.js"></script>
+    <script src="~/BootstrapThem/js/jquery.slicknav.min.js"></script>
+    <script src="~/BootstrapThem/js/owl.carousel.min.js"></script>
+    <script src="~/BootstrapThem/js/jquery.nicescroll.min.js"></script>
+    <script src="~/BootstrapThem/js/jquery.zoom.min.js"></script>
+    <script src="~/BootstrapThem/js/jquery-ui.min.js"></script>
+    <script src="~/BootstrapThem/js/main.js"></script>
 </body>
 </html>

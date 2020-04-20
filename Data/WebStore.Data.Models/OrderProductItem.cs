@@ -6,11 +6,6 @@
 
     public class OrderProductItem
     {
-        public OrderProductItem()
-        {
-            this.OrderProductItems = new HashSet<OrderProductItem>();
-        }
-
         public int ProductItemId { get; set; }
 
         public ProductItem ProductItem { get; set; }
@@ -21,6 +16,5 @@
 
         public int Quantity { get; set; }
 
-        public virtual ICollection<OrderProductItem> OrderProductItems { get; set; }
     }
 }
