@@ -74,8 +74,8 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            var sendGridSApiKey = this.configuration["SendGrid:MyApiKey"];
-            services.AddScoped<IEmailSender>(x => new SendGridEmailSender(sendGridSApiKey));
+            var sendGridApiKey = this.configuration["SendGrid:MyApiKey"];
+            services.AddScoped<IEmailSender>(x => new SendGridEmailSender(sendGridApiKey));
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IProductService, ProductService>();
