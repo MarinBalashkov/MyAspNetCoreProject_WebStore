@@ -24,8 +24,8 @@
         {
             var model = new IndexViewModel()
             {
-                LatestProducts = this.productService.GetLatestProducts<ProductViewModel>(20),
-                MostLikedProducts = this.productService.GetMostLikedProducts<ProductViewModel>(16),
+                LatestProducts = this.productService.GetLatestProducts<HomeIndexProductViewModel>(20),
+                MostLikedProducts = this.productService.GetMostLikedProducts<HomeIndexProductViewModel>(16),
                 SubCategoriesNames = this.categoryService.GetAllSubCategoriesNames(),
             };
 

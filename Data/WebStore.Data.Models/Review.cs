@@ -20,6 +20,5 @@
 
         public Product Product { get; set; }
 
-
     }
 }

@@ -15,6 +15,8 @@
             this.Images = new HashSet<Image>();
             this.FavoriteProducts = new HashSet<FavoriteProduct>();
             this.ProductItems = new HashSet<ProductItem>();
+            this.Reviews = new HashSet<Review>();
+
         }
 
         [StringLength(maximumLength: 100)]
@@ -38,6 +40,8 @@
         public virtual ICollection<FavoriteProduct> FavoriteProducts { get; set; }
 
         public virtual ICollection<ProductItem> ProductItems { get; set; }
+
+        public virtual ICollection<Review> Reviews { get; set; }
 
     }
 }

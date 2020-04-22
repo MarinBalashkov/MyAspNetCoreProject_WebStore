@@ -47,6 +47,30 @@
             return query.To<T>().ToList();
         }
 
+        public T GetProductById<T>(int id)
+        {
+            var product = this.productsRepository
+                .All()
+                .Where(x => x.Id == id)
+                .To<T>()
+                .FirstOrDefault();
+
+            return product;
+        }
+
+        public IEnumerable<T> GetProductsByCategoiesIds<T>(IEnumerable<int> categoriesIds, int? count)
+        {
+            IQueryable<Product> query = this.productsRepository
+              .All()
+              .Where(x => x.CategoriesProducts.Any(cp => categoriesIds.Contains(cp.CategoryId)));
+            if (count.HasValue)
+            {
+                query = query.Take(count.Value);
+            }
+
+            return query.To<T>().ToList();
+        }
+
         public IEnumerable<T> GetTopSellingProducts<T>(int? count = null)
         {
             IEnumerable<int> bestSellersProductsIds = this.productsItemsRepository
@@ -67,6 +91,11 @@
                 .Where(x => bestSellersProductsIds.Contains(x.Id));
 
             return query.To<T>().ToList();
+        }
+
+        public bool IsExist(int id)
+        {
+            return this.productsRepository.All().Any(x => x.Id == id);
         }
     }
 }

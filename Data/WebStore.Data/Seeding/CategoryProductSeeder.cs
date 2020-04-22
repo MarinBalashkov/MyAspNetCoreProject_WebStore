@@ -16,7 +16,7 @@ namespace WebStore.Data.Seeding
                 return;
             }
 
-            var categotyIds = dbContext.Categories
+            var categoriesIds = dbContext.Categories
                 .Where(x => x.ParentCartegoryId != null)
                 .Select(x => x.Id)
                 .ToList();
@@ -24,17 +24,17 @@ namespace WebStore.Data.Seeding
             var productsIds = dbContext.Products.Select(x => x.Id).ToList();
             var categoryProducts = new List<CategoryProduct>();
 
-            foreach (var categoryId in categotyIds)
+            var random = new Random();
+
+            foreach (var productId in productsIds)
             {
-                for (int i = 0; i < 50; i++)
+                var categoryIndex = random.Next(categoriesIds.Count - 1);
+                var categoryProduct = new CategoryProduct()
                 {
-                    var categoryProduct = new CategoryProduct()
-                    {
-                        CategoryId = categoryId,
-                        ProductId = productsIds[i],
-                    };
-                    categoryProducts.Add(categoryProduct);
-                }
+                    ProductId = productId,
+                    CategoryId = categoriesIds[categoryIndex],
+                };
+                categoryProducts.Add(categoryProduct);
             }
 
             await dbContext.CategoriesProducts.AddRangeAsync(categoryProducts);
