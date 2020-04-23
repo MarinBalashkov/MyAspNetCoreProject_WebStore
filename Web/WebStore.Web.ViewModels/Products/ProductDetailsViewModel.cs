@@ -37,6 +37,11 @@
 
         public IEnumerable<HomeIndexProductViewModel> RelatetProducts { get; set; }
 
+        public int ReviewsCount { get; set; }
+
+        public IEnumerable<ProductDetailsReviewViewModel> Reviews { get; set; }
+
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Product, ProductDetailsViewModel>()
@@ -45,7 +50,7 @@
                 opt => opt.MapFrom(x => x.Images.Where(i => (int)i.ImageType == (int)ImageType.Secondary)))
                 .ForMember(
                 m => m.MainImage,
-                opt => opt.MapFrom(x => x.Images.Where(i => (int)i.ImageType == (int)ImageType.Main).FirstOrDefault())); 
+                opt => opt.MapFrom(x => x.Images.Where(i => (int)i.ImageType == (int)ImageType.Main).FirstOrDefault()));
         }
     }
 }

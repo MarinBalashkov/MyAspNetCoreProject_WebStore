@@ -68,7 +68,7 @@
             return this.View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Privacy() // TODO heck the content
         {
             return this.View();
         }
