@@ -52,6 +52,8 @@
 
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<RequestToUs> RequestsToUs { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

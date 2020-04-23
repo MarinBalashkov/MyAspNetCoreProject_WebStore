@@ -12,8 +12,8 @@
     public class SendGridEmailSender : IEmailSender
     {
         private readonly SendGridClient client;
-        private readonly string sendEmailFrom = GlobalConstants.SenfGridEmailFrom;
-        private readonly string sendEmailFromName = GlobalConstants.SenfGridNameFrom;
+        private readonly string sendEmailFrom = GlobalConstants.SendGridCompanyEmail;
+        private readonly string sendEmailFromName = GlobalConstants.SendGridCompanyName;
 
 
         public SendGridEmailSender(string apiKey)
@@ -21,7 +21,7 @@
             this.client = new SendGridClient(apiKey);
         }
 
-        public async Task SendEmailAsync(string to, string subject, string htmlContent, IEnumerable<EmailAttachment> attachments = null)
+        public async Task SendEmailAsync(string to, string subject, string htmlContent, string from = null, string fromName = null, IEnumerable<EmailAttachment> attachments = null)
         {
             if (string.IsNullOrWhiteSpace(subject) && string.IsNullOrWhiteSpace(htmlContent))
             {

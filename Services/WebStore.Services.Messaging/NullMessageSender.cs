@@ -9,6 +9,8 @@
             string to,
             string subject,
             string htmlContent,
+            string from = null,
+            string fromName = null,
             IEnumerable<EmailAttachment> attachments = null)
         {
             return Task.CompletedTask;

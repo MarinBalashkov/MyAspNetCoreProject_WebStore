@@ -6,8 +6,8 @@
 
         public const string AdministratorRoleName = "Administrator";
 
-        public const string SenfGridEmailFrom = "Mkbalashkov@students.softuni.bg";
+        public const string SendGridCompanyEmail = "Mkbalashkov@students.softuni.bg";
 
-        public const string SenfGridNameFrom = "NERO Boutique";
+        public const string SendGridCompanyName = "NERO Boutique";
     }
 }
