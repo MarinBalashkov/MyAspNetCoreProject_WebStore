@@ -12,6 +12,8 @@
     using WebStore.Web.ViewModels.Categoties;
     using WebStore.Web.ViewModels.Images;
     using WebStore.Web.ViewModels.ProductItems;
+    using WebStore.Web.ViewModels.Reviews;
+    using WebStore.Web.ViewModels.ShopingCardItems;
 
     public class ProductDetailsViewModel : IMapFrom<Product>, IHaveCustomMappings
     {
@@ -41,6 +43,7 @@
 
         public IEnumerable<ProductDetailsReviewViewModel> Reviews { get; set; }
 
+        public ShopingCardItemInputViewModel ShopingCardItemInputViewModel { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Services.Data;
 using WebStore.Web.ViewModels.Products;
+using WebStore.Web.ViewModels.Reviews;
+using WebStore.Web.ViewModels.ShopingCardItems;
 
 namespace WebStore.Web.Controllers
 {
@@ -27,7 +29,6 @@ namespace WebStore.Web.Controllers
             var model = this.productService.GetProductById<ProductDetailsViewModel>(id);
             var categoriesIds = model.CategoriesProducts.Select(x => x.CategoryId).ToList();
             model.RelatetProducts = this.productService.GetProductsByCategoiesIds<HomeIndexProductViewModel>(categoriesIds, 10);
-
             return this.View(model);
         }
     }

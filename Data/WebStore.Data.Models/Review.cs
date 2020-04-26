@@ -10,13 +10,13 @@
     {
         public string Text { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         public int ProductiD { get; set; }
 
-        public Product Product { get; set; }
+        public virtual Product Product { get; set; }
 
     }
 }

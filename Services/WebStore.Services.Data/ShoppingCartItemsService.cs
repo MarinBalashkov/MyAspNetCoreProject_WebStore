@@ -1,0 +1,101 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using WebStore.Data.Common.Repositories;
+using WebStore.Data.Models;
+using WebStore.Services.Mapping;
+
+namespace WebStore.Services.Data
+{
+    public class ShoppingCartItemsService : IShoppingCartItemsService
+    {
+        private readonly IDeletableEntityRepository<ShoppingCartItem> shoppingCartItemRepository;
+
+        public ShoppingCartItemsService(IDeletableEntityRepository<ShoppingCartItem> shopingCardItemRepository)
+        {
+            this.shoppingCartItemRepository = shopingCardItemRepository;
+        }
+
+        public async Task DeleteShopingCartItem(string userId, int productItemId)
+        {
+            var shoppingCartItem = this.shoppingCartItemRepository
+                .All()
+                .Where(x => x.UserId == userId && x.ProductItemId == productItemId)
+                .FirstOrDefault();
+
+            if (shoppingCartItem == null)
+            {
+                return;
+            }
+
+            this.shoppingCartItemRepository.Delete(shoppingCartItem);
+            await this.shoppingCartItemRepository.SaveChangesAsync();
+        }
+
+        public async Task AddShoppingCartItemAsync(string userId, int productItemId, int quantity)
+        {
+            if (quantity < 0)
+            {
+                return;
+            }
+
+            if (this.shoppingCartItemRepository.All().Any(x => x.UserId == userId && x.ProductItemId == productItemId))
+            {
+                await this.UpdateShopingCartItem(userId, productItemId, quantity);
+                return;
+            }
+
+            var shoppingCartItem = new ShoppingCartItem()
+            {
+                ProductItemId = productItemId,
+                UserId = userId,
+                Quantity = quantity,
+            };
+
+            await this.shoppingCartItemRepository.AddAsync(shoppingCartItem);
+            await this.shoppingCartItemRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> GetAllShoppingCartItems<T>(string userId)
+        {
+            IQueryable<ShoppingCartItem> query =
+            this.shoppingCartItemRepository.All()
+            .Where(x => x.UserId == userId && x.Quantity > 0);
+            if (!query.Any())
+            {
+                return null;
+            }
+
+            return query.To<T>().ToList();
+        }
+
+        public async Task DeleteAllShoppingCartItems(string userId)
+        {
+            var shoppingCartItems = this.shoppingCartItemRepository
+                .All()
+                .Where(x => x.UserId == userId);
+
+            foreach (var item in shoppingCartItems)
+            {
+                this.shoppingCartItemRepository.Delete(item);
+                await this.shoppingCartItemRepository.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateShopingCartItem(string userId, int productItemId, int quantity)
+        {
+            var shoppingCartItem = this.shoppingCartItemRepository
+                .All()
+                .Where(x => x.UserId == userId && x.ProductItemId == productItemId)
+                .FirstOrDefault();
+
+            shoppingCartItem.Quantity = quantity;
+
+            this.shoppingCartItemRepository.Update(shoppingCartItem);
+            await this.shoppingCartItemRepository.SaveChangesAsync();
+
+        }
+    }
+}
