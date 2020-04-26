@@ -20,13 +20,8 @@
             }
             else
             {
-                <div class="up-item">
-                    <div class="shopping-card">
-                        <i class="flaticon-bag"></i>
-                        <span>0</span>
-                    </div>
-                    <a href="#">Shopping Cart</a>
-                </div>
+                    <vc:shopping-cart></vc:shopping-cart>
+                
             }
             <div class="up-item">
                 <form  asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))">

@@ -17,5 +17,6 @@
 
         Task DeleteAllShoppingCartItems(string userId);
 
+        int GetShoppingCartItemsCount(string userId);
     }
 }

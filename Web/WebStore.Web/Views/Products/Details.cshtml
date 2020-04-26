@@ -168,7 +168,7 @@
                                             <input type="hidden" name="productId" value="@Model.Id" />
                                             <button type="submit" class="btn btn-danger float-left">Delete</button>
                                         </form>
-                                        <button asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id" type="button" class="btn btn-primary float-right" >Update your review</button>
+                                        <a asp-area="" asp-controller="Reviews" asp-action="Update" asp-route-reviewId="@review.Id" class="btn btn-primary float-right" >Update your review</a>
                                     }
 
                                 }

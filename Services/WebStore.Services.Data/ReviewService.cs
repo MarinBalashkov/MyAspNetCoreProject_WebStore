@@ -24,7 +24,7 @@ namespace WebStore.Services.Data
             {
                 Text = text,
                 UserId = userId,
-                ProductiD = productId,
+                ProductId = productId,
             };
 
             await this.reviewRepository.AddAsync(review);

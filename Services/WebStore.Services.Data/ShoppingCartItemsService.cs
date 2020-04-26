@@ -97,5 +97,10 @@ namespace WebStore.Services.Data
             await this.shoppingCartItemRepository.SaveChangesAsync();
 
         }
+
+        public int GetShoppingCartItemsCount(string userId)
+        {
+            return this.shoppingCartItemRepository.All().Where(x => x.UserId == userId).Count();
+        }
     }
 }

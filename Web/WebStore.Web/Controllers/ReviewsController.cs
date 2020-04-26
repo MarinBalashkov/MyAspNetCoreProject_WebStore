@@ -45,10 +45,9 @@
             await this.reviewService.CreateAsync(input.Text, userId, input.ProductId);
             return this.RedirectToAction("Details", "Products", new { id = input.ProductId});
         }
-
-        [HttpGet]
+      
         [Authorize]
-        public async Task<IActionResult> Update(int reviewId)
+        public IActionResult Update(int reviewId)
         {
             if (this.reviewService.IsExist(reviewId) == false)
             {
@@ -62,8 +61,29 @@
                 return this.Unauthorized();
             }
 
-            var model = this.reviewService.GetReviewById<ProductDetailsReviewViewModel>(reviewId);
+            var model = this.reviewService.GetReviewById<UpdateViewModel>(reviewId);
             return this.View(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Update(int reviewId, int productId, string text)
+        {
+            if (this.reviewService.IsExist(reviewId) == false)
+            {
+                return this.NotFound();
+            }
+
+            var authorId = this.reviewService.GetReviewAuthorIdById(reviewId);
+
+            var userId = this.userManager.GetUserId(this.User);
+            if (userId != authorId && this.User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
+            {
+                return this.Unauthorized();
+            }
+
+            await this.reviewService.Update(reviewId, text);
+            return this.RedirectToAction("Details", "Products", new { id = productId });
         }
 
         [HttpPost]
@@ -86,25 +106,6 @@
             return this.RedirectToAction("Details", "Products", new { id = productId });
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Update(int reviewId, int productId, string text)
-        {
-            if (this.reviewService.IsExist(reviewId) == false)
-            {
-                return this.NotFound();
-            }
 
-            var authorId = this.reviewService.GetReviewAuthorIdById(reviewId);
-
-            var userId = this.userManager.GetUserId(this.User);
-            if (userId != authorId || this.User.IsInRole(GlobalConstants.AdministratorRoleName) == false)
-            {
-                return this.Unauthorized();
-            }
-
-            await this.reviewService.Update(reviewId, text);
-            return this.RedirectToAction("Details", "Products", new { id = productId });
-        }
     }
 }

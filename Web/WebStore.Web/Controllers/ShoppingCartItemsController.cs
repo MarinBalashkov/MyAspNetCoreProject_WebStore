@@ -72,6 +72,7 @@ namespace WebStore.Web.Controllers
             return this.RedirectToAction(nameof(this.Index));
         }
 
+        [HttpPost]
         public async Task<IActionResult> Delete(int productItemId)
         {
             var userId = this.userManager.GetUserId(this.User);
