@@ -9,6 +9,8 @@ namespace WebStore.Web.ViewModels.Products
     {
         public int Id { get; set; }
 
+        public int ProductiD { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public string Text { get; set; }

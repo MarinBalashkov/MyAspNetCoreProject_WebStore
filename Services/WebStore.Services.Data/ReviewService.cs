@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebStore.Data.Common.Repositories;
 using WebStore.Data.Models;
+using WebStore.Services.Mapping;
 
 namespace WebStore.Services.Data
 {
@@ -33,9 +34,35 @@ namespace WebStore.Services.Data
         public async Task Delete(int reviewId)
         {
             var review = this.reviewRepository.All().Where(x => x.Id == reviewId).FirstOrDefault();
+            if (review == null)
+            {
+                return;
+            }
 
             this.reviewRepository.Delete(review);
             await this.reviewRepository.SaveChangesAsync();
+        }
+
+        public string GetReviewAuthorIdById(int reviewId)
+        {
+            var review = this.reviewRepository.All().Where(x => x.Id == reviewId);
+            if (!review.Any())
+            {
+                return null;
+            }
+
+            return review.Select(x => x.UserId).FirstOrDefault();
+        }
+
+        public T GetReviewById<T>(int reviewId)
+        {
+            var review = this.reviewRepository
+                     .All()
+                     .Where(x => x.Id == reviewId)
+                     .To<T>()
+                     .FirstOrDefault();
+
+            return review;
         }
 
         public bool IsExist(int id)
@@ -43,9 +70,19 @@ namespace WebStore.Services.Data
             return this.reviewRepository.All().Any(x => x.Id == id);
         }
 
-        void IReviewService.Delete(int reviewId)
+        public async Task Update(int reviewId, string text)
         {
-            throw new NotImplementedException();
+            var review = this.reviewRepository.All().Where(x => x.Id == reviewId).FirstOrDefault();
+
+            if (review == null)
+            {
+                return;
+            }
+
+            review.Text = text;
+            this.reviewRepository.Update(review);
+            await this.reviewRepository.SaveChangesAsync();
         }
+
     }
 }

@@ -9,9 +9,14 @@
     {
         Task CreateAsync(string text, string userId, int productId);
 
-        void Delete(int reviewId);
+        Task Delete(int reviewId);
 
         bool IsExist(int id);
 
+        Task Update(int reviewId, string text);
+
+        T GetReviewById<T>(int reviewId);
+
+        string GetReviewAuthorIdById(int reviewId);
     }
 }

@@ -1,4 +1,5 @@
-﻿@model WebStore.Web.ViewModels.Products.ProductDetailsViewModel
+﻿@using WebStore.Common
+@model WebStore.Web.ViewModels.Products.ProductDetailsViewModel
 @{
     this.ViewData["Title"] = "Product " + Model.Name;
 }
@@ -96,29 +97,29 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="panel">
-                            <div class="panel-header" id="headingTwo">
+                    <div class="panel">
+                            <div class="panel-header" id="headingtwo">
                                 <button class="panel-link" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">care details </button>
                             </div>
-                            <div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div id="collapse2" class="collapse" aria-labelledby="headingtwo" data-parent="#accordion">
                                 <div class="panel-body">
                                     <img src="./img/cards.png" alt="">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integer bibendum sodales arcu id te mpus. Ut consectetur lacus leo, non scelerisque nulla euismod nec.</p>
+                                    <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. proin pharetra tempor so dales. phasellus sagittis auctor gravida. integer bibendum sodales arcu id te mpus. ut consectetur lacus leo, non scelerisque nulla euismod nec.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="panel">
-                            <div class="panel-header" id="headingThree">
-                                <button class="panel-link" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">shipping & Returns</button>
+                            <div class="panel-header" id="headingthree">
+                                <button class="panel-link" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">shipping & returns</button>
                             </div>
-                            <div id="collapse3" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                            <div id="collapse3" class="collapse" aria-labelledby="headingthree" data-parent="#accordion">
                                 <div class="panel-body">
-                                    <h4>7 Days Returns</h4>
-                                    <p>Cash on Delivery Available<br>Home Delivery <span>3 - 4 days</span></p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integer bibendum sodales arcu id te mpus. Ut consectetur lacus leo, non scelerisque nulla euismod nec.</p>
+                                    <h4>7 days returns</h4>
+                                    <p>cash on delivery available<br>home delivery <span>3 - 4 days</span></p>
+                                    <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. proin pharetra tempor so dales. phasellus sagittis auctor gravida. integer bibendum sodales arcu id te mpus. ut consectetur lacus leo, non scelerisque nulla euismod nec.</p>
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
                 </div>
                 @*<div class="social-sharing">
                         <a href=""><i class="fa fa-google-plus"></i></a>
@@ -158,6 +159,19 @@
                             <article>
                                 @Html.Raw(review.SanitizedText)
                             </article>
+                                @if (this.User.Identity.IsAuthenticated)
+                                {
+                                    @if (this.Context.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.Identity.Name == review.UserUserName)
+                                    {
+                                        <form asp-controller="Reviews" asp-action="Delete" method="post">
+                                            <input type="hidden" name="reviewId" value="@review.Id" />
+                                            <input type="hidden" name="productId" value="@Model.Id" />
+                                            <button type="submit" class="btn btn-danger float-left">Delete</button>
+                                        </form>
+                                        <button asp-controller="Reviews" asp-action="Delete" asp-route-id="@review.Id" type="button" class="btn btn-primary float-right" >Update your review</button>
+                                    }
+
+                                }
                         </div>
                     </div>
                 </div>
@@ -176,7 +190,7 @@
     });
 </script>
 <div>
-    <form asp-controller="Review" asp-action="Create" method="post" id="AddReviewForm" style="display: none">
+    <form asp-controller="Reviews" asp-action="Create" method="post" id="AddReviewForm" style="display: none">
         <input type="hidden" name="ProductId" value="@this.Model.Id" />
         <div>
             <label for="Text"></label>
@@ -188,12 +202,37 @@
     </form>
 </div>
 
+<div>
+    <form asp-controller="Review" asp-action="Update" method="post" id="UpdateReviewForm" style="display: none">
+        <input type="hidden" name="productId" value="@this.Model.Id" />
+        <input type="hidden" name="reviewtId" value="" />
+
+        <div>
+            <label for="text"></label>
+            <textarea name="text" id="text" class="form-control" value=""></textarea>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-primary" value="Update Review" />
+        </div>
+    </form>
+</div>
+
 @section Scripts {
     <script>
         function showAddReviewForm() {
             $("#AddReviewForm").show();
             $([document.documentElement, document.body]).animate({
                 scrollTop: $("#AddReviewForm").offset().top
+            }, 1000);
+        }
+    </script>
+    <script>
+        
+        function showUpdateReviewForm(text) {
+            $("#UpdateReviewForm textarea[name='text']").val(text);
+            $("#UpdateReviewForm").show();
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("#UpdateReviewForm").offset().top
             }, 1000);
         }
     </script>

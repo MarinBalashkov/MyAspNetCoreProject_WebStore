@@ -9,8 +9,6 @@
 
     public class IndexViewModel
     {
-
-
         public IEnumerable<HomeIndexProductViewModel> LatestProducts { get; set; }
 
         public IEnumerable<HomeIndexProductViewModel> MostLikedProducts { get; set; }
