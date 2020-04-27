@@ -23,9 +23,6 @@
         [MaxLength(30)]
         public int ZipCode { get; set; }
 
-        [MaxLength(30)]
-        public string PhoneNumber { get; set; }
-
         public int CityId { get; set; }
 
         public City City { get; set; }

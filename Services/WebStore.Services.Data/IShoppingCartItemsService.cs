@@ -18,5 +18,8 @@
         Task DeleteAllShoppingCartItems(string userId);
 
         int GetShoppingCartItemsCount(string userId);
+
+        decimal GetShoppingCartItemsTotalPrice(string userId);
+
     }
 }

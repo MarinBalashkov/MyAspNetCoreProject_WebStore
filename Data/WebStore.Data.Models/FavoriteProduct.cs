@@ -5,7 +5,7 @@ using WebStore.Data.Common.Models;
 
 namespace WebStore.Data.Models
 {
-    public class FavoriteProduct : BaseDeletableModel<int>
+    public class FavoriteProduct : BaseDeletableModel<int?>
     {
         public string UserId { get; set; }
 

@@ -16,19 +16,17 @@
 
         public OrderStatus Status { get; set; }
 
-        public DateTime? PreferredDeliveryDate { get; set; }
-
         public DateTime? ExpectedDeliveryDate { get; set; }
 
-        public decimal TotalProductsPrice { get; set; }
-
-        public decimal ShippingPrice { get; set; }
+        public ShippingType ShippingType { get; set; }
 
         public decimal TotalPrice { get; set; }
 
         public string RecipientName { get; set; }
 
         public string RecipientPhoneNumber { get; set; }
+
+        public bool IsConfirmed { get; set; }
 
         public string UserId { get; set; }
 

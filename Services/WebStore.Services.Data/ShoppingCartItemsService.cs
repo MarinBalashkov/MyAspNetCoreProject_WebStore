@@ -100,7 +100,22 @@ namespace WebStore.Services.Data
 
         public int GetShoppingCartItemsCount(string userId)
         {
-            return this.shoppingCartItemRepository.All().Where(x => x.UserId == userId).Count();
+            return this.shoppingCartItemRepository.All().Where(x => x.UserId == userId && x.Quantity > 0).Count();
+        }
+
+        public decimal GetShoppingCartItemsTotalPrice(string userId)
+        {
+            IQueryable<ShoppingCartItem> query =
+            this.shoppingCartItemRepository.All()
+            .Where(x => x.UserId == userId && x.Quantity > 0);
+            if (!query.Any())
+            {
+                return 0;
+            }
+
+            var totalPrice = query.Select(x => (decimal)x.Quantity * x.ProductItem.Product.Price).Sum();
+
+            return Math.Round(totalPrice, 2);
         }
     }
 }

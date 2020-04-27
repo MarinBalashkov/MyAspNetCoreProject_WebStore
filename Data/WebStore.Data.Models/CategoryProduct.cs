@@ -3,8 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using WebStore.Data.Common.Models;
 
-    public class CategoryProduct
+    public class CategoryProduct : BaseDeletableModel<int>
     {
         public int ProductId { get; set; }
 
