@@ -8,6 +8,9 @@
     public class ShopingCardItemInputViewModel 
     {
         [Required]
+        public int ProductId { get; set; }
+
+        [Required]
         public int ProductItemId { get; set; }
 
         [Required]

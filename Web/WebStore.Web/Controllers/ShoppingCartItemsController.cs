@@ -53,7 +53,7 @@ namespace WebStore.Web.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.RedirectToAction("Details", "Products", new { id = input.ProductId });
             }
 
             var userId = this.userManager.GetUserId(this.User);

@@ -9,7 +9,7 @@ namespace WebStore.Web.ViewModels.Orders
 {
     public class ConfirmationOrderViewModel : IMapFrom<Order>
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Status { get; set; }
 
@@ -31,7 +31,7 @@ namespace WebStore.Web.ViewModels.Orders
 
         public string AddressZipCode { get; set; }
 
-        public string AddressCityName { get; set; }
+        public string AddressCity { get; set; }
 
     }
 }

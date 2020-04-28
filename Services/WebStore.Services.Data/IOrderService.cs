@@ -8,22 +8,22 @@ namespace WebStore.Services.Data
 {
     public interface IOrderService
     {
-        Task<int> CreateAsync(ShippingType shippingType, string recipientName, string recipientPhoneNumber, string userId, int addressId);
+        Task<string> CreateAsync(ShippingType shippingType, string recipientName, string recipientPhoneNumber, string userId, int addressId);
 
-        T GetById<T>(int orderId);
+        T GetById<T>(string orderId);
 
         IEnumerable<T> GetAllMyOrders<T>(string userId);
 
-        Task ChngeOrderStatus(int orderId);
+        Task ChngeOrderStatus(string orderId, OrderStatus orderStatus);
 
-        string GetOrderUserId(int orderId);
+        string GetOrderUserId(string orderId);
 
         IEnumerable<T> GetAllOrders<T>();
 
-        Task DeleteOrder(int orderId);
+        Task DeleteOrder(string orderId);
 
-        Task ConfirmOrder(int orderId);
+        Task ConfirmOrder(string orderId);
 
-        bool IsMyOrder(string userId, int orderId);
+        bool IsMyOrder(string userId, string orderId);
     }
 }

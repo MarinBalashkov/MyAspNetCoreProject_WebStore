@@ -75,13 +75,15 @@ namespace WebStore.Services.Data
         {
             var shoppingCartItems = this.shoppingCartItemRepository
                 .All()
-                .Where(x => x.UserId == userId);
+                .Where(x => x.UserId == userId)
+                .ToList();
 
             foreach (var item in shoppingCartItems)
             {
                 this.shoppingCartItemRepository.Delete(item);
-                await this.shoppingCartItemRepository.SaveChangesAsync();
             }
+
+            await this.shoppingCartItemRepository.SaveChangesAsync();
         }
 
         public async Task UpdateShopingCartItem(string userId, int productItemId, int quantity)

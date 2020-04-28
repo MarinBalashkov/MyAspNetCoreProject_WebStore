@@ -1,20 +1,18 @@
 ﻿@model WebStore.Web.ViewModels.ViewComponents.NavBarViewModel
 
 
-<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-
 @if (Model.NavBarItems.Any())
 {
     @foreach (var item in Model.NavBarItems)
     {
         <li>
-            <a href="#">@item.ParentCategory.Name</a>
+            <a asp-area="" asp-controller="Products" asp-action="Index" asp-route-ParentCategoryId="@item.ParentCategory.Id">@item.ParentCategory.Name</a>
             <ul class="sub-menu">
                 @if (item.SubCategories.Any())
                 {
                     @foreach (var subCategory in item.SubCategories)
                     {
-                        <li><a href="#">@subCategory.Name</a></li>
+                        <li><a asp-area="" asp-controller="Products" asp-action="Index" asp-route-ChildCategoryId="@subCategory.Id">@subCategory.Name</a></li>
                     }
                 }
 

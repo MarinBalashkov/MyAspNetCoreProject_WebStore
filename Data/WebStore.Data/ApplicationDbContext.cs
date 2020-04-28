@@ -32,8 +32,6 @@
 
         public DbSet<Manufacturer> Manufacturers { get; set; }
 
-        public DbSet<City> Cities { get; set; }
-
         public DbSet<Product> Products { get; set; }
 
         public DbSet<CategoryProduct> CategoriesProducts { get; set; }

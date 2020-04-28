@@ -130,8 +130,9 @@ namespace WebStore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -150,19 +151,13 @@ namespace WebStore.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Street")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ZipCode")
-                        .HasColumnType("int")
-                        .HasMaxLength(30);
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId");
 
                     b.HasIndex("IsDeleted");
 
@@ -372,36 +367,6 @@ namespace WebStore.Data.Migrations
                     b.ToTable("CategoriesProducts");
                 });
 
-            modelBuilder.Entity("WebStore.Data.Models.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Cities");
-                });
-
             modelBuilder.Entity("WebStore.Data.Models.FavoriteProduct", b =>
                 {
                     b.Property<int>("ProductId")
@@ -506,10 +471,8 @@ namespace WebStore.Data.Migrations
 
             modelBuilder.Entity("WebStore.Data.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
@@ -563,8 +526,8 @@ namespace WebStore.Data.Migrations
 
             modelBuilder.Entity("WebStore.Data.Models.OrderProductItem", b =>
                 {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<string>("OrderId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProductItemId")
                         .HasColumnType("int");
@@ -876,12 +839,6 @@ namespace WebStore.Data.Migrations
 
             modelBuilder.Entity("WebStore.Data.Models.Address", b =>
                 {
-                    b.HasOne("WebStore.Data.Models.City", "City")
-                        .WithMany("Addresses")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("WebStore.Data.Models.ApplicationUser", "User")
                         .WithMany("Addresses")
                         .HasForeignKey("UserId");

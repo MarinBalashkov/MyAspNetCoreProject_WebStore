@@ -83,23 +83,6 @@ namespace WebStore.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(maxLength: 30, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cities", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Manufacturers",
                 columns: table => new
                 {
@@ -115,6 +98,26 @@ namespace WebStore.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Manufacturers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequestsToUs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestsToUs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,6 +155,32 @@ namespace WebStore.Data.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    District = table.Column<string>(maxLength: 100, nullable: true),
+                    City = table.Column<string>(maxLength: 100, nullable: true),
+                    Street = table.Column<string>(maxLength: 100, nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Addresses_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -242,40 +271,6 @@ namespace WebStore.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Addresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    District = table.Column<string>(maxLength: 100, nullable: true),
-                    Street = table.Column<string>(maxLength: 200, nullable: true),
-                    ZipCode = table.Column<int>(maxLength: 30, nullable: false),
-                    PhoneNumber = table.Column<string>(maxLength: 30, nullable: true),
-                    CityId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Addresses_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Addresses_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -306,20 +301,18 @@ namespace WebStore.Data.Migrations
                 name: "Orders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Status = table.Column<int>(nullable: false),
-                    PreferredDeliveryDate = table.Column<DateTime>(nullable: true),
                     ExpectedDeliveryDate = table.Column<DateTime>(nullable: true),
-                    TotalProductsPrice = table.Column<decimal>(nullable: false),
-                    ShippingPrice = table.Column<decimal>(nullable: false),
+                    ShippingType = table.Column<int>(nullable: false),
                     TotalPrice = table.Column<decimal>(nullable: false),
                     RecipientName = table.Column<string>(nullable: true),
                     RecipientPhoneNumber = table.Column<string>(nullable: true),
+                    IsConfirmed = table.Column<bool>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     AddressId = table.Column<int>(nullable: false)
                 },
@@ -345,7 +338,12 @@ namespace WebStore.Data.Migrations
                 columns: table => new
                 {
                     ProductId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
+                    CategoryId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -369,7 +367,12 @@ namespace WebStore.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    ProductId = table.Column<int>(nullable: false)
+                    ProductId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -398,6 +401,7 @@ namespace WebStore.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
+                    ImageType = table.Column<int>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: true),
                     ProductId = table.Column<int>(nullable: false)
                 },
@@ -447,24 +451,22 @@ namespace WebStore.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Raiting = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true),
-                    UserId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<string>(nullable: true),
-                    ProductiD = table.Column<int>(nullable: false)
+                    UserId = table.Column<string>(nullable: true),
+                    ProductId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_Products_ProductiD",
-                        column: x => x.ProductiD,
+                        name: "FK_Reviews_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Reviews_AspNetUsers_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Reviews_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -475,10 +477,13 @@ namespace WebStore.Data.Migrations
                 columns: table => new
                 {
                     ProductItemId = table.Column<int>(nullable: false),
-                    OrderId = table.Column<int>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
-                    OrderProductItemOrderId = table.Column<int>(nullable: true),
-                    OrderProductItemProductItemId = table.Column<int>(nullable: true)
+                    OrderId = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -495,12 +500,6 @@ namespace WebStore.Data.Migrations
                         principalTable: "ProductItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OrderProductItems_OrderProductItems_OrderProductItemOrderId_OrderProductItemProductItemId",
-                        columns: x => new { x.OrderProductItemOrderId, x.OrderProductItemProductItemId },
-                        principalTable: "OrderProductItems",
-                        principalColumns: new[] { "OrderId", "ProductItemId" },
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -509,6 +508,11 @@ namespace WebStore.Data.Migrations
                 {
                     UserId = table.Column<string>(nullable: false),
                     ProductItemId = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
                     Quantity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -527,11 +531,6 @@ namespace WebStore.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_CityId",
-                table: "Addresses",
-                column: "CityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_IsDeleted",
@@ -603,13 +602,18 @@ namespace WebStore.Data.Migrations
                 column: "ParentCartegoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CategoriesProducts_IsDeleted",
+                table: "CategoriesProducts",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CategoriesProducts_ProductId",
                 table: "CategoriesProducts",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cities_IsDeleted",
-                table: "Cities",
+                name: "IX_FavoritesProducts_IsDeleted",
+                table: "FavoritesProducts",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
@@ -633,14 +637,14 @@ namespace WebStore.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderProductItems_IsDeleted",
+                table: "OrderProductItems",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderProductItems_ProductItemId",
                 table: "OrderProductItems",
                 column: "ProductItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderProductItems_OrderProductItemOrderId_OrderProductItemProductItemId",
-                table: "OrderProductItems",
-                columns: new[] { "OrderProductItemOrderId", "OrderProductItemProductItemId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_AddressId",
@@ -678,23 +682,33 @@ namespace WebStore.Data.Migrations
                 column: "ManufacturerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RequestsToUs_IsDeleted",
+                table: "RequestsToUs",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_IsDeleted",
                 table: "Reviews",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_ProductiD",
+                name: "IX_Reviews_ProductId",
                 table: "Reviews",
-                column: "ProductiD");
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_UserId1",
+                name: "IX_Reviews_UserId",
                 table: "Reviews",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Settings_IsDeleted",
                 table: "Settings",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ShoppingCartItems_IsDeleted",
+                table: "ShoppingCartItems",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
@@ -733,6 +747,9 @@ namespace WebStore.Data.Migrations
                 name: "OrderProductItems");
 
             migrationBuilder.DropTable(
+                name: "RequestsToUs");
+
+            migrationBuilder.DropTable(
                 name: "Reviews");
 
             migrationBuilder.DropTable(
@@ -758,9 +775,6 @@ namespace WebStore.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "Cities");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

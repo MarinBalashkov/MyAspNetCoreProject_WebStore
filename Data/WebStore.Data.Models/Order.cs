@@ -7,10 +7,11 @@
     using WebStore.Data.Common.Models;
     using WebStore.Data.Models.Enums;
 
-    public class Order : BaseDeletableModel<int>
+    public class Order : BaseDeletableModel<string>
     {
         public Order()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.OrderProductItems = new HashSet<OrderProductItem>();
         }
 

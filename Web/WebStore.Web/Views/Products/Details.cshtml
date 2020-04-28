@@ -11,7 +11,7 @@
         <h4>Category PAge</h4>
         <div class="site-pagination">
             <a asp-area="" asp-controller="Home" asp-action="Index">Home</a> /
-            <a asp-area="" asp-controller="Categories" asp-action="Index">Shop</a>
+            <a asp-area="" asp-controller="Products" asp-action="Index">Shop</a>
         </div>
     </div>
 </div>
@@ -65,6 +65,7 @@
 
 
                 <form asp-controller="ShoppingCartItems" asp-action="Add" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <p>Size</p>
                     <div asp-validation-summary="All" class="text-danger"></div>
                     @foreach (var productItem in Model.ProductItems.OrderBy(x => x.Size))
@@ -78,6 +79,7 @@
                         <p>Quantity</p>
                         <div class="pro-qty"><input name="Quantity" type="text" value="1"></div>
                     </div>
+                    <input type="hidden" name="productId" value="@Model.Id" />
                     <button type="submit" class="site-btn">SHOP NOW</button>
                 </form>
 
@@ -98,36 +100,18 @@
                         </div>
                     </div>
                     <div class="panel">
-                            <div class="panel-header" id="headingtwo">
-                                <button class="panel-link" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">care details </button>
-                            </div>
-                            <div id="collapse2" class="collapse" aria-labelledby="headingtwo" data-parent="#accordion">
-                                <div class="panel-body">
-                                    <img src="./img/cards.png" alt="">
-                                    <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. proin pharetra tempor so dales. phasellus sagittis auctor gravida. integer bibendum sodales arcu id te mpus. ut consectetur lacus leo, non scelerisque nulla euismod nec.</p>
-                                </div>
+                        <div class="panel-header" id="headingthree">
+                            <button class="panel-link" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">shipping & returns</button>
+                        </div>
+                        <div id="collapse3" class="collapse" aria-labelledby="headingthree" data-parent="#accordion">
+                            <div class="panel-body">
+                                <h4>7 days returns</h4>
+                                <p>cash on delivery available<br>home delivery <span>3 - 4 days</span></p>
+                                <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. proin pharetra tempor so dales. phasellus sagittis auctor gravida. integer bibendum sodales arcu id te mpus. ut consectetur lacus leo, non scelerisque nulla euismod nec.</p>
                             </div>
                         </div>
-                        <div class="panel">
-                            <div class="panel-header" id="headingthree">
-                                <button class="panel-link" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">shipping & returns</button>
-                            </div>
-                            <div id="collapse3" class="collapse" aria-labelledby="headingthree" data-parent="#accordion">
-                                <div class="panel-body">
-                                    <h4>7 days returns</h4>
-                                    <p>cash on delivery available<br>home delivery <span>3 - 4 days</span></p>
-                                    <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. proin pharetra tempor so dales. phasellus sagittis auctor gravida. integer bibendum sodales arcu id te mpus. ut consectetur lacus leo, non scelerisque nulla euismod nec.</p>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
                 </div>
-                @*<div class="social-sharing">
-                        <a href=""><i class="fa fa-google-plus"></i></a>
-                        <a href=""><i class="fa fa-pinterest"></i></a>
-                        <a href=""><i class="fa fa-facebook"></i></a>
-                        <a href=""><i class="fa fa-twitter"></i></a>
-                        <a href=""><i class="fa fa-youtube"></i></a>
-                    </div>*@
             </div>
         </div>
     </div>
@@ -159,19 +143,19 @@
                             <article>
                                 @Html.Raw(review.SanitizedText)
                             </article>
-                                @if (this.User.Identity.IsAuthenticated)
+                            @if (this.User.Identity.IsAuthenticated)
+                            {
+                                @if (this.Context.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.Identity.Name == review.UserUserName)
                                 {
-                                    @if (this.Context.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.Identity.Name == review.UserUserName)
-                                    {
-                                        <form asp-controller="Reviews" asp-action="Delete" method="post">
-                                            <input type="hidden" name="reviewId" value="@review.Id" />
-                                            <input type="hidden" name="productId" value="@Model.Id" />
-                                            <button type="submit" class="btn btn-danger float-left">Delete</button>
-                                        </form>
-                                        <a asp-area="" asp-controller="Reviews" asp-action="Update" asp-route-reviewId="@review.Id" class="btn btn-primary float-right" >Update your review</a>
-                                    }
-
+                                    <form asp-controller="Reviews" asp-action="Delete" method="post">
+                                        <input type="hidden" name="reviewId" value="@review.Id" />
+                                        <input type="hidden" name="productId" value="@Model.Id" />
+                                        <button type="submit" class="btn btn-danger float-left">Delete</button>
+                                    </form>
+                                    <a asp-area="" asp-controller="Reviews" asp-action="Update" asp-route-reviewId="@review.Id" class="btn btn-primary float-right">Update your review</a>
                                 }
+
+                            }
                         </div>
                     </div>
                 </div>
@@ -227,7 +211,7 @@
         }
     </script>
     <script>
-        
+
         function showUpdateReviewForm(text) {
             $("#UpdateReviewForm textarea[name='text']").val(text);
             $("#UpdateReviewForm").show();

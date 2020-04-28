@@ -25,14 +25,27 @@ namespace WebStore.Services.Data
             this.shoppingCartItemsService = shoppingCartItemsService;
         }
 
-        public Task ChngeOrderStatus(int orderId)
+        public async Task ChngeOrderStatus(string orderId, OrderStatus orderStatus)
         {
-            throw new NotImplementedException();
+            var order = this.ordersRepository.All()
+                .Where(x => x.Id == orderId)
+                .FirstOrDefault();
+
+            if (order == null)
+            {
+                return;
+            }
+
+            order.Status = orderStatus;
+            this.ordersRepository.Update(order);
+            await this.ordersRepository.SaveChangesAsync();
         }
 
-        public async Task ConfirmOrder(int orderId)
+        public async Task ConfirmOrder(string orderId)
         {
-            var order = this.GetById<Order>(orderId);
+            var order = this.ordersRepository.All()
+            .Where(x => x.Id == orderId)
+            .FirstOrDefault();
             if (order == null)
             {
                 return;
@@ -43,7 +56,7 @@ namespace WebStore.Services.Data
             await this.ordersRepository.SaveChangesAsync();
         }
 
-        public async Task<int> CreateAsync(ShippingType shippingType, string recipientName, string recipientPhoneNumber, string userId, int addressId)
+        public async Task<string> CreateAsync(ShippingType shippingType, string recipientName, string recipientPhoneNumber, string userId, int addressId)
         {
             var totalPrice = this.shoppingCartItemsService.GetShoppingCartItemsTotalPrice(userId);
 
@@ -73,9 +86,11 @@ namespace WebStore.Services.Data
             return order.Id;
         }
 
-        public async Task DeleteOrder(int orderId)
+        public async Task DeleteOrder(string orderId)
         {
-            var order = this.GetById<Order>(orderId);
+            var order = this.ordersRepository.All()
+            .Where(x => x.Id == orderId)
+            .FirstOrDefault();
 
             if (order == null)
             {
@@ -113,7 +128,7 @@ namespace WebStore.Services.Data
             return query.To<T>().ToList();
         }
 
-        public T GetById<T>(int orderId)
+        public T GetById<T>(string orderId)
         {
             var order = this.ordersRepository
                             .All()
@@ -124,7 +139,7 @@ namespace WebStore.Services.Data
             return order;
         }
 
-        public string GetOrderUserId(int orderId)
+        public string GetOrderUserId(string orderId)
         {
             var userId = this.ordersRepository
                 .All()
@@ -135,12 +150,12 @@ namespace WebStore.Services.Data
             return userId;
         }
 
-        public bool IsMyOrder(string userId, int orderId)
+        public bool IsMyOrder(string userId, string orderId)
         {
             return this.ordersRepository.All().Any(x => x.Id == orderId && x.UserId == userId);
         }
 
-        private async Task CreateOrderProductItems(int orderId, string userId)
+        private async Task CreateOrderProductItems(string orderId, string userId)
         {
             var productItems = this.shoppingCartItemsService.GetAllShoppingCartItems<OrderProductItemViewModel>(userId);
 

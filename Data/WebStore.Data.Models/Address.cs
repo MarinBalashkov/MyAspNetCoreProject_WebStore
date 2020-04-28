@@ -17,15 +17,11 @@
         [StringLength(maximumLength: 100)]
         public string District { get; set; }
 
-        [StringLength(maximumLength: 200)]
+        [StringLength(maximumLength: 100)]
+        public string City { get; set; }
+
+        [StringLength(maximumLength: 100)]
         public string Street { get; set; }
-
-        [MaxLength(30)]
-        public int ZipCode { get; set; }
-
-        public int CityId { get; set; }
-
-        public City City { get; set; }
 
         public string UserId { get; set; }
 

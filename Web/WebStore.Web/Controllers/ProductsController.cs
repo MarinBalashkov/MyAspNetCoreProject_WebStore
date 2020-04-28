@@ -19,6 +19,19 @@ namespace WebStore.Web.Controllers
             this.productService = productService;
         }
 
+        public IActionResult Index(AllProductsIndexInputViewModel input)
+        {
+            var model = new ProductsIndexViewModel()
+            {
+                Products = this.productService.GetProductsByFilter<HomeIndexProductViewModel>(input.ParentCategoryId, input.ChildCategoryId, input.MaxPrice, input.MinPrice, input.Color, input.Size, input.BrandName),
+                Colors = this.productService.GetColors(),
+                Sizes = this.productService.GetSizes(),
+                Brands = this.productService.GetBrands(),
+            };
+
+            return this.View(model);
+        }
+
         public IActionResult Details(int id)
         {
             if (!this.productService.IsExist(id))
@@ -28,7 +41,7 @@ namespace WebStore.Web.Controllers
 
             var model = this.productService.GetProductById<ProductDetailsViewModel>(id);
             var categoriesIds = model.CategoriesProducts.Select(x => x.CategoryId).ToList();
-            model.RelatetProducts = this.productService.GetProductsByCategoiesIds<HomeIndexProductViewModel>(categoriesIds, 10);
+            model.RelatetProducts = this.productService.GetProductsBySubCategoiesIds<HomeIndexProductViewModel>(categoriesIds, 10);
             return this.View(model);
         }
     }

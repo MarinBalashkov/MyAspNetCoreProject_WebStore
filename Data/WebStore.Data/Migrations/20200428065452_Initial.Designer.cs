@@ -10,8 +10,8 @@ using WebStore.Data;
 namespace WebStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200416164520_InitialCreatesome")]
-    partial class InitialCreatesome
+    [Migration("20200428065452_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -132,8 +132,9 @@ namespace WebStore.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -151,24 +152,14 @@ namespace WebStore.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
                     b.Property<string>("Street")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ZipCode")
-                        .HasColumnType("int")
-                        .HasMaxLength(30);
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId");
 
                     b.HasIndex("IsDeleted");
 
@@ -354,25 +345,14 @@ namespace WebStore.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoryId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CategoriesProducts");
-                });
-
-            modelBuilder.Entity("WebStore.Data.Models.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -380,15 +360,13 @@ namespace WebStore.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.HasKey("Id");
+                    b.HasKey("CategoryId", "ProductId");
 
                     b.HasIndex("IsDeleted");
 
-                    b.ToTable("Cities");
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CategoriesProducts");
                 });
 
             modelBuilder.Entity("WebStore.Data.Models.FavoriteProduct", b =>
@@ -399,7 +377,24 @@ namespace WebStore.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("ProductId", "UserId");
+
+                    b.HasIndex("IsDeleted");
 
                     b.HasIndex("UserId");
 
@@ -478,10 +473,8 @@ namespace WebStore.Data.Migrations
 
             modelBuilder.Entity("WebStore.Data.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
@@ -495,13 +488,13 @@ namespace WebStore.Data.Migrations
                     b.Property<DateTime?>("ExpectedDeliveryDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("PreferredDeliveryDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("RecipientName")
@@ -510,16 +503,13 @@ namespace WebStore.Data.Migrations
                     b.Property<string>("RecipientPhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("ShippingPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("ShippingType")
+                        .HasColumnType("int");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalProductsPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserId")
@@ -538,26 +528,35 @@ namespace WebStore.Data.Migrations
 
             modelBuilder.Entity("WebStore.Data.Models.OrderProductItem", b =>
                 {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<string>("OrderId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("ProductItemId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrderProductItemOrderId")
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrderProductItemProductItemId")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("OrderId", "ProductItemId");
 
-                    b.HasIndex("ProductItemId");
+                    b.HasIndex("IsDeleted");
 
-                    b.HasIndex("OrderProductItemOrderId", "OrderProductItemProductItemId");
+                    b.HasIndex("ProductItemId");
 
                     b.ToTable("OrderProductItems");
                 });
@@ -645,6 +644,44 @@ namespace WebStore.Data.Migrations
                     b.ToTable("ProductItems");
                 });
 
+            modelBuilder.Entity("WebStore.Data.Models.RequestToUs", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("RequestsToUs");
+                });
+
             modelBuilder.Entity("WebStore.Data.Models.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -664,28 +701,22 @@ namespace WebStore.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ProductiD")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Raiting")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("ProductiD");
+                    b.HasIndex("ProductId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -730,10 +761,27 @@ namespace WebStore.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("ProductItemId", "UserId");
+
+                    b.HasIndex("IsDeleted");
 
                     b.HasIndex("UserId");
 
@@ -793,12 +841,6 @@ namespace WebStore.Data.Migrations
 
             modelBuilder.Entity("WebStore.Data.Models.Address", b =>
                 {
-                    b.HasOne("WebStore.Data.Models.City", "City")
-                        .WithMany("Addresses")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("WebStore.Data.Models.ApplicationUser", "User")
                         .WithMany("Addresses")
                         .HasForeignKey("UserId");
@@ -872,14 +914,10 @@ namespace WebStore.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("WebStore.Data.Models.ProductItem", "ProductItem")
-                        .WithMany()
+                        .WithMany("OrdersProductItems")
                         .HasForeignKey("ProductItemId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("WebStore.Data.Models.OrderProductItem", null)
-                        .WithMany("OrderProductItems")
-                        .HasForeignKey("OrderProductItemOrderId", "OrderProductItemProductItemId");
                 });
 
             modelBuilder.Entity("WebStore.Data.Models.Product", b =>
@@ -901,14 +939,14 @@ namespace WebStore.Data.Migrations
             modelBuilder.Entity("WebStore.Data.Models.Review", b =>
                 {
                     b.HasOne("WebStore.Data.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductiD")
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("WebStore.Data.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("WebStore.Data.Models.ShoppingCartItem", b =>

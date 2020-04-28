@@ -23,64 +23,72 @@
         <div class="row">
             <div class="col-lg-8 order-2 order-lg-1">
                 <form asp-controller="Orders" asp-action="create" method="post" class="checkout-form">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="cf-title">Delievery Address</div>
+                    <div class="row address-inputs">
+                        <div class="col-md-12">
+                            <span asp-validation-for="@Model.InputModel.District" class="text-danger"></span>
+                            <label type="text" asp-for="@Model.InputModel.District"></label>
+                            <input asp-for="@Model.InputModel.District" placeholder="@Model.InputModel.District">
+                        </div>
+                        <div class="col-md-12">
+                            <span asp-validation-for="@Model.InputModel.City" class="text-danger"></span>
+                            <label type="text" asp-for="@Model.InputModel.City"></label>
+                            <input asp-for="@Model.InputModel.City" placeholder="@Model.InputModel.City">
+                        </div>
+                        <div class="col-md-12">
+                            <span asp-validation-for="@Model.InputModel.Street" class="text-danger"></span>
+                            <label type="text" asp-for="@Model.InputModel.Street"></label>
+                            <input asp-for="@Model.InputModel.Street" placeholder="@Model.InputModel.Street">
+                        </div>
+                    </div>
                     <div class="cf-title">Delievery Info</div>
-                    <div class="row">
-                        @*<div class="col-md-7">
-                                    <p>*Billing Information</p>
-                                </div>
-                                <div class="col-md-5">
-                                    <div class="cf-radio-btns address-rb">
-                                        <div class="cfr-item">
-                                            <input type="radio" name="pm" id="one">
-                                            <label for="one">Use my regular address</label>
-                                        </div>
-                                        <div class="cfr-item">
-                                            <input type="radio" name="pm" id="two">
-                                            <label for="two">Use a different address</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>*@
-                        <div class="row address-inputs">
-                            <div class="col-md-12">
-                                <label type="text" asp-for="@Model.InputModel.RecipientName"></label>
-                                <input asp-for="@Model.InputModel.RecipientName" placeholder="@Model.InputModel.RecipientName">
-                                <span asp-validation-for="@Model.InputModel.RecipientName" class="text-danger"></span>
-
-                                <label type="text" asp-for="@Model.InputModel.RecipientPhoneNumber"></label>
-                                <input asp-for="@Model.InputModel.RecipientPhoneNumber" placeholder="@Model.InputModel.RecipientPhoneNumber">
-                                <span asp-validation-for="@Model.InputModel.RecipientPhoneNumber" class="text-danger"></span>
-                            </div>
-                            <div class="cf-title">Shipping Info</div>
-                            <div class="row shipping-btns">
-                                <div class="col-6">
-                                    <h4>Standard</h4>
-                                </div>
-                                <div class="col-6">
-                                    <div class="cf-radio-btns">
-                                        <div class="cfr-item">
-                                            <input type="radio" asp-for="@Model.InputModel.RecipientPhoneNumber" value="@ShippingType.Regular" id="ship-1">
-                                            <label for="ship-1">Free</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <h4>Next day delievery  </h4>
-                                </div>
-                                <div class="col-6">
-                                    <div class="cf-radio-btns">
-                                        <div class="cfr-item">
-                                            <input type="radio" asp-for="@Model.InputModel.RecipientPhoneNumber" value="@ShippingType.Regular" id="ship-2">
-                                            <label for="ship-2">$@GlobalConstants.ShippingPriceForFastShippingType</label>
-                                        </div>
-                                    </div>
+                    <div class="row address-inputs">
+                        <div class="col-md-12">
+                            <span asp-validation-for="@Model.InputModel.RecipientName" class="text-danger"></span>
+                            <label type="text" asp-for="@Model.InputModel.RecipientName"></label>
+                            <input asp-for="@Model.InputModel.RecipientName" placeholder="@Model.InputModel.RecipientName">
+                        </div>
+                        <div class="col-md-6">
+                            <span asp-validation-for="@Model.InputModel.RecipientPhoneNumber" class="text-danger"></span>
+                            <label asp-for="@Model.InputModel.RecipientPhoneNumber"></label>
+                            <input type="text" asp-for="@Model.InputModel.RecipientPhoneNumber" placeholder="@Model.InputModel.RecipientPhoneNumber">
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="cf-title">Shipping Info</div>
+                    <div class="row shipping-btns">
+                        <div class="col-6">
+                            <h4>Standard 7 days delivery</h4>
+                        </div>
+                        <div class="col-6">
+                            <div class="cf-radio-btns">
+                                <span asp-validation-for="@Model.InputModel.ShippingType" class="text-danger"></span>
+                                <div class="cfr-item">
+                                    <input type="radio" asp-for="@Model.InputModel.ShippingType" value="1" id="ship-1">
+                                    <label for="ship-1">Free</label>
                                 </div>
                             </div>
-                            <div class="cf-title">Payment</div>
-                            <ul class="payment-list">
-                                <li>Pay when you get the package</li>
-                            </ul>
-                            <button type="submit" class="site-btn submit-order-btn">Place Order</button>
+                        </div>
+                        <div class="col-6">
+                            <h4>Next day delievery  </h4>
+                        </div>
+                        <div class="col-6">
+                            <div class="cf-radio-btns">
+                                <div class="cfr-item">
+                                    <input type="radio" asp-for="@Model.InputModel.ShippingType" value="2" id="ship-2">
+                                    <label for="ship-2">$@GlobalConstants.ShippingPriceForFastShippingType.ToString()</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cf-title">Payment</div>
+                    <ul class="payment-list">
+                        <li>Pay when you get the package</li>
+                    </ul>
+                    <input type="hidden" asp-for="@Model.MiniShoppingCart" value="@Model.MiniShoppingCart">@*TODO POST*@
+                    <button type="submit" class="site-btn submit-order-btn">Place Order</button>
                 </form>
             </div>
             <div class="col-lg-4 order-1 order-lg-2">

@@ -9,7 +9,18 @@
 
     public class CreateOrderInputModel
     {
-        public DateTime? PreferredDeliveryDate { get; set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
+        public string District { get; set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
+        public string City { get; set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
+        public string Street { get; set; }
 
         [Required]
         [Display(Name = "Recipient Full Name")]
@@ -18,11 +29,10 @@
 
         [Required]
         [Display(Name = "Recipient Phone Number")]
-        [Phone]
+        [DataType(DataType.PhoneNumber)]
         public string RecipientPhoneNumber { get; set; }
 
-        [Required]
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
 
         [Required]
         [Display(Name = "Shipping Type")]

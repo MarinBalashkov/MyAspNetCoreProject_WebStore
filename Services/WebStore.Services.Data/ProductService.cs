@@ -58,7 +58,8 @@
             return product;
         }
 
-        public IEnumerable<T> GetProductsByCategoiesIds<T>(IEnumerable<int> categoriesIds, int? count)
+
+        public IEnumerable<T> GetProductsBySubCategoiesIds<T>(IEnumerable<int> categoriesIds, int? count)
         {
             IQueryable<Product> query = this.productsRepository
               .All()
@@ -96,6 +97,59 @@
         public bool IsExist(int id)
         {
             return this.productsRepository.All().Any(x => x.Id == id);
+        }
+
+        public IEnumerable<T> GetProductsByFilter<T>(int? parentCategoryId = null, int? childCategoryId = null, decimal? maxPrice = null, decimal? minPrice = null, string color = null, string size = null, string brandName = null)
+        {
+            IQueryable<Product> query = this.productsRepository
+            .All();
+
+            if (parentCategoryId.HasValue)
+            {
+                query = query.Where(x => x.CategoriesProducts.Any(cp => cp.Category.ParentCartegoryId == parentCategoryId));
+            }
+
+            if (childCategoryId.HasValue)
+            {
+                query = query.Where(x => x.CategoriesProducts.Any(cp => cp.CategoryId == childCategoryId));
+            }
+
+            if (maxPrice.HasValue && minPrice.HasValue)
+            {
+                query = query.Where(x => x.Price >= minPrice && x.Price <= maxPrice);
+            }
+
+            if (color != null)
+            {
+                query = query.Where(x => x.Color == color);
+            }
+
+            if (color != null)
+            {
+                query = query.Where(x => x.ProductItems.Any(pi => pi.Size == size));
+            }
+
+            if (brandName != null)
+            {
+                query = query.Where(x => x.Manufacturer.Name == brandName);
+            }
+
+            return query.To<T>().ToList();
+        }
+
+        public IEnumerable<string> GetColors()
+        {
+            return this.productsRepository.All().Select(x => x.Color).Distinct().ToList();
+        }
+
+        public IEnumerable<string> GetSizes()
+        {
+            return this.productsItemsRepository.All().Select(x => x.Size).Distinct().ToList();
+        }
+
+        public IEnumerable<string> GetBrands()
+        {
+            return this.productsRepository.All().Select(x => x.Manufacturer.Name).Distinct().ToList();
         }
     }
 }

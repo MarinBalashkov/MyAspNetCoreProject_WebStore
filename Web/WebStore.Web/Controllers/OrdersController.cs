@@ -18,13 +18,15 @@ namespace WebStore.Web.Controllers
         private readonly IOrderService ordersService;
         private readonly IUserService userService;
         private readonly IShoppingCartItemsService shoppingCartItemsService;
+        private readonly IAddressesService addressesService;
 
-        public OrdersController(UserManager<ApplicationUser> userManager, IOrderService orderService, IUserService userService, IShoppingCartItemsService shoppingCartItemsService)
+        public OrdersController(UserManager<ApplicationUser> userManager, IOrderService orderService, IUserService userService, IShoppingCartItemsService shoppingCartItemsService, IAddressesService addressesService)
         {
             this.userManager = userManager;
             this.ordersService = orderService;
             this.userService = userService;
             this.shoppingCartItemsService = shoppingCartItemsService;
+            this.addressesService = addressesService;
         }
 
         [HttpGet]
@@ -34,6 +36,7 @@ namespace WebStore.Web.Controllers
             var model = new CreateOrderViewModel();
 
             model.InputModel = new CreateOrderInputModel();
+            model.MiniShoppingCart = new MiniShoppingCartViewModel();
             model.MiniShoppingCart.ShoppingCartItems = this.shoppingCartItemsService.GetAllShoppingCartItems<MiniShoppingCartItemViewModel>(userId);
             model.MiniShoppingCart.TotalPrice = this.shoppingCartItemsService.GetShoppingCartItemsTotalPrice(userId);
 
@@ -54,27 +57,33 @@ namespace WebStore.Web.Controllers
 
             if (!this.ModelState.IsValid)
             {
+                input.MiniShoppingCart = new MiniShoppingCartViewModel();
+                input.MiniShoppingCart.ShoppingCartItems = this.shoppingCartItemsService.GetAllShoppingCartItems<MiniShoppingCartItemViewModel>(userId);
+                input.MiniShoppingCart.TotalPrice = this.shoppingCartItemsService.GetShoppingCartItemsTotalPrice(userId);
                 return this.View(input);
             }
 
-            var orderId = await this.ordersService.CreateAsync(input.InputModel.ShippingType, input.InputModel.RecipientName, input.InputModel.RecipientPhoneNumber, userId, input.InputModel.AddressId);
+            var addressId = await this.addressesService.CreateAsync(userId, input.InputModel.District, input.InputModel.City, input.InputModel.Street);
+            var orderId = await this.ordersService.CreateAsync(input.InputModel.ShippingType, input.InputModel.RecipientName, input.InputModel.RecipientPhoneNumber, userId, addressId);
 
-            return this.RedirectToAction(nameof(this.Confirmation), orderId);
+            return this.RedirectToAction(nameof(this.Confirmation), new { orderId = orderId });
         }
 
-        public IActionResult Confirmation(int orderId)
+        public IActionResult Confirmation(string orderId)
         {
             var userId = this.userManager.GetUserId(this.User);
+
             var model = this.ordersService.GetById<ConfirmationOrderViewModel>(orderId);
 
             return this.View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Confirmed(int orderId)
+        public async Task<IActionResult> Confirmed(string orderId)
         {
             var userId = this.userManager.GetUserId(this.User);
-            if (this.ordersService.IsMyOrder(userId, orderId))
+
+            if (!this.ordersService.IsMyOrder(userId, orderId))
             {
                 return this.RedirectToAction("Index", "Home");
             }
@@ -82,7 +91,21 @@ namespace WebStore.Web.Controllers
             await this.ordersService.ConfirmOrder(orderId);
             await this.shoppingCartItemsService.DeleteAllShoppingCartItems(userId);
 
-            return this.RedirectToAction(nameof(this.ThankYou));
+            return this.RedirectToAction("ThankYou", "Orders");
+        }
+
+        [HttpPost] // TODO Sent Email
+        public async Task<IActionResult> Delete(string orderId)
+        {
+            var userId = this.userManager.GetUserId(this.User);
+            if (!this.ordersService.IsMyOrder(userId, orderId))
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            await this.ordersService.DeleteOrder(orderId);
+
+            return this.RedirectToAction("Index", "Home");
         }
 
         public IActionResult ThankYou()
