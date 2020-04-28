@@ -10,12 +10,12 @@
     using WebStore.Data.Models.Enums;
     using WebStore.Services.Mapping;
 
-    public class ProductService : IProductService
+    public class ProductsService : IProductsService
     {
         private readonly IDeletableEntityRepository<Product> productsRepository;
         private readonly IDeletableEntityRepository<ProductItem> productsItemsRepository;
 
-        public ProductService(IDeletableEntityRepository<Product> productsRepository, IDeletableEntityRepository<ProductItem> productsItemsRepository)
+        public ProductsService(IDeletableEntityRepository<Product> productsRepository, IDeletableEntityRepository<ProductItem> productsItemsRepository)
         {
             this.productsRepository = productsRepository;
             this.productsItemsRepository = productsItemsRepository;
@@ -99,7 +99,7 @@
             return this.productsRepository.All().Any(x => x.Id == id);
         }
 
-        public IEnumerable<T> GetProductsByFilter<T>(int? parentCategoryId = null, int? childCategoryId = null, decimal? maxPrice = null, decimal? minPrice = null, string color = null, string size = null, string brandName = null)
+        public IEnumerable<T> GetProductsByFilter<T>(int? parentCategoryId = null, int? childCategoryId = null, string color = null, string size = null, string brandName = null)
         {
             IQueryable<Product> query = this.productsRepository
             .All();
@@ -112,11 +112,6 @@
             if (childCategoryId.HasValue)
             {
                 query = query.Where(x => x.CategoriesProducts.Any(cp => cp.CategoryId == childCategoryId));
-            }
-
-            if (maxPrice.HasValue && minPrice.HasValue)
-            {
-                query = query.Where(x => x.Price >= minPrice && x.Price <= maxPrice);
             }
 
             if (color != null)
@@ -132,6 +127,11 @@
             if (brandName != null)
             {
                 query = query.Where(x => x.Manufacturer.Name == brandName);
+            }
+
+            if (!query.Any())
+            {
+                return null;
             }
 
             return query.To<T>().ToList();

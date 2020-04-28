@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
 
-    public interface IRequestToUsService
+    public interface IRequestsToUsService
     {
          Task AddAsync(string name, string email, string title, string content);
     }

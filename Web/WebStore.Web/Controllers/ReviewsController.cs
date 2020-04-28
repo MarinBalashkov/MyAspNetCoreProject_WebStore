@@ -17,10 +17,10 @@
     public class ReviewsController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IReviewService reviewService;
-        private readonly IProductService productService;
+        private readonly IReviewsService reviewService;
+        private readonly IProductsService productService;
 
-        public ReviewsController(UserManager<ApplicationUser> userManager, IReviewService reviewService, IProductService productService)
+        public ReviewsController(UserManager<ApplicationUser> userManager, IReviewsService reviewService, IProductsService productService)
         {
             this.userManager = userManager;
             this.reviewService = reviewService;

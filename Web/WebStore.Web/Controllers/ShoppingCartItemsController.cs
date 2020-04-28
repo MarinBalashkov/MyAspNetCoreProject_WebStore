@@ -18,9 +18,9 @@ namespace WebStore.Web.Controllers
     {
         private readonly IShoppingCartItemsService shoppingCartItemsService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IProductService productService;
+        private readonly IProductsService productService;
 
-        public ShoppingCartItemsController(IShoppingCartItemsService shoppingCartItemsService, UserManager<ApplicationUser> userManager, IProductService productService)
+        public ShoppingCartItemsController(IShoppingCartItemsService shoppingCartItemsService, UserManager<ApplicationUser> userManager, IProductsService productService)
         {
             this.shoppingCartItemsService = shoppingCartItemsService;
             this.userManager = userManager;

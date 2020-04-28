@@ -78,14 +78,15 @@
             var sendGridApiKey = this.configuration["SendGrid:MyApiKey"];
             services.AddScoped<IEmailSender>(x => new SendGridEmailSender(sendGridApiKey));
             services.AddTransient<ISettingsService, SettingsService>();
-            services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IProductService, ProductService>();
-            services.AddTransient<IRequestToUsService, RequestToUsService>();
-            services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<IProductsService, ProductsService>();
+            services.AddTransient<IRequestsToUsService, RequestsToUsService>();
+            services.AddTransient<IReviewsService, ReviewsService>();
             services.AddTransient<IShoppingCartItemsService, ShoppingCartItemsService>();
-            services.AddTransient<IOrderService, OrderService>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IOrdersService, OrdersService>();
+            services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IAddressesService, AddressesService>();
+            services.AddTransient<IFavoritesService, FavoritesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

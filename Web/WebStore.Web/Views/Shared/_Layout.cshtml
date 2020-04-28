@@ -1,5 +1,9 @@
 ﻿@using WebStore.Common
-@inject ICategoryService categoryService
+@using WebStore.Data.Models
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,6 +60,12 @@
                 <ul class="main-menu">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <vc:nav-bar></vc:nav-bar>
+                    @if (this.SignInManager.IsSignedIn(this.User))
+                    {
+                        <li><a asp-area="" asp-controller="Orders" asp-action="MyOrders">My Orders</a></li>
+                        <li><a asp-area="" asp-controller="Favorites" asp-action="Index">My Favorite Products</a></li>
+
+                    }
                 </ul>
             </div>
         </nav>

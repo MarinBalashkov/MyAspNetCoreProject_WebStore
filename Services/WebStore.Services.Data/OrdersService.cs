@@ -12,13 +12,13 @@ using WebStore.Web.ViewModels.Orders;
 
 namespace WebStore.Services.Data
 {
-    public class OrderService : IOrderService
+    public class OrdersService : IOrdersService
     {
         private readonly IDeletableEntityRepository<Order> ordersRepository;
         private readonly IDeletableEntityRepository<OrderProductItem> orderProductItemRepository;
         private readonly IShoppingCartItemsService shoppingCartItemsService;
 
-        public OrderService(IDeletableEntityRepository<Order> ordersRepository, IDeletableEntityRepository<OrderProductItem> orderProductItemRepository, IShoppingCartItemsService shoppingCartItemsService)
+        public OrdersService(IDeletableEntityRepository<Order> ordersRepository, IDeletableEntityRepository<OrderProductItem> orderProductItemRepository, IShoppingCartItemsService shoppingCartItemsService)
         {
             this.ordersRepository = ordersRepository;
             this.orderProductItemRepository = orderProductItemRepository;
@@ -128,11 +128,11 @@ namespace WebStore.Services.Data
             return query.To<T>().ToList();
         }
 
-        public T GetById<T>(string orderId)
+        public T GetById<T>(string orderId, string userId)
         {
             var order = this.ordersRepository
                             .All()
-                            .Where(x => x.Id == orderId)
+                            .Where(x => x.Id == orderId && x.UserId == userId)
                             .To<T>()
                             .FirstOrDefault();
 

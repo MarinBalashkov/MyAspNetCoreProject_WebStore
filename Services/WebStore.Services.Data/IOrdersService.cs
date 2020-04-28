@@ -6,11 +6,11 @@ using WebStore.Data.Models.Enums;
 
 namespace WebStore.Services.Data
 {
-    public interface IOrderService
+    public interface IOrdersService
     {
         Task<string> CreateAsync(ShippingType shippingType, string recipientName, string recipientPhoneNumber, string userId, int addressId);
 
-        T GetById<T>(string orderId);
+        T GetById<T>(string orderId, string userId);
 
         IEnumerable<T> GetAllMyOrders<T>(string userId);
 
@@ -25,5 +25,6 @@ namespace WebStore.Services.Data
         Task ConfirmOrder(string orderId);
 
         bool IsMyOrder(string userId, string orderId);
+
     }
 }

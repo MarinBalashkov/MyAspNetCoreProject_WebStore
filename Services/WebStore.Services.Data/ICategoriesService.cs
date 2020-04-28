@@ -6,7 +6,7 @@
 
     using WebStore.Web.ViewModels.Products;
 
-    public interface ICategoryService
+    public interface ICategoriesService
     {
         IEnumerable<T> GetAllParentCategories<T>(int? count = null);
 

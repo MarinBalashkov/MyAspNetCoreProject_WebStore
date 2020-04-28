@@ -12,18 +12,24 @@ namespace WebStore.Web.Controllers
 {
     public class ProductsController : BaseController
     {
-        private readonly IProductService productService;
+        private readonly IProductsService productService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductsService productService)
         {
             this.productService = productService;
         }
 
         public IActionResult Index(AllProductsIndexInputViewModel input)
         {
+            var products = this.productService.GetProductsByFilter<HomeIndexProductViewModel>(input.ParentCategoryId, input.ChildCategoryId, input.Color, input.Size, input.BrandName);
+            if (products == null)
+            {
+                return this.NotFound();
+            }
+
             var model = new ProductsIndexViewModel()
             {
-                Products = this.productService.GetProductsByFilter<HomeIndexProductViewModel>(input.ParentCategoryId, input.ChildCategoryId, input.MaxPrice, input.MinPrice, input.Color, input.Size, input.BrandName),
+                Products = products,
                 Colors = this.productService.GetColors(),
                 Sizes = this.productService.GetSizes(),
                 Brands = this.productService.GetBrands(),

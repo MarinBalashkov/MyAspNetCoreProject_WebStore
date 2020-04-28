@@ -5,7 +5,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public interface IReviewService
+    public interface IReviewsService
     {
         Task CreateAsync(string text, string userId, int productId);
 

@@ -12,9 +12,9 @@ namespace WebStore.Web.ViewComponents
     [ViewComponent(Name = "NavBar")]
     public class NavBarViewComponent : ViewComponent
     {
-        private readonly ICategoryService categoryService;
+        private readonly ICategoriesService categoryService;
 
-        public NavBarViewComponent(ICategoryService categoryService)
+        public NavBarViewComponent(ICategoriesService categoryService)
         {
             this.categoryService = categoryService;
         }

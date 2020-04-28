@@ -8,11 +8,11 @@ using WebStore.Services.Mapping;
 
 namespace WebStore.Services.Data
 {
-    public class UserService : IUserService
+    public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
-        public UserService(IDeletableEntityRepository<ApplicationUser> userRepository)
+        public UsersService(IDeletableEntityRepository<ApplicationUser> userRepository)
         {
             this.userRepository = userRepository;
         }

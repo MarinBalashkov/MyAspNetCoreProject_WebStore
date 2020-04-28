@@ -15,12 +15,12 @@ namespace WebStore.Web.Controllers
     public class OrdersController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IOrderService ordersService;
-        private readonly IUserService userService;
+        private readonly IOrdersService ordersService;
+        private readonly IUsersService userService;
         private readonly IShoppingCartItemsService shoppingCartItemsService;
         private readonly IAddressesService addressesService;
 
-        public OrdersController(UserManager<ApplicationUser> userManager, IOrderService orderService, IUserService userService, IShoppingCartItemsService shoppingCartItemsService, IAddressesService addressesService)
+        public OrdersController(UserManager<ApplicationUser> userManager, IOrdersService orderService, IUsersService userService, IShoppingCartItemsService shoppingCartItemsService, IAddressesService addressesService)
         {
             this.userManager = userManager;
             this.ordersService = orderService;
@@ -73,7 +73,11 @@ namespace WebStore.Web.Controllers
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var model = this.ordersService.GetById<ConfirmationOrderViewModel>(orderId);
+            var model = this.ordersService.GetById<ConfirmationOrderViewModel>(orderId, userId);
+            if (model == null)
+            {
+                return this.NotFound();
+            }
 
             return this.View(model);
         }
@@ -107,6 +111,33 @@ namespace WebStore.Web.Controllers
 
             return this.RedirectToAction("Index", "Home");
         }
+
+        public IActionResult MyOrders()
+        {
+            var userId = this.userManager.GetUserId(this.User);
+
+            var model = this.ordersService.GetAllMyOrders<MyOrdersViewModel>(userId);
+            if (model == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(model);
+        }
+
+        public IActionResult MyOrderDetails(string orderId)
+        {
+            var userId = this.userManager.GetUserId(this.User);
+
+            var model = this.ordersService.GetById<ConfirmationOrderViewModel>(orderId, userId);
+            if (model == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(model);
+        }
+
 
         public IActionResult ThankYou()
         {

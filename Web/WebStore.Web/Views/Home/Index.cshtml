@@ -24,7 +24,7 @@
                         <img src="@product.MainImages.ImageUrl" alt="">
                         <div class="pi-links">
                             <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
-                            <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                            <a asp-controller="Favorites" asp-action="Add" asp-route-productId="@product.Id" class="wishlist-btn"><i class="flaticon-heart"></i></a>
                         </div>
                     </div>
                     <div class="pi-text">
@@ -51,24 +51,6 @@
             }
         </ul>
         <div class="row">
-            @*@foreach (var topSellingProduct in Model.TopSellingProducts)
-                {
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="product-item">
-                            <div class="pi-pic">
-                                <img src="@topSellingProduct.MainImages.ImageUrl" alt="">
-                                <div class="pi-links">
-                                    <a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
-                                    <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
-                                </div>
-                            </div>
-                            <div class="pi-text">
-                                <h6>@topSellingProduct.Price</h6>
-                                <p>@topSellingProduct.Name </p>
-                            </div>
-                        </div>
-                    </div>
-                }*@
             @foreach (var MostLikedProduct in Model.MostLikedProducts)
             {
                 <div class="col-lg-3 col-sm-6">
@@ -77,7 +59,7 @@
                             <img src="@MostLikedProduct.MainImages.ImageUrl" alt="">
                             <div class="pi-links">
                                 <a asp-controller="Products" asp-action="Details" asp-route-id="@MostLikedProduct.Id" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
-                                <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                                <a asp-controller="Favorites" asp-action="Add" asp-route-productId="@MostLikedProduct.Id" class="wishlist-btn"><i class="flaticon-heart"></i></a>
                             </div>
                         </div>
                         <div class="pi-text">

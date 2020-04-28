@@ -7,11 +7,11 @@
     using WebStore.Data.Common.Repositories;
     using WebStore.Data.Models;
 
-    public class RequestToUsService : IRequestToUsService
+    public class RequestsToUsService : IRequestsToUsService
     {
         private readonly IDeletableEntityRepository<RequestToUs> requestsToUsRepository;
 
-        public RequestToUsService(IDeletableEntityRepository<RequestToUs> requestsToUsRepository)
+        public RequestsToUsService(IDeletableEntityRepository<RequestToUs> requestsToUsRepository)
         {
             this.requestsToUsRepository = requestsToUsRepository;
         }

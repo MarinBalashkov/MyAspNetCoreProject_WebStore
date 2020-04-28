@@ -236,7 +236,7 @@
                         <img src="@product.MainImages.ImageUrl" alt="">
                         <div class="pi-links">
                             <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
-                            <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                            <a asp-controller="Favorites" asp-action="Add" asp-route-productId="@product.Id" class="wishlist-btn"><i class="flaticon-heart"></i></a>
                         </div>
                     </div>
                     <div class="pi-text">

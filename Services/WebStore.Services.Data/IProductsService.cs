@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public interface IProductService
+    public interface IProductsService
     {
         bool IsExist(int id);
 
@@ -18,7 +18,7 @@
 
         IEnumerable<T> GetProductsBySubCategoiesIds<T>(IEnumerable<int> categoriesIds, int? count);
 
-        IEnumerable<T> GetProductsByFilter<T>(int? parentCategoryId, int? childCategoryId, decimal? maxPrice, decimal? minPrice, string color, string size, string brandName);
+        IEnumerable<T> GetProductsByFilter<T>(int? parentCategoryId, int? childCategoryId, string color, string size, string brandName);
 
         IEnumerable<string> GetColors();
 

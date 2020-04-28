@@ -9,11 +9,11 @@
     using WebStore.Data.Models;
     using WebStore.Services.Mapping;
 
-    public class CategoryService : ICategoryService
+    public class CategoriesService : ICategoriesService
     {
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
 
-        public CategoryService(IDeletableEntityRepository<Category> categoriesRepository)
+        public CategoriesService(IDeletableEntityRepository<Category> categoriesRepository)
         {
             this.categoriesRepository = categoriesRepository;
         }

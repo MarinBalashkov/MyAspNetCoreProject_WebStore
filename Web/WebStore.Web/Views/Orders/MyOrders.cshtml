@@ -1,0 +1,27 @@
+﻿@using WebStore.Web.ViewModels.Orders
+@model IEnumerable<MyOrdersViewModel>
+
+@{
+    this.ViewData["Title"] = "My Orders";
+}
+
+<h1>@this.ViewData["Title"]</h1>
+
+@foreach (var item in Model)
+{
+    <div class="card">
+        <div class="card-header">
+            Order Id : @item.Id
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Expected Delivery Date</h5>
+            <p class="card-text">@item.ExpectedDeliveryDateString</p>
+            <h5 class="card-title">Order Status</h5>
+            <p class="card-text">@item.Status</p>
+            <h5 class="card-title">Total Order Price</h5>
+            <p class="card-text text-danger">@item.TotalPrice</p>
+            <a asp-controller="Orders" asp-action="MyOrderDetails" asp-route-orderId="@item.Id" class="btn btn-primary">Go to Details</a>
+        </div>
+    </div>
+
+}

@@ -9,11 +9,11 @@ using WebStore.Services.Mapping;
 
 namespace WebStore.Services.Data
 {
-    public class ReviewService : IReviewService
+    public class ReviewsService : IReviewsService
     {
         private readonly IDeletableEntityRepository<Review> reviewRepository;
 
-        public ReviewService(IDeletableEntityRepository<Review> reviewRepository)
+        public ReviewsService(IDeletableEntityRepository<Review> reviewRepository)
         {
             this.reviewRepository = reviewRepository;
         }

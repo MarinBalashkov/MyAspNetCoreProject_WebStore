@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WebStore.Services.Data
 {
-    public interface IUserService
+    public interface IUsersService
     {
         T GetUser<T>(string userId);
     }

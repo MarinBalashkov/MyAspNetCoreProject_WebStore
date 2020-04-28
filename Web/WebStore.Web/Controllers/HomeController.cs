@@ -13,12 +13,12 @@
 
     public class HomeController : BaseController
     {
-        private readonly IProductService productService;
-        private readonly ICategoryService categoryService;
+        private readonly IProductsService productService;
+        private readonly ICategoriesService categoryService;
         private readonly IEmailSender emailSender;
-        private readonly IRequestToUsService requestToUsService;
+        private readonly IRequestsToUsService requestToUsService;
 
-        public HomeController(IProductService productService, ICategoryService categoryService, IEmailSender emailSender, IRequestToUsService requestToUsService)
+        public HomeController(IProductsService productService, ICategoriesService categoryService, IEmailSender emailSender, IRequestsToUsService requestToUsService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
