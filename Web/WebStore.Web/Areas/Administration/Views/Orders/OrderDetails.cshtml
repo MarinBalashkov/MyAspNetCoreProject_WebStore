@@ -1,0 +1,48 @@
+﻿@using WebStore.Common
+@using WebStore.Data.Models.Enums
+
+@model WebStore.Web.ViewModels.Orders.ConfirmationOrderViewModel
+@{
+    this.ViewData["Title"] = "Order Details";
+}
+
+    <div>
+        <div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><b>Recipien tName</b> : @Model.RecipientName </li>
+                <li class="list-group-item"><b>Recipient Phone Number</b> : @Model.RecipientPhoneNumber </li>
+                <li class="list-group-item"><b>District</b> : @Model.AddressDistrict </li>
+                <li class="list-group-item"><b>City</b> : @Model.AddressCity </li>
+                <li class="list-group-item"><b>Street</b> : @Model.AddressStreet </li>
+                <li class="list-group-item"><b>Expected Delivery Date</b> : @Model.ExpectedDeliveryDateString </li>
+                <li class="list-group-item"><b>Shipping Type</b> : @Model.ShippingType </li>
+                @if (Model.ShippingType == ShippingType.Fast.ToString())
+                {
+                    <li class="list-group-item"><b>Shipping Price</b> : $@GlobalConstants.ShippingPriceForFastShippingType </li>
+                }
+                else
+                {
+                    <li class="list-group-item"><b>Shipping Price</b> : $0.00 </li>
+
+                }
+                <li class="list-group-item"><b>Order Status</b> : @Model.Status </li>
+                <li class="list-group-item"><b>TotalPrice</b> : <b class="text-danger">@Model.TotalPrice</b></li>
+            </ul>
+        </div>
+        <hr>
+        <hr>
+    </div>
+    <div>
+        <form class="form" asp-area="Administration" asp-controller="Orders" asp-action="UpdateStatus" method="post">
+
+                <label>Change Order Status</label>
+                <select name="OrderStatus" class="form-control dropdown-toggle" asp-items="@Html.GetEnumSelectList<OrderStatus>()"></select>
+                <input type="hidden" name="OrderId" value="@this.Model.Id" />
+
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-danger" value="Update">Update</button>
+            </div>
+        </form>
+    </div>
+
+

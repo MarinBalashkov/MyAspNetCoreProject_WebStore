@@ -62,8 +62,22 @@
                     <vc:nav-bar></vc:nav-bar>
                     @if (this.SignInManager.IsSignedIn(this.User))
                     {
-                        <li><a asp-area="" asp-controller="Orders" asp-action="MyOrders">My Orders</a></li>
-                        <li><a asp-area="" asp-controller="Favorites" asp-action="Index">My Favorite Products</a></li>
+                        if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+                        {
+                            <li><a asp-area="Administration" asp-controller="Orders" asp-action="AllOrders">Orders</a></li>
+                            <li>
+                                <a asp-area="Administration" asp-controller="Products" asp-action="All">Products</a>
+                                <ul class="sub-menu">
+                                    <li><a asp-area="Administration" asp-controller="Products" asp-action="Add">Add</a></li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li><a asp-area="" asp-controller="Orders" asp-action="MyOrders">My Orders</a></li>
+                            <li><a asp-area="" asp-controller="Favorites" asp-action="Index">My Favorite Products</a></li>
+
+                        }
 
                     }
                 </ul>
@@ -97,7 +111,7 @@
                         <h2>MY ACCOUNT</h2>
                         <div class="fw-latest-post-widget">
                             <ul>
-                                <li><a href="">My Acount</a></li>
+                                <li><a asp-area="Identity" asp-controller="Account" asp-action="Manage">My Acount</a></li>
                                 <li><a href="">Order History</a></li>
                                 <li><a href="">Favorite products</a></li>
                             </ul>
@@ -134,19 +148,6 @@
                             <p>NEROboutique@gmail.com</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="social-links-warp">
-            <div class="container">
-                <div class="social-links">
-                    <a href="" class="instagram"><i class="fa fa-instagram"></i><span>instagram</span></a>
-                    <a href="" class="google-plus"><i class="fa fa-google-plus"></i><span>g+plus</span></a>
-                    <a href="" class="pinterest"><i class="fa fa-pinterest"></i><span>pinterest</span></a>
-                    <a href="" class="facebook"><i class="fa fa-facebook"></i><span>facebook</span></a>
-                    <a href="" class="twitter"><i class="fa fa-twitter"></i><span>twitter</span></a>
-                    <a href="" class="youtube"><i class="fa fa-youtube"></i><span>youtube</span></a>
-                    <a href="" class="tumblr"><i class="fa fa-tumblr-square"></i><span>tumblr</span></a>
                 </div>
             </div>
         </div>

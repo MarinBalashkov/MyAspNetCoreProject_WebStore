@@ -1,7 +1,7 @@
 ﻿namespace WebStore.Web
 {
     using System.Reflection;
-
+    using CloudinaryDotNet;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -68,6 +68,16 @@
                     });
 
             services.AddSingleton(this.configuration);
+
+            Account account = new Account(
+                              this.configuration["Cloudinary:MyCloudName"],
+                              this.configuration["Cloudinary:MyApiKey"],
+                              this.configuration["Cloudinary:MyApiKeySecret"]);
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+            services.AddSingleton(cloudinary);
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));

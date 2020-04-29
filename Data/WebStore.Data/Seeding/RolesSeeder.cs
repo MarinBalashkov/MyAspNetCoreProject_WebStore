@@ -38,6 +38,8 @@
             {
                 var user = new ApplicationUser
                 {
+                    FirstName = "Admin",
+                    LastName = "Admin",
                     UserName = "admin@gmail.com",
                     Email = "admin@gmail.com",
                     EmailConfirmed = true,

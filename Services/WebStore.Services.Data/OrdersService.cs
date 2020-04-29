@@ -128,15 +128,17 @@ namespace WebStore.Services.Data
             return query.To<T>().ToList();
         }
 
-        public T GetById<T>(string orderId, string userId)
+        public T GetById<T>(string orderId, string userId = null)
         {
             var order = this.ordersRepository
                             .All()
-                            .Where(x => x.Id == orderId && x.UserId == userId)
-                            .To<T>()
-                            .FirstOrDefault();
+                            .Where(x => x.Id == orderId);
+            if (userId != null)
+            {
+                order = order.Where(x => x.UserId == userId);
+            }
 
-            return order;
+            return order.To<T>().FirstOrDefault();
         }
 
         public string GetOrderUserId(string orderId)
