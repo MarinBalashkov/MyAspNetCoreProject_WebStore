@@ -1,0 +1,33 @@
+﻿@using WebStore.Web.ViewModels.Products
+@model IEnumerable<HomeIndexProductViewModel>
+@{
+    this.ViewData["Title"] = "All products";
+}
+
+<h1>@this.ViewData["Title"]</h1>
+
+<section class="product-filter-section">
+    <div class="container">
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-lg-3 col-sm-6">
+                    <div class="product-item">
+                        <div class="pi-pic">
+                            <img src="@product.MainImages.ImageUrl" alt="">
+                            <div class="pi-links">
+                                <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
+                                <a asp-area="" asp-controller="Favorites" asp-action="Add" asp-route-productId="@product.Id" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                            </div>
+                        </div>
+                        <div class="pi-text">
+                            <h6>@product.Price</h6>
+                            <p>@product.Name </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<!-- Product filter section end -->

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-
+    using System.Threading.Tasks;
     using WebStore.Data.Common.Repositories;
     using WebStore.Data.Models;
     using WebStore.Data.Models.Enums;
@@ -14,11 +14,17 @@
     {
         private readonly IDeletableEntityRepository<Product> productsRepository;
         private readonly IDeletableEntityRepository<ProductItem> productsItemsRepository;
+        private readonly IDeletableEntityRepository<CategoryProduct> categoriesProductsRepository;
+        private readonly IDeletableEntityRepository<Image> imagesRepository;
+        private readonly IDeletableEntityRepository<ProductItem> itemsRepository;
 
-        public ProductsService(IDeletableEntityRepository<Product> productsRepository, IDeletableEntityRepository<ProductItem> productsItemsRepository)
+        public ProductsService(IDeletableEntityRepository<Product> productsRepository, IDeletableEntityRepository<ProductItem> productsItemsRepository, IDeletableEntityRepository<CategoryProduct> categoriesProductsRepository, IDeletableEntityRepository<Image> imagesRepository, IDeletableEntityRepository<ProductItem> itemsRepository)
         {
             this.productsRepository = productsRepository;
             this.productsItemsRepository = productsItemsRepository;
+            this.categoriesProductsRepository = categoriesProductsRepository;
+            this.imagesRepository = imagesRepository;
+            this.itemsRepository = itemsRepository;
         }
 
         public IEnumerable<T> GetLatestProducts<T>(int? count = null)
@@ -150,6 +156,89 @@
         public IEnumerable<string> GetBrands()
         {
             return this.productsRepository.All().Select(x => x.Manufacturer.Name).Distinct().ToList();
+        }
+
+        public async Task<int> CreateAsync(string name, string color, string description, decimal price, int categoryId, IEnumerable<string> secondaryPictursUrls, string mainPicturesUrl, int? manufacturerId = null)
+        {
+            var product = new Product()
+            {
+                Name = name,
+                Color = color,
+                Description = description,
+                Price = price,
+            };
+
+            await this.productsRepository.AddAsync(product);
+            await this.productsRepository.SaveChangesAsync();
+
+            await this.CreateCategoriesProductsConnection(categoryId, product.Id);
+
+            if (manufacturerId.HasValue)
+            {
+                product.ManufacturerId = manufacturerId;
+                this.productsRepository.Update(product);
+                await this.productsRepository.SaveChangesAsync();
+            }
+
+            await this.CreateImages(product.Id ,secondaryPictursUrls, mainPicturesUrl);
+            await this.CreateProductItems(product.Id);
+
+            return product.Id;
+        }
+
+        private async Task CreateCategoriesProductsConnection(int categoryId, int productId)
+        {
+            var categoryproduct = new CategoryProduct()
+            {
+                CategoryId = categoryId,
+                ProductId = productId,
+            };
+
+            await this.categoriesProductsRepository.AddAsync(categoryproduct);
+            await this.categoriesProductsRepository.SaveChangesAsync();
+        }
+
+        private async Task CreateImages(int productId,  IEnumerable<string> secondaryPictursUrls, string mainPicturesUrl)
+        {
+            var mainIamage = new Image()
+            {
+                ImageUrl = mainPicturesUrl,
+                ImageType = ImageType.Main,
+                ProductId = productId,
+            };
+
+            await this.imagesRepository.AddAsync(mainIamage);
+
+            foreach (var imageUrl in secondaryPictursUrls)
+            {
+                var image = new Image()
+                {
+                    ImageUrl = imageUrl,
+                    ImageType = ImageType.Secondary,
+                    ProductId = productId,
+                };
+                await this.imagesRepository.AddAsync(image);
+            }
+
+            await this.imagesRepository.SaveChangesAsync();
+        }
+
+        private async Task CreateProductItems(int productId)
+        {
+            var sizes = new List<string>() { "XS", "S", "M", "L", "XL", "XXL" };
+
+            foreach (var size in sizes)
+            {
+                var producteItem = new ProductItem()
+                {
+                    ProductId = productId,
+                    Size = size,
+                    Quantity = 100,
+                };
+                await this.itemsRepository.AddAsync(producteItem);
+            }
+
+            await this.itemsRepository.SaveChangesAsync();
         }
     }
 }

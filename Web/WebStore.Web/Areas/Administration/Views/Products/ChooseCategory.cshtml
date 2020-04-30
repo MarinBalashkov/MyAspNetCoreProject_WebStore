@@ -1,0 +1,23 @@
+﻿@using WebStore.Web.ViewModels.Categoties
+@model IEnumerable<CategoryViewModel>
+
+@{
+    this.ViewData["Title"] = "Choose category";
+}
+
+<h1>@this.ViewData["Title"]</h1>
+
+
+<div class="row">
+    @foreach (var category in Model)
+    {
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@category.Name</h5>
+                    <a asp-area="Administration" asp-controller="Products" asp-action="Create" asp-route-mainCategoryId="@category.Id" class="btn btn-primary">Go </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

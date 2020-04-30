@@ -1,12 +1,25 @@
 ﻿@using WebStore.Common
+@using WebStore.Data.Models
+@using Microsoft.AspNetCore.Identity
 @model WebStore.Web.ViewModels.Home.IndexViewModel
 @{
     this.ViewData["Title"] = "Home Page";
 }
+@inject SignInManager<ApplicationUser> SignInManager
 
 <div class="text-center">
     <h1 class="display-4">Welcome to NERO boutique!</h1>
 </div>
+@if (this.SignInManager.IsSignedIn(this.User))
+{
+    if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+    {
+        <div class="text-center">
+            <h1 class="display-4">Welcome Admin!</h1>
+        </div>
+
+    }
+}
 
 <!-- letest product section -->
 
@@ -68,9 +81,6 @@
                     </div>
                 </div>
             }
-        </div>
-        <div class="text-center pt-5">
-            <button class="site-btn sb-line sb-dark">LOAD MORE</button>
         </div>
     </div>
 </section>

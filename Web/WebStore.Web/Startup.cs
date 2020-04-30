@@ -17,6 +17,7 @@
     using WebStore.Data.Models;
     using WebStore.Data.Repositories;
     using WebStore.Data.Seeding;
+    using WebStore.Services;
     using WebStore.Services.Data;
     using WebStore.Services.Mapping;
     using WebStore.Services.Messaging;

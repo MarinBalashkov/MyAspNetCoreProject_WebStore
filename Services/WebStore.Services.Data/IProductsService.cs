@@ -3,9 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading.Tasks;
 
     public interface IProductsService
     {
+        Task<int> CreateAsync(string name, string color, string description, decimal price, int categoryId, IEnumerable<string> secondaryPictursUrls, string mainPicturesUrl, int? manufacturerId);
+
         bool IsExist(int id);
 
         T GetProductById<T>(int id);

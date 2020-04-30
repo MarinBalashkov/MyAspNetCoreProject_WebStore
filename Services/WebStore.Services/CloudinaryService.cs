@@ -40,7 +40,7 @@
                         File = new FileDescription(file.Name, destinationStream),
                     };
 
-                    var result = await cloudinary.UploadAsync(uploadParams);
+                    var result = await this.cloudinary.UploadAsync(uploadParams);
 
                     urlList.Add(result.Uri.AbsoluteUri);
                 }
