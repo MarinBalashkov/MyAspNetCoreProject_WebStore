@@ -12,8 +12,6 @@
 
         IEnumerable<T> GetAllSubCategoriesByParentId<T>(int parentCategoryId);
 
-        IEnumerable<T> GetParentCategoryIdByName<T>(int? count = null);
-
         IEnumerable<string> GetAllSubCategoriesNames(int? count = null);
 
     }

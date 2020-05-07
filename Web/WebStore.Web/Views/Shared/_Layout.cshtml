@@ -59,6 +59,7 @@
 
                 <ul class="main-menu">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Products" asp-action="Index">Products</a></li>
                     <vc:nav-bar></vc:nav-bar>
                     @if (this.SignInManager.IsSignedIn(this.User))
                     {
@@ -75,7 +76,7 @@
                         else
                         {
                             <li><a asp-area="" asp-controller="Orders" asp-action="MyOrders">My Orders</a></li>
-                            <li><a asp-area="" asp-controller="Favorites" asp-action="Index">My Favorite Products</a></li>
+                            <li><a asp-area="" asp-controller="Favorites" asp-action="MyProducts">My Favorite Products</a></li>
 
                         }
 

@@ -72,11 +72,5 @@
 
             return query.ToList();
         }
-
-        public IEnumerable<T> GetParentCategoryIdByName<T>(int? count = null)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

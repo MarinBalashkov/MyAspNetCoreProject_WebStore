@@ -18,14 +18,21 @@ namespace WebStore.Services.Data
             this.favoritesProductsRepository = favoritesProductsRepository;
         }
 
-        IEnumerable<T> IFavoritesService.GetAll<T>(string userId)
+        IEnumerable<T> IFavoritesService.GetAllByUserId<T>(string userId, int? take = null, int skip = 0)
         {
             IQueryable<FavoriteProduct> query =
             this.favoritesProductsRepository.All()
-            .Where(x => x.UserId == userId);
+            .Where(x => x.UserId == userId)
+            .OrderByDescending(x => x.CreatedOn);
             if (!query.Any())
             {
                 return null;
+            }
+
+            query = query.Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
             }
 
             return query.To<T>().ToList();
@@ -41,6 +48,16 @@ namespace WebStore.Services.Data
 
             await this.favoritesProductsRepository.AddAsync(favoriteProduct);
             await this.favoritesProductsRepository.SaveChangesAsync();
+        }
+
+        public int GetCountGyUserId(string userId)
+        {
+            return this.favoritesProductsRepository.All().Count(x => x.UserId == userId);
+        }
+
+        public bool IsInMyFavorites(string userId, int productId)
+        {
+            return this.favoritesProductsRepository.All().Any(x => x.UserId == userId && x.ProductId == productId);
         }
     }
 }

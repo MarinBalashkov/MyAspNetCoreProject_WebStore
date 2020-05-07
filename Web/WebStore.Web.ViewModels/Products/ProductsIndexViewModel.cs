@@ -4,9 +4,9 @@ namespace WebStore.Web.ViewModels.Products
 {
     public class ProductsIndexViewModel
     {
-        public IEnumerable<HomeIndexProductViewModel> Products { get; set; }
+        public string RouteInfo { get; set; }
 
-        public AllProductsIndexInputViewModel Input { get; set; }
+        public IEnumerable<HomeIndexProductViewModel> Products { get; set; }
 
         public IEnumerable<string> Colors { get; set; }
 
@@ -14,5 +14,10 @@ namespace WebStore.Web.ViewModels.Products
 
         public IEnumerable<string> Brands { get; set; }
 
+        public AllProductsIndexInputViewModel InputModel { get; set; }
+
+        public int CurrentPage { get; set; }
+
+        public int PagesCount { get; set; }
     }
 }

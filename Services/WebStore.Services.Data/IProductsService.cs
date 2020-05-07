@@ -21,7 +21,9 @@
 
         IEnumerable<T> GetProductsBySubCategoiesIds<T>(IEnumerable<int> categoriesIds, int? count);
 
-        IEnumerable<T> GetProductsByFilter<T>(int? parentCategoryId, int? childCategoryId, string color, string size, string brandName);
+        IEnumerable<T> GetProductsByFilter<T>(string parentCategoryName, string childCategoryName, string color, string size, string brandName, int? take = null, int skip = 0);
+
+        int GetCountByFilter(string parentCategoryName, string childCategoryName, string color, string size, string brandName);
 
         IEnumerable<string> GetColors();
 

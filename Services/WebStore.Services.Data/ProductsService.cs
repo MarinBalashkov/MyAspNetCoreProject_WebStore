@@ -105,34 +105,35 @@
             return this.productsRepository.All().Any(x => x.Id == id);
         }
 
-        public IEnumerable<T> GetProductsByFilter<T>(int? parentCategoryId = null, int? childCategoryId = null, string color = null, string size = null, string brandName = null)
+        public IEnumerable<T> GetProductsByFilter<T>(string parentCategoryName, string childCategoryName, string color = null, string size = null, string brandName = null, int? take = null, int skip = 0)
         {
             IQueryable<Product> query = this.productsRepository
-            .All();
+            .All()
+            .OrderByDescending(x => x.CreatedOn);
 
-            if (parentCategoryId.HasValue)
+            if (parentCategoryName != null)
             {
-                query = query.Where(x => x.CategoriesProducts.Any(cp => cp.Category.ParentCartegoryId == parentCategoryId));
+                query = query.Where(x => x.CategoriesProducts.Any(cp => cp.Category.ParentCategory.Name.ToLower() == parentCategoryName.ToLower()));
             }
 
-            if (childCategoryId.HasValue)
+            if (childCategoryName != null)
             {
-                query = query.Where(x => x.CategoriesProducts.Any(cp => cp.CategoryId == childCategoryId));
-            }
-
-            if (color != null)
-            {
-                query = query.Where(x => x.Color == color);
+                query = query.Where(x => x.CategoriesProducts.Any(cp => cp.Category.Name.ToLower() == childCategoryName.ToLower()));
             }
 
             if (color != null)
             {
-                query = query.Where(x => x.ProductItems.Any(pi => pi.Size == size));
+                query = query.Where(x => x.Color.ToLower() == color.ToLower());
+            }
+
+            if (size != null)
+            {
+                query = query.Where(x => x.ProductItems.Any(pi => pi.Size.ToLower() == size.ToLower()));
             }
 
             if (brandName != null)
             {
-                query = query.Where(x => x.Manufacturer.Name == brandName);
+                query = query.Where(x => x.Manufacturer.Name.ToLower() == brandName.ToLower());
             }
 
             if (!query.Any())
@@ -140,7 +141,47 @@
                 return null;
             }
 
+            query = query.Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
             return query.To<T>().ToList();
+        }
+
+        public int GetCountByFilter(string parentCategoryName, string childCategoryName, string color = null, string size = null, string brandName = null)
+        {
+            IQueryable<Product> query = this.productsRepository
+            .All();
+
+            if (parentCategoryName != null)
+            {
+                query = query.Where(x => x.CategoriesProducts.Any(cp => cp.Category.ParentCategory.Name.ToLower() == parentCategoryName.ToLower()));
+            }
+
+            if (childCategoryName != null)
+            {
+                query = query.Where(x => x.CategoriesProducts.Any(cp => cp.Category.Name.ToLower() == childCategoryName.ToLower()));
+            }
+
+            if (color != null)
+            {
+                query = query.Where(x => x.Color.ToLower() == color.ToLower());
+            }
+
+            if (size != null)
+            {
+                query = query.Where(x => x.ProductItems.Any(pi => pi.Size.ToLower() == size.ToLower()));
+            }
+
+            if (brandName != null)
+            {
+                query = query.Where(x => x.Manufacturer.Name.ToLower() == brandName.ToLower());
+            }
+
+            return query.Count();
+
         }
 
         public IEnumerable<string> GetColors()
