@@ -11,9 +11,9 @@
     {
         public IEnumerable<HomeIndexProductViewModel> LatestProducts { get; set; }
 
-        public IEnumerable<HomeIndexProductViewModel> MostLikedProducts { get; set; }
+        public IEnumerable<MostLikedProducsViewModel> MostLikedProducts { get; set; }
 
-        public IEnumerable<string> SubCategoriesNames { get; set; }
+        //public IEnumerable<string> SubCategoriesNames { get; set; }
 
 
     }

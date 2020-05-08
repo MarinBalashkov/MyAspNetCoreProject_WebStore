@@ -31,8 +31,8 @@
             var model = new IndexViewModel()
             {
                 LatestProducts = this.productService.GetLatestProducts<HomeIndexProductViewModel>(20),
-                MostLikedProducts = this.productService.GetMostLikedProducts<HomeIndexProductViewModel>(16),
-                SubCategoriesNames = this.categoryService.GetAllSubCategoriesNames(),
+                MostLikedProducts = this.productService.GetMostLikedProducts<MostLikedProducsViewModel>(16),
+                //SubCategoriesNames = this.categoryService.GetAllSubCategoriesNames(),
             };
 
             return this.View(model);

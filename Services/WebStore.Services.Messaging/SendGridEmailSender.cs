@@ -28,7 +28,7 @@
                 throw new ArgumentException("Subject and message should be provided.");
             }
 
-            var fromAddress = new EmailAddress(this.sendEmailFrom, this.sendEmailFromName);
+            var fromAddress = new EmailAddress(from ?? this.sendEmailFrom, fromName ?? this.sendEmailFromName);
             var toAddress = new EmailAddress(to);
             var message = MailHelper.CreateSingleEmail(fromAddress, toAddress, subject, null, htmlContent);
             if (attachments?.Any() == true)

@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@
     using WebStore.Services.Data;
     using WebStore.Services.Mapping;
     using WebStore.Services.Messaging;
+    using WebStore.Web.Infrastructure.CustomValdiators;
     using WebStore.Web.ViewModels;
 
     public class Startup
@@ -39,7 +41,9 @@
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddPasswordValidator<CustomPasswordValidator<ApplicationUser>>();
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -66,7 +70,15 @@
                         facebookOptions.ClaimActions.MapJsonKey("urn:facebook:gender", "gender", "string");
                         facebookOptions.ClaimActions.MapJsonKey("urn:facebook:birthday", "birthday", "string");
                         facebookOptions.ClaimActions.MapJsonKey("urn:facebook:profile_pic", "profile_pic", "string");
-                    });
+                    })
+                .AddGoogle("google", opt =>
+                {
+                    var googleAuth = this.configuration.GetSection("Authentication:Google");
+
+                    opt.ClientId = googleAuth["ClientId"];
+                    opt.ClientSecret = googleAuth["ClientSecret"];
+                    opt.SignInScheme = IdentityConstants.ExternalScheme;
+                });
 
             services.AddSingleton(this.configuration);
 

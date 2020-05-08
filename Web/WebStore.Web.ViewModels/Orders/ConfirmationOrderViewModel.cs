@@ -15,7 +15,7 @@ namespace WebStore.Web.ViewModels.Orders
 
         public DateTime? ExpectedDeliveryDate { get; set; }
 
-        public string ExpectedDeliveryDateString => this.ExpectedDeliveryDate?.ToString("D", CultureInfo.InvariantCulture);
+        //public string ExpectedDeliveryDateString => this.ExpectedDeliveryDate?.ToString("D", CultureInfo.InvariantCulture);
 
         public string ShippingType { get; set; }
 

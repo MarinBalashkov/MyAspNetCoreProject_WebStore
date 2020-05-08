@@ -9,8 +9,8 @@
             string to,
             string subject,
             string htmlContent,
-            string from = null,
-            string fromName = null,
+            string from,
+            string fromName,
             IEnumerable<EmailAttachment> attachments = null);
     }
 }

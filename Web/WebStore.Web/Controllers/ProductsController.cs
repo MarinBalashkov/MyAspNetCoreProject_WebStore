@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using WebStore.Services.Data;
 using WebStore.Web.ViewModels.Products;
@@ -36,11 +37,20 @@ namespace WebStore.Web.Controllers
                 return this.NotFound();
             }
 
-            model.RouteInfo = input.ParentCategoryName != null ? input.ParentCategoryName + "/" : string.Empty +
-                              input.ChildCategoryName != null ? input.ChildCategoryName + "/" : string.Empty +
-                              input.Color != null ? input.Color + "/" : string.Empty +
-                              input.Size != null ? input.Size + "/" : string.Empty +
-                              input.BrandName != null ? input.BrandName + "/" : string.Empty;
+            var sb = new StringBuilder();
+            sb.Append(input.ParentCategoryName != null ? input.ParentCategoryName : string.Empty);
+            sb.Append(input.ChildCategoryName != null ? $" / {input.ChildCategoryName}" : string.Empty);
+            sb.Append(input.Color != null ? $" / Color : {input.Color}" : string.Empty);
+            sb.Append(input.Size != null ? $" / Size : {input.Size}" : string.Empty);
+            sb.Append(input.BrandName != null ? $" / Brand : {input.BrandName}" : string.Empty);
+
+            model.RouteInfo = sb.ToString().Trim();
+
+            //model.RouteInfo = input.ParentCategoryName != null ? input.ParentCategoryName : string.Empty +
+            //                  input.ChildCategoryName != null ? $" / {input.ChildCategoryName}" : string.Empty +
+            //                  input.Color != null $" / {input.ChildCategoryName}" : string.Empty +
+            //                  input.Size != null ? input.Size + "/" : string.Empty +
+            //                  input.BrandName != null ? input.BrandName + "/" : string.Empty;
             model.Products = products;
             model.InputModel = input;
 

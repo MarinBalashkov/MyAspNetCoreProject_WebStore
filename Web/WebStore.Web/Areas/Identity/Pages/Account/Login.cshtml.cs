@@ -1,32 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using WebStore.Data.Models;
-
-namespace WebStore.Web.Areas.Identity.Pages.Account
+﻿namespace WebStore.Web.Areas.Identity.Pages.Account
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Logging;
+    using WebStore.Data.Models;
+    using WebStore.Services.Messaging;
+
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, 
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IEmailSender _emailSender)
         {
             _userManager = userManager;
+            _emailSender = _emailSender;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -92,6 +96,18 @@ namespace WebStore.Web.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
+                    var forgotPassLink = Url.Page("/Account/ForgotPassword", pageHandler: null, new { }, Request.Scheme);
+
+
+                    var content = string.Format("Your account is locked out, to reset your password, please click this link: {0}", forgotPassLink);
+
+                    var user = await this._userManager.FindByEmailAsync(this.Input.Email);
+                    if (user != null)
+                    {
+                        await _emailSender.SendEmailAsync(this.Input.Email, "Locked out account information", content, null, null, null);
+                    }
+
+
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }

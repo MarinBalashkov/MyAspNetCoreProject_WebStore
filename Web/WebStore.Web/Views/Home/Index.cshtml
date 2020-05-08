@@ -56,11 +56,15 @@
             <h2>BROWSE MOST LIKED PRODUCTS</h2>
         </div>
         <ul class="product-filter-menu">
-            @foreach (var categoryNane in Model.SubCategoriesNames)
+            @foreach (var product in Model.MostLikedProducts)
             {
-                <li><a href="#">@categoryNane</a></li>
+                @foreach (var category in product.CategoriesProducts)
+                {
+                    <li><a asp-controller="Products" asp-action="Index" asp-route-ParentCategoryName="@category.CategoryParentCategoryName" asp-route-ChildCategoryName="@category.CategoryName">@category.CategoryParentCategoryName <strong>-</strong> @category.CategoryName</a></li>
+                }
 
             }
+
         </ul>
         <div class="row">
             @foreach (var MostLikedProduct in Model.MostLikedProducts)

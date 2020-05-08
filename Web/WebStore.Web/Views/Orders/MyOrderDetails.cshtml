@@ -14,7 +14,7 @@
             <li class="list-group-item"><b>District</b> : @Model.AddressDistrict </li>
             <li class="list-group-item"><b>City</b> : @Model.AddressCity </li>
             <li class="list-group-item"><b>Street</b> : @Model.AddressStreet </li>
-            <li class="list-group-item"><b>Expected Delivery Date</b> : @Model.ExpectedDeliveryDateString </li>
+            <li class="list-group-item"><b>Expected Delivery Date</b> : <time datetime="@Model.ExpectedDeliveryDate?.ToString("O")"></time> </li>
             <li class="list-group-item"><b>Shipping Type</b> : @Model.ShippingType </li>
             @if (Model.ShippingType == ShippingType.Fast.ToString())
             {
