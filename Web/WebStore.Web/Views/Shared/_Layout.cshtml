@@ -60,7 +60,7 @@
                 <ul class="main-menu">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Products" asp-action="Index">Products</a></li>
-                    <vc:nav-bar></vc:nav-bar>
+                    <vc:nav-bar color="" size="" brand-name=""></vc:nav-bar>
                     @if (this.SignInManager.IsSignedIn(this.User))
                     {
                         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))

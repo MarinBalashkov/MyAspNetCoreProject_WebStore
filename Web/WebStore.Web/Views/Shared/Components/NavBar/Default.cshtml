@@ -6,13 +6,24 @@
     @foreach (var item in Model.NavBarItems)
     {
         <li>
-            <a asp-area="" asp-controller="Products" asp-action="Index" asp-route-ParentCategoryName="@item.ParentCategory.Name">@item.ParentCategory.Name</a>
+            <a asp-area="" asp-controller="Products" asp-action="Index"
+               asp-route-ParentCategoryName="@item.ParentCategory.Name"
+               asp-route-BrandName="@this.Model.BrandName"
+               asp-route-Color="@this.Model.Color"
+               asp-route-Size="@this.Model.Size">@item.ParentCategory.Name</a>
             <ul class="sub-menu">
                 @if (item.SubCategories.Any())
                 {
                     @foreach (var subCategory in item.SubCategories)
                     {
-                        <li><a asp-area="" asp-controller="Products" asp-action="Index" asp-route-ParentCategoryName="@item.ParentCategory.Name" asp-route-ChildCategoryName="@subCategory.Name">@subCategory.Name</a></li>
+                        <li>
+                            <a asp-area="" asp-controller="Products" asp-action="Index"
+                               asp-route-ParentCategoryName="@item.ParentCategory.Name"
+                               asp-route-ChildCategoryName="@subCategory.Name"
+                               asp-route-BrandName="@this.Model.BrandName"
+                               asp-route-Color="@this.Model.Color"
+                               asp-route-Size="@this.Model.Size">@subCategory.Name</a>
+                        </li>
                     }
                 }
 

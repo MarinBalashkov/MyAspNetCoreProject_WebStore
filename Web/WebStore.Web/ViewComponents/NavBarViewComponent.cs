@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Services.Data;
@@ -19,7 +20,7 @@ namespace WebStore.Web.ViewComponents
             this.categoryService = categoryService;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string color = null, string size = null, string brandName = null)
         {
             var navBarItems = new List<NavBarItemViewModel>();
             var parentCategories = this.categoryService.GetAllParentCategories<CategoryViewModel>();
@@ -49,6 +50,10 @@ namespace WebStore.Web.ViewComponents
             {
                 NavBarItems = navBarItems,
             };
+
+            viewModel.Color = color;
+            viewModel.Size = size;
+            viewModel.BrandName = brandName;
 
             return this.View(viewModel);
         }
