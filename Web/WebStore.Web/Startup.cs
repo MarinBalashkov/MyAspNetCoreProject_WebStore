@@ -1,5 +1,6 @@
 ﻿namespace WebStore.Web
 {
+    using System;
     using System.Reflection;
     using CloudinaryDotNet;
     using Microsoft.AspNetCore.Authentication;
@@ -39,6 +40,20 @@
         {
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDistributedSqlServerCache(options =>
+            {
+                options.ConnectionString = this.configuration.GetConnectionString("DefaultConnection");
+                options.SchemaName = "dbo";
+                options.TableName = "CacheRecords";
+            });
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(30);
+                options.Cookie.HttpOnly = true;
+            });
+
+            services.AddResponseCaching();
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>()
@@ -140,6 +155,9 @@
                 app.UseHsts();
             }
 
+
+            app.UseResponseCaching();
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
