@@ -51,9 +51,14 @@
             {
                 options.IdleTimeout = TimeSpan.FromDays(30);
                 options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
 
             services.AddResponseCaching();
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+            });
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>()
@@ -155,12 +160,12 @@
                 app.UseHsts();
             }
 
-
+            app.UseResponseCompression();
             app.UseResponseCaching();
-            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseRouting();
 
