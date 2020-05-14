@@ -1,48 +1,65 @@
 ﻿@using WebStore.Common
 @using WebStore.Data.Models.Enums
 
-@model WebStore.Web.ViewModels.Orders.ConfirmationOrderViewModel
+@model WebStore.Web.ViewModels.Orders.MyOrderDetailsViewModel
 @{
     this.ViewData["Title"] = "Order Details";
 }
 
-    <div>
-        <div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>Recipien tName</b> : @Model.RecipientName </li>
-                <li class="list-group-item"><b>Recipient Phone Number</b> : @Model.RecipientPhoneNumber </li>
-                <li class="list-group-item"><b>District</b> : @Model.AddressDistrict </li>
-                <li class="list-group-item"><b>City</b> : @Model.AddressCity </li>
-                <li class="list-group-item"><b>Street</b> : @Model.AddressStreet </li>
-                <li class="list-group-item"><b>Expected Delivery Date</b> : <time datetime="@Model.ExpectedDeliveryDate?.ToString("O")"></time> </li>
-                <li class="list-group-item"><b>Shipping Type</b> : @Model.ShippingType </li>
-                @if (Model.ShippingType == ShippingType.Fast.ToString())
-                {
-                    <li class="list-group-item"><b>Shipping Price</b> : $@GlobalConstants.ShippingPriceForFastShippingType </li>
-                }
-                else
-                {
-                    <li class="list-group-item"><b>Shipping Price</b> : $0.00 </li>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b>Recipien tName</b> : @Model.RecipientName </li>
+                    <li class="list-group-item"><b>Recipient Phone Number</b> : @Model.RecipientPhoneNumber </li>
+                    <li class="list-group-item"><b>District</b> : @Model.AddressDistrict </li>
+                    <li class="list-group-item"><b>City</b> : @Model.AddressCity </li>
+                    <li class="list-group-item"><b>Street</b> : @Model.AddressStreet </li>
+                    <li class="list-group-item"><b>Expected Delivery Date</b> : <time datetime="@Model.ExpectedDeliveryDate?.ToString("O")"></time> </li>
+                    <li class="list-group-item"><b>Shipping Type</b> : @Model.ShippingType </li>
+                    @if (Model.ShippingType == ShippingType.Fast.ToString())
+                    {
+                        <li class="list-group-item"><b>Shipping Price</b> : $@GlobalConstants.ShippingPriceForFastShippingType </li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item"><b>Shipping Price</b> : $@GlobalConstants.ShippingPriceForRegularShippingType </li>
 
-                }
-                <li class="list-group-item"><b>Order Status</b> : @Model.Status </li>
-                <li class="list-group-item"><b>TotalPrice</b> : <b class="text-danger">@Model.TotalPrice</b></li>
-            </ul>
-        </div>
-        <hr>
-        <hr>
-    </div>
-    <div>
-        <form class="form" asp-area="Administration" asp-controller="Orders" asp-action="UpdateStatus" method="post">
-
-                <label>Change Order Status</label>
-                <select name="OrderStatus" class="form-control dropdown-toggle" asp-items="@Html.GetEnumSelectList<OrderStatus>()"></select>
-                <input type="hidden" name="OrderId" value="@this.Model.Id" />
-
-            <div class="col-md-4">
-                <button type="submit" class="btn btn-danger" value="Update">Update</button>
+                    }
+                    <li class="list-group-item"><b>Order Status</b> : @Model.Status </li>
+                    <li class="list-group-item"><b>TotalPrice</b> : <b class="text-danger">@Model.TotalPrice</b></li>
+                </ul>
             </div>
-        </form>
+            <div>
+                <form class="form" asp-area="Administration" asp-controller="Orders" asp-action="UpdateStatus" method="post">
+
+                    <label>Change Order Status</label>
+                    <select name="OrderStatus" class="form-control dropdown-toggle" asp-items="@Html.GetEnumSelectList<OrderStatus>()"></select>
+                    <input type="hidden" name="OrderId" value="@this.Model.Id" />
+
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-danger" value="Update">Update</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="checkout-cart">
+                    <h3>Ordered Products</h3>
+                    <ul class="product-list">
+                        @foreach (var product in @Model.OrderProductItems)
+                        {
+                            <li>
+                                <div class="pl-thumb"><img src="@product.MainImages.ImageUrl" alt=""></div>
+                                <h6>@product.ProductItemProductName</h6>
+                                <p>Quantity: @product.Quantity</p>
+                                <p>Product Price: @product.ProductItemProductPrice</p>
+                                <p class="text-danger">Total Price for Product: @product.OrderedProductTotalPrice</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
 

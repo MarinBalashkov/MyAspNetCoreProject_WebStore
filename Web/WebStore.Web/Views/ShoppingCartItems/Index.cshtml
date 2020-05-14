@@ -6,7 +6,7 @@
 <section class="cart-section spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 <div class="cart-table">
                     <h3>Your Cart</h3>
                     <div class="cart-table-warp">
@@ -17,6 +17,7 @@
                                     <th class="quy-th">Quantity</th>
                                     <th class="size-th">SizeSize</th>
                                     <th class="total-th">Price</th>
+                                    <th class="total-th">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,23 +31,30 @@
                                                 <p>$@item.ProductItemProductPrice</p>
                                             </div>
                                         </td>
-                                        <td class="quy-col">
-                                            <form asp-controller="ShoppingCartItems" asp-action="Update" method="post">
-                                                <div class="quantity">
-                                                    <div class="pro-qty">
-                                                        <input type="text" name="quantity" value="@item.Quantity">
+                                        <td>
+                                            @*<form asp-controller="ShoppingCartItems" asp-action="Update" method="post">
+                                                    <div class="quantity">
+                                                        <div class="pro-qty">
+                                                            <input type="text" name="quantity" value="@item.Quantity">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <input type="hidden" name="productItemId" value="@item.ProductItemId" />
-                                                <button type="submit" class="btn btn-primary">Refresh</button>
-                                            </form>
+                                                    <input type="hidden" name="productItemId" value="@item.ProductItemId" />
+                                                    <button type="submit" class="btn btn-primary">Refresh</button>
+                                                </form>*@
+                                            <a class="text-danger pr-2" asp-controller="ShoppingCartItems" asp-action="Update" asp-route-productItemId="@item.ProductItemId" asp-route-quantity="@(item.Quantity - 1)"><i class="fa fa-minus-circle"></i> </a>
+                                            @item.Quantity
+                                            <a class="text-danger pl-2" asp-controller="ShoppingCartItems" asp-action="Update" asp-route-productItemId="@item.ProductItemId" asp-route-quantity="@(item.Quantity + 1)"><i class="fa fa-plus-circle"></i></a>
+
+                                        </td>
+                                        <td class="size-col"><h4>Size @item.ProductItemSize</h4></td>
+                                        <td class="total-col"><h4>$@(item.Quantity * item.ProductItemProductPrice)</h4></td>
+                                        <td>
                                             <form asp-controller="ShoppingCartItems" asp-action="Delete" method="post">
                                                 <input type="hidden" name="productItemId" value="@item.ProductItemId" />
                                                 <button type="submit" class="btn btn-danger">Delete</button>
                                             </form>
                                         </td>
-                                        <td class="size-col"><h4>Size @item.ProductItemSize</h4></td>
-                                        <td class="total-col"><h4>$@(item.Quantity * item.ProductItemProductPrice)</h4></td>
+
                                     </tr>
                                 }
                             </tbody>
@@ -57,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 card-right">
+            <div class="col-lg-3 card-right">
                 <a asp-area="" asp-controller="Orders" asp-action="Create" class="site-btn">Proceed to checkout</a>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="site-btn sb-dark">Continue shopping</a>
             </div>

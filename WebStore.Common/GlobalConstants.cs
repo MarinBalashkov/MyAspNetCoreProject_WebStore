@@ -12,5 +12,7 @@
 
         public const decimal ShippingPriceForFastShippingType = 3.00m;
 
+        public const decimal ShippingPriceForRegularShippingType = 0.00m;
+
     }
 }

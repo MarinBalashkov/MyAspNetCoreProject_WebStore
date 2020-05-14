@@ -1,16 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebStore.Data.Models;
-using WebStore.Services.Data;
-using WebStore.Web.ViewModels.Orders;
-
-namespace WebStore.Web.Controllers
+﻿namespace WebStore.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using WebStore.Data.Models;
+    using WebStore.Services.Data;
+    using WebStore.Web.ViewModels.Orders;
+
     [Authorize]
     public class OrdersController : BaseController
     {
@@ -129,7 +127,7 @@ namespace WebStore.Web.Controllers
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var model = this.ordersService.GetById<ConfirmationOrderViewModel>(orderId, userId);
+            var model = this.ordersService.GetById<MyOrderDetailsViewModel>(orderId, userId);
             if (model == null)
             {
                 return this.NotFound();
@@ -137,7 +135,6 @@ namespace WebStore.Web.Controllers
 
             return this.View(model);
         }
-
 
         public IActionResult ThankYou()
         {

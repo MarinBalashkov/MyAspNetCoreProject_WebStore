@@ -36,7 +36,7 @@ namespace WebStore.Web.Areas.Administration.Controllers
 
         public IActionResult OrderDetails(string orderId)
         {
-            var model = this.ordersService.GetById<ConfirmationOrderViewModel>(orderId, null);
+            var model = this.ordersService.GetById<MyOrderDetailsViewModel>(orderId, null);
             if (model == null)
             {
                 return this.NotFound();

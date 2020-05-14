@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using WebStore.Data.Models;
-using WebStore.Services.Data;
-using WebStore.Web.ViewModels.Products;
-using WebStore.Web.ViewModels.ShopingCardItems;
-
-namespace WebStore.Web.Controllers
+﻿namespace WebStore.Web.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using WebStore.Data.Models;
+    using WebStore.Services.Data;
+    using WebStore.Web.ViewModels.Products;
+    using WebStore.Web.ViewModels.ShopingCardItems;
+
     [Authorize]
     public class ShoppingCartItemsController : BaseController
     {
@@ -62,7 +59,6 @@ namespace WebStore.Web.Controllers
             return this.RedirectToAction(nameof(this.Index));
         }
 
-        [HttpPost]
         public async Task<IActionResult> Update(int productItemId, int quantity)
         {
             var userId = this.userManager.GetUserId(this.User);
