@@ -5,6 +5,8 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
     using WebStore.Data.Common.Repositories;
     using WebStore.Data.Models;
     using WebStore.Data.Models.Enums;
@@ -105,36 +107,9 @@
             return this.productsRepository.All().Any(x => x.Id == id);
         }
 
-        public IEnumerable<T> GetProductsByFilter<T>(string parentCategoryName, string childCategoryName, string color = null, string size = null, string brandName = null, int? take = null, int skip = 0)
+        public IEnumerable<T> GetProductsByFilterWithPagenation<T>(string parentCategoryName, string childCategoryName, string color, string size, string brandName, string searchString, int? take = null, int skip = 0)
         {
-            IQueryable<Product> query = this.productsRepository
-            .All()
-            .OrderByDescending(x => x.CreatedOn);
-
-            if (parentCategoryName != null)
-            {
-                query = query.Where(x => x.CategoriesProducts.Any(cp => cp.Category.ParentCategory.Name.ToLower() == parentCategoryName.ToLower()));
-            }
-
-            if (childCategoryName != null)
-            {
-                query = query.Where(x => x.CategoriesProducts.Any(cp => cp.Category.Name.ToLower() == childCategoryName.ToLower()));
-            }
-
-            if (color != null)
-            {
-                query = query.Where(x => x.Color.ToLower() == color.ToLower());
-            }
-
-            if (size != null)
-            {
-                query = query.Where(x => x.ProductItems.Any(pi => pi.Size.ToLower() == size.ToLower()));
-            }
-
-            if (brandName != null)
-            {
-                query = query.Where(x => x.Manufacturer.Name.ToLower() == brandName.ToLower());
-            }
+            IQueryable<Product> query = this.GetProductsByFilter(parentCategoryName, childCategoryName, color, size, brandName, searchString);
 
             if (!query.Any())
             {
@@ -150,38 +125,50 @@
             return query.To<T>().ToList();
         }
 
-        public int GetCountByFilter(string parentCategoryName, string childCategoryName, string color = null, string size = null, string brandName = null)
+        public IQueryable<Product> GetProductsByFilter(string parentCategoryName, string childCategoryName, string color, string size, string brandName, string searchString)
         {
             IQueryable<Product> query = this.productsRepository
-            .All();
+            .All()
+            .OrderByDescending(x => x.CreatedOn);
 
-            if (parentCategoryName != null)
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                var searchWords = searchString.Split(new char[] { ' ', '?', '&', '^', '$', '#', '@', '!', '(', ')', '+', '-', ',', ':', ';', '<', '>', '\'', '\\', '-', '_', '*', '"' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                // var searchWords = new string(searchString.Where(x => char.IsLetterOrDigit(x) || char.IsWhiteSpace(x)).ToArray()).Split(" ").ToArray();
+
+                foreach (var word in searchWords)
+                {
+                    query = query.Where(x => x.Name.Contains(word) || x.Color.Contains(word) || x.Description.Contains(word) || x.Manufacturer.Name.Contains(word));
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(parentCategoryName))
             {
                 query = query.Where(x => x.CategoriesProducts.Any(cp => cp.Category.ParentCategory.Name.ToLower() == parentCategoryName.ToLower()));
             }
 
-            if (childCategoryName != null)
+            if (!string.IsNullOrWhiteSpace(childCategoryName))
             {
                 query = query.Where(x => x.CategoriesProducts.Any(cp => cp.Category.Name.ToLower() == childCategoryName.ToLower()));
             }
 
-            if (color != null)
+            if (!string.IsNullOrWhiteSpace(color))
             {
                 query = query.Where(x => x.Color.ToLower() == color.ToLower());
             }
 
-            if (size != null)
+            if (!string.IsNullOrWhiteSpace(size))
             {
                 query = query.Where(x => x.ProductItems.Any(pi => pi.Size.ToLower() == size.ToLower()));
             }
 
-            if (brandName != null)
+            if (!string.IsNullOrWhiteSpace(brandName))
             {
                 query = query.Where(x => x.Manufacturer.Name.ToLower() == brandName.ToLower());
             }
 
-            return query.Count();
-
+            return query;
         }
 
         public IEnumerable<string> GetColors()

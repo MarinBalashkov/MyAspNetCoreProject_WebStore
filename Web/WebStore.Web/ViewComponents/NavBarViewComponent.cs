@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Threading.Tasks;
-using WebStore.Services.Data;
-using WebStore.Web.ViewModels.Categoties;
-using WebStore.Web.ViewModels.ViewComponents;
-
-namespace WebStore.Web.ViewComponents
+﻿namespace WebStore.Web.ViewComponents
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using WebStore.Services.Data;
+    using WebStore.Web.ViewModels.Categoties;
+    using WebStore.Web.ViewModels.ViewComponents;
+
     [ViewComponent(Name = "NavBar")]
     public class NavBarViewComponent : ViewComponent
     {
@@ -20,7 +21,7 @@ namespace WebStore.Web.ViewComponents
             this.categoryService = categoryService;
         }
 
-        public IViewComponentResult Invoke(string color = null, string size = null, string brandName = null)
+        public IViewComponentResult Invoke(string color = null, string size = null, string brandName = null, string searchString = null)
         {
             var navBarItems = new List<NavBarItemViewModel>();
             var parentCategories = this.categoryService.GetAllParentCategories<CategoryViewModel>();
@@ -54,6 +55,7 @@ namespace WebStore.Web.ViewComponents
             viewModel.Color = color;
             viewModel.Size = size;
             viewModel.BrandName = brandName;
+            viewModel.SearchString = searchString;
 
             return this.View(viewModel);
         }

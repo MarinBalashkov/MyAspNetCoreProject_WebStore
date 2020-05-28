@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebStore.Services.Data;
-using WebStore.Web.ViewModels.Products;
-using WebStore.Web.ViewModels.Reviews;
-using WebStore.Web.ViewModels.ShopingCardItems;
-
-namespace WebStore.Web.Controllers
+﻿namespace WebStore.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using WebStore.Services.Data;
+    using WebStore.Web.ViewModels.Products;
+    using WebStore.Web.ViewModels.Reviews;
+    using WebStore.Web.ViewModels.ShopingCardItems;
+
     public class ProductsController : BaseController
     {
         private const int ItemsPerPage = 12;
@@ -31,13 +32,18 @@ namespace WebStore.Web.Controllers
                 Brands = this.productService.GetBrands(),
             };
 
-            var products = this.productService.GetProductsByFilter<HomeIndexProductViewModel>(input.ParentCategoryName, input.ChildCategoryName, input.Color, input.Size, input.BrandName, ItemsPerPage, (page - 1) * ItemsPerPage);
+            var products = this.productService.GetProductsByFilterWithPagenation<HomeIndexProductViewModel>(input.ParentCategoryName, input.ChildCategoryName, input.Color, input.Size, input.BrandName, input.SearchString,  ItemsPerPage, (page - 1) * ItemsPerPage);
+
             if (products == null)
             {
                 return this.NotFound();
             }
 
+            model.Products = products;
+
             var sb = new StringBuilder();
+            sb.AppendLine(!string.IsNullOrWhiteSpace(input.SearchString) ? $"Search result for : {input.SearchString}" : string.Empty);
+            sb.AppendLine();
             sb.Append(input.ParentCategoryName != null ? input.ParentCategoryName : string.Empty);
             sb.Append(input.ChildCategoryName != null ? $" / {input.ChildCategoryName}" : string.Empty);
             sb.Append(input.Color != null ? $" / Color : {input.Color}" : string.Empty);
@@ -45,16 +51,9 @@ namespace WebStore.Web.Controllers
             sb.Append(input.BrandName != null ? $" / Brand : {input.BrandName}" : string.Empty);
 
             model.RouteInfo = sb.ToString().Trim();
-
-            //model.RouteInfo = input.ParentCategoryName != null ? input.ParentCategoryName : string.Empty +
-            //                  input.ChildCategoryName != null ? $" / {input.ChildCategoryName}" : string.Empty +
-            //                  input.Color != null $" / {input.ChildCategoryName}" : string.Empty +
-            //                  input.Size != null ? input.Size + "/" : string.Empty +
-            //                  input.BrandName != null ? input.BrandName + "/" : string.Empty;
-            model.Products = products;
             model.InputModel = input;
 
-            var count = this.productService.GetCountByFilter(input.ParentCategoryName, input.ChildCategoryName, input.Color, input.Size, input.BrandName);
+            var count = this.productService.GetProductsByFilter(input.ParentCategoryName, input.ChildCategoryName, input.Color, input.Size, input.BrandName, input.SearchString).Count();
 
             model.PagesCount = (int)Math.Ceiling((double)count / ItemsPerPage);
             if (model.PagesCount == 0)

@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using WebStore.Data.Models;
 
     public interface IProductsService
     {
@@ -21,9 +23,9 @@
 
         IEnumerable<T> GetProductsBySubCategoiesIds<T>(IEnumerable<int> categoriesIds, int? count);
 
-        IEnumerable<T> GetProductsByFilter<T>(string parentCategoryName, string childCategoryName, string color, string size, string brandName, int? take = null, int skip = 0);
+        IEnumerable<T> GetProductsByFilterWithPagenation<T>(string parentCategoryName, string childCategoryName, string color, string size, string brandName, string searchString, int? take = null, int skip = 0);
 
-        int GetCountByFilter(string parentCategoryName, string childCategoryName, string color, string size, string brandName);
+        IQueryable<Product> GetProductsByFilter(string parentCategoryName, string childCategoryName, string color, string size, string brandName, string searchString);
 
         IEnumerable<string> GetColors();
 

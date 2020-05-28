@@ -7,6 +7,7 @@
     {
         <li>
             <a asp-area="" asp-controller="Products" asp-action="Index"
+               asp-route-SearchString="@this.Model.SearchString"
                asp-route-ParentCategoryName="@item.ParentCategory.Name"
                asp-route-BrandName="@this.Model.BrandName"
                asp-route-Color="@this.Model.Color"
@@ -18,6 +19,7 @@
                     {
                         <li>
                             <a asp-area="" asp-controller="Products" asp-action="Index"
+                               asp-route-SearchString="@this.Model.SearchString"
                                asp-route-ParentCategoryName="@item.ParentCategory.Name"
                                asp-route-ChildCategoryName="@subCategory.Name"
                                asp-route-BrandName="@this.Model.BrandName"

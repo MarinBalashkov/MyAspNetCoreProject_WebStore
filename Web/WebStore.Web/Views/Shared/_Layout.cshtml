@@ -42,8 +42,8 @@
                         </a>
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-4">
-                        <form class="header-search-form">
-                            <input type="text" placeholder="Not Implemented  ....">
+                        <form class="header-search-form" asp-controller="Products" asp-action="Index" method="get">
+                            <input type="text" name="SearchString" placeholder="Not Implemented  ....">
                             <button><i class="flaticon-search"></i></button>
                         </form>
                     </div>
@@ -60,7 +60,11 @@
                 <ul class="main-menu">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Products" asp-action="Index">Products</a></li>
-                    <vc:nav-bar color="" size="" brand-name=""></vc:nav-bar>
+
+                    <cache expires-sliding="TimeSpan.FromHours(2)">
+                        <vc:nav-bar color="" size="" brand-name=""></vc:nav-bar>
+                    </cache>
+
                     @if (this.SignInManager.IsSignedIn(this.User))
                     {
                         if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))

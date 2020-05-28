@@ -12,5 +12,7 @@
 
         public string BrandName { get; set; }
 
+        public string SearchString { get; set; }
+
     }
 }
