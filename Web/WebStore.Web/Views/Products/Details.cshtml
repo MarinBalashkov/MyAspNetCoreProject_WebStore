@@ -4,8 +4,12 @@
     this.ViewData["Title"] = "Product " + Model.Name;
 }
 
-<!-- Page info -->
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
 
+<!-- Page info -->
 <div class="page-top-info">
     <div class="container">
         <h4>Category PAge</h4>
@@ -117,8 +121,6 @@
     </div>
 </section>
 <!-- product section end -->
-
-
 <!-- REVIEW section -->
 @if (Model.Reviews.Any())
 {

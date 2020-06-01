@@ -6,41 +6,47 @@
 @{
     this.ViewData["Title"] = "Confirm Order";
 }
-    <div>
-        <div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>Recipien tName</b> : @Model.RecipientName </li>
-                <li class="list-group-item"><b>Recipient Phone Number</b> : @Model.RecipientPhoneNumber </li>
-                <li class="list-group-item"><b>District</b> : @Model.AddressDistrict </li>
-                <li class="list-group-item"><b>City</b> : @Model.AddressCity </li>
-                <li class="list-group-item"><b>Street</b> : @Model.AddressStreet </li>
-                <li class="list-group-item"><b>Expected Delivery Date</b> : <time datetime="@Model.ExpectedDeliveryDate?.ToString("O")"></time> </li>
-                <li class="list-group-item"><b>Shipping Type</b> : @Model.ShippingType </li>
-                @if (Model.ShippingType == ShippingType.Fast.ToString())
-                {
-                    <li class="list-group-item"><b>Shipping Price</b> : $@GlobalConstants.ShippingPriceForFastShippingType </li>
-                }
-                else
-                {
-                    <li class="list-group-item"><b>Shipping Price</b> : $0.00 </li>
 
-                }
-                <li class="list-group-item"><b>Order Status</b> : @Model.Status </li>
-                <li class="list-group-item"><b>TotalPrice</b> : <b class="text-danger">@Model.TotalPrice</b></li>
-            </ul>
-        </div>
-        <hr>
-        <hr>
-        <div class="form-group">
-            <form asp-area="" asp-controller="Orders" asp-action="Confirmed" method="post">
-                <input type="hidden" name="orderId" value="@Model.Id" />
-                <button type="submit" class="btn btn-success float-right">Confirm your Order</button>
-            </form>
-            <form asp-area="" asp-controller="Orders" asp-action="Delete" method="post">
-                <input type="hidden" name="orderId" value="@Model.Id" />
-                <button type="submit" class="btn btn-danger float-left">Delete your Order</button>
-            </form>
-        </div>
-        <hr>
-        <hr>
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<div>
+    <div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Recipien tName</b> : @Model.RecipientName </li>
+            <li class="list-group-item"><b>Recipient Phone Number</b> : @Model.RecipientPhoneNumber </li>
+            <li class="list-group-item"><b>District</b> : @Model.AddressDistrict </li>
+            <li class="list-group-item"><b>City</b> : @Model.AddressCity </li>
+            <li class="list-group-item"><b>Street</b> : @Model.AddressStreet </li>
+            <li class="list-group-item"><b>Expected Delivery Date</b> : <time datetime="@Model.ExpectedDeliveryDate?.ToString("O")"></time> </li>
+            <li class="list-group-item"><b>Shipping Type</b> : @Model.ShippingType </li>
+            @if (Model.ShippingType == ShippingType.Fast.ToString())
+            {
+                <li class="list-group-item"><b>Shipping Price</b> : $@GlobalConstants.ShippingPriceForFastShippingType </li>
+            }
+            else
+            {
+                <li class="list-group-item"><b>Shipping Price</b> : $0.00 </li>
+
+            }
+            <li class="list-group-item"><b>Order Status</b> : @Model.Status </li>
+            <li class="list-group-item"><b>TotalPrice</b> : <b class="text-danger">@Model.TotalPrice</b></li>
+        </ul>
     </div>
+    <hr>
+    <hr>
+    <div class="form-group">
+        <form asp-area="" asp-controller="Orders" asp-action="Confirmed" method="post">
+            <input type="hidden" name="orderId" value="@Model.Id" />
+            <button type="submit" class="btn btn-success float-right">Confirm your Order</button>
+        </form>
+        <form asp-area="" asp-controller="Orders" asp-action="Delete" method="post">
+            <input type="hidden" name="orderId" value="@Model.Id" />
+            <button type="submit" class="btn btn-danger float-left">Delete your Order</button>
+        </form>
+    </div>
+    <hr>
+    <hr>
+</div>
