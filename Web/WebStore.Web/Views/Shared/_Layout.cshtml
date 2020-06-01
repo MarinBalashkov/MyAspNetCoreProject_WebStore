@@ -62,7 +62,7 @@
                     <li><a asp-area="" asp-controller="Products" asp-action="Index">Products</a></li>
 
                     <cache expires-sliding="TimeSpan.FromHours(2)">
-                        <vc:nav-bar color="" size="" brand-name=""></vc:nav-bar>
+                        <vc:nav-bar color="" size="" brand-name="" search-string=""></vc:nav-bar>
                     </cache>
 
                     @if (this.SignInManager.IsSignedIn(this.User))

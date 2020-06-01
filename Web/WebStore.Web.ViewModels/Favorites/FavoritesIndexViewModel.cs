@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WebStore.Web.ViewModels.Favorites
+﻿namespace WebStore.Web.ViewModels.Favorites
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     public class FavoritesIndexViewModel
     {
         public int CurrentPage { get; set; }

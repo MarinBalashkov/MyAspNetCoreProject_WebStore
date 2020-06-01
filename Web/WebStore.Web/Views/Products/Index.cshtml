@@ -31,17 +31,35 @@
                     <ul class="category-menu">
                         @foreach (var color in Model.Colors)
                         {
-                            <li>
-                                <a asp-area=""
-                                   asp-controller="Products"
-                                   asp-action="Index"
-                                   asp-route-SearchString="@this.Model.InputModel.SearchString"
-                                   asp-route-ParentCategoryName="@this.Model.InputModel.ParentCategoryName"
-                                   asp-route-ChildCategoryName="@this.Model.InputModel.ChildCategoryName"
-                                   asp-route-BrandName="@this.Model.InputModel.BrandName"
-                                   asp-route-Size="@this.Model.InputModel.Size"
-                                   asp-route-Color="@color">@color</a>
-                            </li>
+                            if (color == Model.InputModel.Color)
+                            {
+                                <li>
+                                    <a type="radio" asp-area=""
+                                       asp-controller="Products"
+                                       asp-action="Index"
+                                       asp-route-SearchString="@this.Model.InputModel.SearchString"
+                                       asp-route-ParentCategoryName="@this.Model.InputModel.ParentCategoryName"
+                                       asp-route-ChildCategoryName="@this.Model.InputModel.ChildCategoryName"
+                                       asp-route-BrandName="@this.Model.InputModel.BrandName"
+                                       asp-route-Size="@this.Model.InputModel.Size"
+                                       asp-route-Color="@color" checked="">@color</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a type="radio" asp-area=""
+                                       asp-controller="Products"
+                                       asp-action="Index"
+                                       asp-route-SearchString="@this.Model.InputModel.SearchString"
+                                       asp-route-ParentCategoryName="@this.Model.InputModel.ParentCategoryName"
+                                       asp-route-ChildCategoryName="@this.Model.InputModel.ChildCategoryName"
+                                       asp-route-BrandName="@this.Model.InputModel.BrandName"
+                                       asp-route-Size="@this.Model.InputModel.Size"
+                                       asp-route-Color="@color">@color</a>
+                                </li>
+                            }
+
                         }
                     </ul>
                 </div>
@@ -135,10 +153,56 @@
                             </li>
                         }
 
-                        @for (int i = 1; i <= this.Model.PagesCount; i++)
+                        @{
+                            const int MorePagesToShow = 3;
+                            var pagesToShow = new List<int>();
+                            for (var i = 1; i <= MorePagesToShow; i++)
+                            {
+                                pagesToShow.Add(i);
+                            }
+
+                            for (var i = this.Model.CurrentPage - MorePagesToShow; i <= this.Model.CurrentPage + MorePagesToShow; i++)
+                            {
+                                if (i > 0)
+                                {
+                                    pagesToShow.Add(i);
+                                }
+                            }
+
+                            for (var i = this.Model.PagesCount - MorePagesToShow + 1; i <= this.Model.PagesCount; i++)
+                            {
+                                if (i > 0)
+                                {
+                                    pagesToShow.Add(i);
+                                }
+                            }
+
+                            pagesToShow = pagesToShow.Where(x => x <= this.Model.PagesCount).Distinct().OrderBy(x => x).ToList();
+                        }
+                        @for (var i = 0; i < pagesToShow.Count; i++)
                         {
-                            var active = i == this.Model.CurrentPage ? "active" : string.Empty;
-                            <li class="page-item @active">
+                            var className = string.Empty;
+                            var pageNumber = pagesToShow[i];
+                            if (pageNumber == this.Model.CurrentPage)
+                            {
+                                className = "active";
+                            }
+                            if (i > 0 && pageNumber - 1 != pagesToShow[i - 1])
+                            {
+                                <li class="page-item @className">
+                                    <a class="page-link"
+                                       asp-controller="Products"
+                                       asp-action="Index"
+                                       asp-route-SearchString="@this.Model.InputModel.SearchString"
+                                       asp-route-ParentCategoryName="@this.Model.InputModel.ParentCategoryName"
+                                       asp-route-ChildCategoryName="@this.Model.InputModel.ChildCategoryName"
+                                       asp-route-BrandName="@this.Model.InputModel.BrandName"
+                                       asp-route-Color="@this.Model.InputModel.Color"
+                                       asp-route-Size="@this.Model.InputModel.Size"
+                                       asp-route-page="@pageNumber">...</a>
+                                </li>
+                            }
+                            <li class="page-item @className">
                                 <a class="page-link"
                                    asp-controller="Products"
                                    asp-action="Index"
@@ -148,10 +212,9 @@
                                    asp-route-BrandName="@this.Model.InputModel.BrandName"
                                    asp-route-Color="@this.Model.InputModel.Color"
                                    asp-route-Size="@this.Model.InputModel.Size"
-                                   asp-route-page="@i">@i</a>
+                                   asp-route-page="@pageNumber">@pageNumber</a>
                             </li>
                         }
-
                         @if (this.Model.CurrentPage == this.Model.PagesCount)
                         {
                             <li class="page-item disabled">
