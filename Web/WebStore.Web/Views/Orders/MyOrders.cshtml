@@ -10,8 +10,18 @@
     <div class="loader"></div>
 </div>
 
-<h1>@this.ViewData["Title"]</h1>
-
+<!-- Page info -->
+<div class="page-top-info">
+    <div class="container">
+        <h4>@this.ViewData["Title"]</h4>
+        <div class="site-pagination">
+            <a asp-area="" asp-controller="Home" asp-action="Index">Home</a> /
+            <a asp-area="" asp-controller="Products" asp-action="Index">Shop</a>
+        </div>
+    </div>
+</div>
+<!-- Page info end -->
+<hr>
 @foreach (var item in Model)
 {
     <div class="card">
@@ -28,5 +38,5 @@
             <a asp-controller="Orders" asp-action="MyOrderDetails" asp-route-orderId="@item.Id" class="btn btn-primary">Go to Details</a>
         </div>
     </div>
-
+    <hr>
 }

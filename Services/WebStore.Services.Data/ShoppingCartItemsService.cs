@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebStore.Data.Common.Repositories;
-using WebStore.Data.Models;
-using WebStore.Services.Mapping;
-
-namespace WebStore.Services.Data
+﻿namespace WebStore.Services.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using WebStore.Data.Common.Repositories;
+    using WebStore.Data.Models;
+    using WebStore.Services.Mapping;
+
     public class ShoppingCartItemsService : IShoppingCartItemsService
     {
         private readonly IDeletableEntityRepository<ShoppingCartItem> shoppingCartItemRepository;
@@ -88,10 +89,21 @@ namespace WebStore.Services.Data
 
         public async Task UpdateShopingCartItem(string userId, int productItemId, int quantity)
         {
+            if (quantity <= 0)
+            {
+                await this.DeleteShopingCartItem(userId, productItemId);
+                return;
+            }
+
             var shoppingCartItem = this.shoppingCartItemRepository
                 .All()
                 .Where(x => x.UserId == userId && x.ProductItemId == productItemId)
                 .FirstOrDefault();
+
+            if (shoppingCartItem == null)
+            {
+                return;
+            }
 
             shoppingCartItem.Quantity = quantity;
 
