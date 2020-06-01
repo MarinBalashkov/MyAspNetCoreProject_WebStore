@@ -29,7 +29,7 @@
                 <div class="filter-widget">
                     <h2 class="fw-title">Categories</h2>
                     <ul class="category-menu">
-                        <vc:nav-bar color="@Model.InputModel.Color" size="@Model.InputModel.Size" brand-name="@Model.InputModel.BrandName" search-string="@Model.InputModel.SearchString'"></vc:nav-bar>
+                        <vc:nav-bar color="@Model.InputModel.Color" size="@Model.InputModel.Size" brand-name="@Model.InputModel.BrandName" search-string="@Model.InputModel.SearchString"></vc:nav-bar>
                     </ul>
                 </div>
                 <div class="filter-widget">
@@ -113,6 +113,7 @@
 
             <div class="col-lg-9  order-1 order-lg-2 mb-5 mb-lg-0">
                 <h3>@Model.RouteInfo</h3>
+                <br />
                 <div class="row">
                     @foreach (var product in Model.Products)
                     {

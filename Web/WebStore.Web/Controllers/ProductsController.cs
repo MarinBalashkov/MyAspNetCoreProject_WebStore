@@ -44,17 +44,16 @@
             var sb = new StringBuilder();
             sb.AppendLine(!string.IsNullOrWhiteSpace(input.SearchString) ? $"Search result for : {input.SearchString}" : string.Empty);
             sb.AppendLine();
-            sb.Append(input.ParentCategoryName != null ? input.ParentCategoryName : string.Empty);
+            sb.Append(input.ParentCategoryName != null ? $"Category : {input.ParentCategoryName}" : string.Empty);
             sb.Append(input.ChildCategoryName != null ? $" / {input.ChildCategoryName}" : string.Empty);
             sb.Append(input.Color != null ? $" / Color : {input.Color}" : string.Empty);
             sb.Append(input.Size != null ? $" / Size : {input.Size}" : string.Empty);
             sb.Append(input.BrandName != null ? $" / Brand : {input.BrandName}" : string.Empty);
 
-            model.RouteInfo = sb.ToString().Trim();
+            model.RouteInfo = sb.ToString();
             model.InputModel = input;
 
             var count = this.productService.GetProductsByFilter(input.ParentCategoryName, input.ChildCategoryName, input.Color, input.Size, input.BrandName, input.SearchString).Count();
-
             model.PagesCount = (int)Math.Ceiling((double)count / ItemsPerPage);
             if (model.PagesCount == 0)
             {
