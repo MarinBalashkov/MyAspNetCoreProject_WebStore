@@ -29,6 +29,11 @@
             this.itemsRepository = itemsRepository;
         }
 
+        public int GetProductItemQuantity(int id)
+        {
+            return this.productsItemsRepository.All().FirstOrDefault(x => x.Id == id)!.Quantity;
+        }
+
         public IEnumerable<T> GetLatestProducts<T>(int? count = null)
         {
             IQueryable<Product> query = this.productsRepository

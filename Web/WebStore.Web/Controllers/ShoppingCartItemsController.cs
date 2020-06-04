@@ -48,6 +48,11 @@
         [HttpPost]
         public async Task<IActionResult> Add(ShopingCardItemInputViewModel input)
         {
+            if (input.Quantity > this.productService.GetProductItemQuantity(input.ProductItemId))
+            {
+                this.ModelState.AddModelError(nameof(ShopingCardItemInputViewModel.Quantity), "Custom Error Message");
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.RedirectToAction("Details", "Products", new { id = input.ProductId });

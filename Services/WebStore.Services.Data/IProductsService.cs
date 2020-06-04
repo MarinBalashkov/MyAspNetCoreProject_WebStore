@@ -15,6 +15,8 @@
 
         T GetProductById<T>(int id);
 
+        int GetProductItemQuantity(int id);
+
         IEnumerable<T> GetLatestProducts<T>(int? count);
 
         IEnumerable<T> GetTopSellingProducts<T>(int? count);

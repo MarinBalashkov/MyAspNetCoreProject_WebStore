@@ -10,11 +10,11 @@
         [Required]
         public int ProductId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Size is required")]
         public int ProductItemId { get; set; }
 
         [Required]
-        [Range(minimum: 1, maximum: int.MaxValue)]
+        [Range(minimum: 1, maximum: int.MaxValue, ErrorMessage = "Quantity must be positive number")]
         public int Quantity { get; set; }
     }
 }
