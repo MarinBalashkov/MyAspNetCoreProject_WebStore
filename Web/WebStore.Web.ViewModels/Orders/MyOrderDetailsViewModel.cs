@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using WebStore.Data.Models;
-using WebStore.Services.Mapping;
-
-namespace WebStore.Web.ViewModels.Orders
+﻿namespace WebStore.Web.ViewModels.Orders
 {
+    using System;
+    using System.Collections.Generic;
+
+    using WebStore.Data.Models;
+    using WebStore.Services.Mapping;
+
     public class MyOrderDetailsViewModel : IMapFrom<Order>
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Status { get; set; }
 

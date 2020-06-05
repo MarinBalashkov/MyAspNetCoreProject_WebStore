@@ -1,19 +1,15 @@
 ﻿namespace WebStore.Web.ViewModels.Products
 {
-    using AutoMapper;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
+    using AutoMapper;
     using WebStore.Data.Models;
     using WebStore.Data.Models.Enums;
     using WebStore.Services.Mapping;
-    using WebStore.Web.ViewModels.Categoties;
     using WebStore.Web.ViewModels.Images;
     using WebStore.Web.ViewModels.ProductItems;
-    using WebStore.Web.ViewModels.Reviews;
-    using WebStore.Web.ViewModels.ShopingCardItems;
+    using WebStore.Web.ViewModels.ShoppingCartItems;
 
     public class ProductDetailsViewModel : IMapFrom<Product>, IHaveCustomMappings
     {
@@ -43,7 +39,7 @@
 
         public IEnumerable<ProductDetailsReviewViewModel> Reviews { get; set; }
 
-        public ShopingCardItemInputViewModel ShopingCardItemInputViewModel { get; set; }
+        public ShoppingCartItemInputViewModel ShopingCardItemInputViewModel { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

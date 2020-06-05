@@ -1,14 +1,17 @@
-﻿using AutoMapper;
-using System.Linq;
-using WebStore.Data.Models;
-using WebStore.Data.Models.Enums;
-using WebStore.Services.Mapping;
-using WebStore.Web.ViewModels.Images;
-
-namespace WebStore.Web.ViewModels.Orders
+﻿namespace WebStore.Web.ViewModels.Orders
 {
+    using System.Linq;
+
+    using AutoMapper;
+    using WebStore.Data.Models;
+    using WebStore.Data.Models.Enums;
+    using WebStore.Services.Mapping;
+    using WebStore.Web.ViewModels.Images;
+
     public class OrderedProductViewModel : IMapFrom<OrderProductItem>, IHaveCustomMappings
     {
+        public int ProductItemProductId { get; set; }
+
         public string ProductItemProductName { get; set; }
 
         public int Quantity { get; set; }
