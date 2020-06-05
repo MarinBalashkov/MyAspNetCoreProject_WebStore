@@ -9,6 +9,8 @@ namespace WebStore.Web.ViewModels.ShopingCardItems
 {
     public class ShoppingCartItemViewModel : IMapFrom<ShoppingCartItem>, IHaveCustomMappings
     {
+        public int ProductItemProductId { get; set; }
+
         public int ProductItemId { get; set; }
 
         public string ProductItemSize { get; set; }

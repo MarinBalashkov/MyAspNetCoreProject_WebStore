@@ -31,7 +31,7 @@
                 return;
             }
 
-            this.shoppingCartItemRepository.Delete(shoppingCartItem);
+            this.shoppingCartItemRepository.HardDelete(shoppingCartItem);
             await this.shoppingCartItemRepository.SaveChangesAsync();
         }
 
@@ -42,7 +42,7 @@
                 return;
             }
 
-            if (this.shoppingCartItemRepository.All().Any(x => x.UserId == userId && x.ProductItemId == productItemId))
+            if (this.shoppingCartItemRepository.AllWithDeleted().Any(x => x.UserId == userId && x.ProductItemId == productItemId))
             {
                 await this.UpdateShopingCartItem(userId, productItemId, quantity);
                 return;
@@ -81,7 +81,7 @@
 
             foreach (var item in shoppingCartItems)
             {
-                this.shoppingCartItemRepository.Delete(item);
+                this.shoppingCartItemRepository.HardDelete(item);
             }
 
             await this.shoppingCartItemRepository.SaveChangesAsync();

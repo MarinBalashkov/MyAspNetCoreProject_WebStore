@@ -32,7 +32,7 @@
                 Brands = this.productService.GetBrands(),
             };
 
-            var products = this.productService.GetProductsByFilterWithPagenation<HomeIndexProductViewModel>(input.ParentCategoryName, input.ChildCategoryName, input.Color, input.Size, input.BrandName, input.SearchString,  ItemsPerPage, (page - 1) * ItemsPerPage);
+            var products = this.productService.GetProductsByFilterWithPagenation<HomeIndexProductViewModel>(input.ParentCategoryName, input.ChildCategoryName, input.Color, input.Size, input.BrandName, input.SearchString, ItemsPerPage, (page - 1) * ItemsPerPage);
 
             if (products == null)
             {

@@ -48,14 +48,16 @@
         [HttpPost]
         public async Task<IActionResult> Add(ShopingCardItemInputViewModel input)
         {
-            if (input.Quantity > this.productService.GetProductItemQuantity(input.ProductItemId))
-            {
-                this.ModelState.AddModelError(nameof(ShopingCardItemInputViewModel.Quantity), "Custom Error Message");
-            }
+            var leftProductItems = this.productService.GetProductItemQuantity(input.ProductItemId);
+
+            //if (input.Quantity > leftProductItems)
+            //{
+            //    this.ModelState.AddModelError(nameof(ShopingCardItemInputViewModel.Quantity), $"Only {leftProductItems} left in stock");
+            //}
 
             if (!this.ModelState.IsValid)
             {
-                return this.RedirectToAction("Details", "Products", new { id = input.ProductId });
+                return this.RedirectToAction("Details", "Products", new { id = input.ProductId});
             }
 
             var userId = this.userManager.GetUserId(this.User);

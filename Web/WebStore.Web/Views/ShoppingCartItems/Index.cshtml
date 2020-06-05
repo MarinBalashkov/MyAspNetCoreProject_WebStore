@@ -44,7 +44,7 @@
                                         <td class="product-col">
                                             <img src="@item.MainImages.ImageUrl" alt="">
                                             <div class="pc-title">
-                                                <h4>@item.ProductItemProductName</h4>
+                                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductItemProductId"><h4>@item.ProductItemProductName</h4></a>
                                                 <p>$@item.ProductItemProductPrice</p>
                                             </div>
                                         </td>
