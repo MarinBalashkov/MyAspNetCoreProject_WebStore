@@ -100,17 +100,23 @@
                 <div class="checkout-cart">
                     <h3>Your Cart</h3>
                     <ul class="product-list">
-                        @foreach (var item in @Model.MiniShoppingCart.ShoppingCartItems)
+                        @foreach (var product in @Model.MiniShoppingCart.ShoppingCartItems)
                         {
                             <li>
-                                <div class="pl-thumb"><img src="@item.MainImages.ImageUrl" alt=""></div>
-                                <h6>@item.ProductItemProductName</h6>
-                                <p>$@item.TotalProductOrderPrice</p>
+                                <div class="pl-thumb">
+                                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductItemProductId">
+                                        <img src="@product.MainImages.ImageUrl" alt="">
+                                    </a>
+                                </div>
+                                <h6>@product.ProductItemProductName</h6>
+                                <p>Quantity: @product.ProductItemQuantity</p>
+                                <p>Product Price: @product.ProductItemProductPrice</p>
+                                <p class="text-danger">Total Price for Product: @product.TotalProductPrice</p>
                             </li>
                         }
                     </ul>
                     <ul class="price-list">
-                        <li class="total">Total<span>$@Model.MiniShoppingCart.TotalPrice.ToString("F2")</span></li>
+                        <li class="total text-danger">Total : $@Model.MiniShoppingCart.TotalPrice</li>
                     </ul>
                 </div>
             </div>

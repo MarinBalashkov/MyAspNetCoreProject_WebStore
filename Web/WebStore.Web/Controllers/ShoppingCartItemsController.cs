@@ -8,7 +8,7 @@
     using WebStore.Data.Models;
     using WebStore.Services.Data;
     using WebStore.Web.ViewModels.Products;
-    using WebStore.Web.ViewModels.ShopingCardItems;
+    using WebStore.Web.ViewModels.ShoppingCartItems;
 
     [Authorize]
     public class ShoppingCartItemsController : BaseController
@@ -46,7 +46,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(ShopingCardItemInputViewModel input)
+        public async Task<IActionResult> Add(ShoppingCartItemInputViewModel input)
         {
             var leftProductItems = this.productService.GetProductItemQuantity(input.ProductItemId);
 

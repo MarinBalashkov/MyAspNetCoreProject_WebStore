@@ -10,7 +10,7 @@
     using WebStore.Services.Data;
     using WebStore.Web.ViewModels.Products;
     using WebStore.Web.ViewModels.Reviews;
-    using WebStore.Web.ViewModels.ShopingCardItems;
+    using WebStore.Web.ViewModels.ShoppingCartItems;
 
     public class ProductsController : BaseController
     {

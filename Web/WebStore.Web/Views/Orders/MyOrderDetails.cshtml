@@ -43,7 +43,11 @@
                     @foreach (var product in @Model.OrderProductItems)
                     {
                         <li>
-                            <div class="pl-thumb"><img src="@product.MainImages.ImageUrl" alt=""></div>
+                            <div class="pl-thumb">
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.ProductItemProductId">
+                                    <img src="@product.MainImages.ImageUrl" alt="">
+                                </a>
+                            </div>
                             <h6>@product.ProductItemProductName</h6>
                             <p>Quantity: @product.Quantity</p>
                             <p>Product Price: @product.ProductItemProductPrice</p>
