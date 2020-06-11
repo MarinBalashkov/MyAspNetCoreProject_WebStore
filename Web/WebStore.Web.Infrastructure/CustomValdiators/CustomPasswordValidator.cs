@@ -15,9 +15,9 @@
                 return IdentityResult.Failed(new IdentityError { Description = "Username and Password can't be the same.", Code = "SameUserPass" });
             }
 
-            if (password.ToLower().Contains(password))
+            if (username.ToLower().Contains(password))
             {
-                return IdentityResult.Failed(new IdentityError { Description = "The word password is not allowed for the Password.", Code = "PasswordContainsPassword" });
+                return IdentityResult.Failed(new IdentityError { Description = $"The word {password} is not allowed for the Password.", Code = $"{username}ContainsPassword" });
             }
 
             return IdentityResult.Success;
