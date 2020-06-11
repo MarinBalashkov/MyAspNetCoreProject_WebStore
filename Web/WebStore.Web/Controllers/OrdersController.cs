@@ -31,6 +31,13 @@
         public IActionResult Create()
         {
             var userId = this.userManager.GetUserId(this.User);
+
+            if (this.shoppingCartItemsService.GetShoppingCartItemsCount(userId) == 0)
+            {
+                return this.RedirectToAction("Index", "Home");
+                //this.ModelState.AddModelError(nameof(CreateOrderViewModel.MiniShoppingCart.ShoppingCartItems), "Add Products in ShoppingCart");
+            }
+
             var model = new CreateOrderViewModel();
 
             model.InputModel = new CreateOrderInputModel();
@@ -51,6 +58,7 @@
             if (this.shoppingCartItemsService.GetShoppingCartItemsCount(userId) == 0)
             {
                 return this.RedirectToAction("Index", "Home");
+                //this.ModelState.AddModelError(nameof(CreateOrderViewModel.MiniShoppingCart.ShoppingCartItems), "Add Products in ShoppingCart");
             }
 
             if (!this.ModelState.IsValid)

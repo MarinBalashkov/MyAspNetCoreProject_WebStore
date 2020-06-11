@@ -55,7 +55,7 @@
                     <a href="">@Model.ReviewsCount reviews</a>
                     @if (this.User.Identity.IsAuthenticated)
                     {
-                        <button onclick="showAddReviewForm(@Model.Id)"> |Add your review</button>
+                        <button class="btn btn-primary btn-sm" onclick="showAddReviewForm(@Model.Id)"> |Add your review</button>
                     }
                 </div>
 

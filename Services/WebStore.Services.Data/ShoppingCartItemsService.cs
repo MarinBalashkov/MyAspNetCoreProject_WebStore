@@ -14,9 +14,9 @@
     {
         private readonly IDeletableEntityRepository<ShoppingCartItem> shoppingCartItemRepository;
 
-        public ShoppingCartItemsService(IDeletableEntityRepository<ShoppingCartItem> shopingCardItemRepository)
+        public ShoppingCartItemsService(IDeletableEntityRepository<ShoppingCartItem> shoppingCartItemRepository)
         {
-            this.shoppingCartItemRepository = shopingCardItemRepository;
+            this.shoppingCartItemRepository = shoppingCartItemRepository;
         }
 
         public async Task DeleteShopingCartItem(string userId, int productItemId)

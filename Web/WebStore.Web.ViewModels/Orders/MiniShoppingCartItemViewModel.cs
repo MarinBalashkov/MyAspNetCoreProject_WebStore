@@ -14,13 +14,13 @@ namespace WebStore.Web.ViewModels.Orders
     {
         public int ProductItemProductId { get; set; }
 
-        public int ProductItemQuantity { get; set; }
+        public int Quantity { get; set; }
 
         public string ProductItemProductName { get; set; }
 
         public decimal ProductItemProductPrice { get; set; }
 
-        public decimal TotalProductPrice => (decimal)this.ProductItemQuantity * this.ProductItemProductPrice;
+        public decimal TotalProductPrice => (decimal)this.Quantity * this.ProductItemProductPrice;
 
         public ProductImageViewModel MainImages { get; set; }
 
