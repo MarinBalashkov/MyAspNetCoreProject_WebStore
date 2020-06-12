@@ -1,9 +1,6 @@
 ﻿namespace WebStore.Web.ViewModels.Orders
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
     using WebStore.Data.Models.Enums;
 
@@ -29,7 +26,6 @@
 
         [Required]
         [Display(Name = "Recipient Phone Number")]
-        [DataType(DataType.PhoneNumber)]
         public string RecipientPhoneNumber { get; set; }
 
         public int? AddressId { get; set; }

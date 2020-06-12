@@ -28,7 +28,7 @@
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create(int? addressId)
         {
             var userId = this.userManager.GetUserId(this.User);
 
@@ -40,12 +40,24 @@
 
             var model = new CreateOrderViewModel();
 
-            model.InputModel = new CreateOrderInputModel();
+            model.MyAddresses = this.addressesService.GetMyAddresses<AddressViewModel>(userId);
+
             model.MiniShoppingCart = new MiniShoppingCartViewModel();
             model.MiniShoppingCart.ShoppingCartItems = this.shoppingCartItemsService.GetAllShoppingCartItems<MiniShoppingCartItemViewModel>(userId);
             model.MiniShoppingCart.TotalPrice = this.shoppingCartItemsService.GetShoppingCartItemsTotalPrice(userId);
 
+            model.InputModel = new CreateOrderInputModel();
+            var address = this.addressesService.GetById<AddressViewModel>(addressId, userId);
+            if (address != null)
+            {
+                model.InputModel.AddressId = address.Id;
+                model.InputModel.City = address.City;
+                model.InputModel.District = address.District;
+                model.InputModel.Street = address.Street;
+            }
+
             model.InputModel.RecipientName = this.userService.GetUser<OrderCreateUserViewModel>(userId)?.FullName;
+            model.InputModel.RecipientPhoneNumber = this.userService.GetUser<OrderCreateUserViewModel>(userId)?.PhoneNumber;
 
             return this.View(model);
         }
@@ -63,13 +75,16 @@
 
             if (!this.ModelState.IsValid)
             {
+                input.MyAddresses = this.addressesService.GetMyAddresses<AddressViewModel>(userId);
+
                 input.MiniShoppingCart = new MiniShoppingCartViewModel();
                 input.MiniShoppingCart.ShoppingCartItems = this.shoppingCartItemsService.GetAllShoppingCartItems<MiniShoppingCartItemViewModel>(userId);
                 input.MiniShoppingCart.TotalPrice = this.shoppingCartItemsService.GetShoppingCartItemsTotalPrice(userId);
                 return this.View(input);
             }
 
-            var addressId = await this.addressesService.CreateAsync(userId, input.InputModel.District, input.InputModel.City, input.InputModel.Street);
+            var addressId = input.InputModel.AddressId ?? await this.addressesService.CreateAsync(userId, input.InputModel.District, input.InputModel.City, input.InputModel.Street);
+
             var orderId = await this.ordersService.CreateAsync(input.InputModel.ShippingType, input.InputModel.RecipientName, input.InputModel.RecipientPhoneNumber, userId, addressId);
 
             return this.RedirectToAction(nameof(this.Confirmation), new { orderId = orderId });

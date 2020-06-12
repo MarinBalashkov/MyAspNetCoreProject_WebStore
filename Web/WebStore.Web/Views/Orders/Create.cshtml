@@ -2,8 +2,9 @@
 @using WebStore.Common
 
 @model WebStore.Web.ViewModels.Orders.CreateOrderViewModel
+
 @{
-    this.ViewData["Title"] = "My Order";
+    this.ViewData["Title"] = "Order Details";
 }
 
 <!-- Page Preloder -->
@@ -27,6 +28,22 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 order-2 order-lg-1">
+                @if (Model.MyAddresses != null)
+                {
+                    <div class="col-md-12">
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Choose from my address
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                @foreach (var address in Model.MyAddresses)
+                                {
+                                    <a class="dropdown-item" asp-controller="Orders" asp-action="Create" asp-route-AddressId="@address.Id">@address.AddressString</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
                 <form asp-controller="Orders" asp-action="create" method="post" class="checkout-form">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="cf-title">Delievery Address</div>
@@ -57,7 +74,14 @@
                         <div class="col-md-6">
                             <span asp-validation-for="@Model.InputModel.RecipientPhoneNumber" class="text-danger"></span>
                             <label asp-for="@Model.InputModel.RecipientPhoneNumber"></label>
-                            <input type="text" asp-for="@Model.InputModel.RecipientPhoneNumber" placeholder="@Model.InputModel.RecipientPhoneNumber">
+                            @if (Model.InputModel.RecipientPhoneNumber == null)
+                            {
+                                <input type="text" asp-for="@Model.InputModel.RecipientPhoneNumber" placeholder="08xxxxxxxx">
+                            }
+                            else
+                            {
+                                <input type="text" asp-for="@Model.InputModel.RecipientPhoneNumber" placeholder="@Model.InputModel.RecipientPhoneNumber">
+                            }
                         </div>
                         <div class="col-md-6">
                         </div>

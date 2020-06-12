@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebStore.Data.Common.Repositories;
-using WebStore.Data.Models;
-using WebStore.Services.Mapping;
-
-namespace WebStore.Services.Data
+﻿namespace WebStore.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using WebStore.Data.Common.Repositories;
+    using WebStore.Data.Models;
+    using WebStore.Services.Mapping;
+
     public class FavoritesService : IFavoritesService
     {
         private readonly IDeletableEntityRepository<FavoriteProduct> favoritesProductsRepository;
