@@ -71,6 +71,7 @@
                                 <label type="text" asp-for="@Model.InputModel.Street"></label>
                                 <input asp-for="@Model.InputModel.Street" placeholder="@Model.InputModel.Street">
                             </div>
+                            <input type="hidden" asp-for="@Model.InputModel.AddressId" value="@Model.InputModel.AddressId" />
                         }
                         else
                         {
@@ -87,7 +88,7 @@
                             <div class="col-md-12">
                                 <span asp-validation-for="@Model.InputModel.Street" class="text-danger"></span>
                                 <label type="text" asp-for="@Model.InputModel.Street"></label>
-                                <input asp-for="@Model.InputModel.Street" value="@Model.InputModel.Street"disabled="disabled">
+                                <input asp-for="@Model.InputModel.Street" value="@Model.InputModel.Street" disabled="disabled">
                             </div>
                         }
                     </div>

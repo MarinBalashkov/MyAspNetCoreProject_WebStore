@@ -10,5 +10,7 @@
         IEnumerable<T> GetMyAddresses<T>(string userId);
 
         T GetById<T>(int? addressId, string userId);
+
+        Task<int> UpdateAddressAsync(string userId, int? addressId, string district, string city, string street);
     }
 }

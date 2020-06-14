@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net.NetworkInformation;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore.Internal;
@@ -57,6 +58,27 @@
             }
 
             return query.To<T>().ToArray();
+        }
+
+        public async Task<int> UpdateAddressAsync(string userId, int? addressId, string district, string city, string street)
+        {
+            var address = this.addressRepository.All()
+                 .Where(x => x.Id == addressId && x.UserId.Equals(userId))
+                 .FirstOrDefault();
+
+            if (address == null)
+            {
+                return 0;
+            }
+
+            address.District = district;
+            address.City = city;
+            address.Street = street;
+
+            this.addressRepository.Update(address);
+            await this.addressRepository.SaveChangesAsync();
+
+            return address.Id;
         }
     }
 }

@@ -83,11 +83,25 @@
                 return this.View(input);
             }
 
-            var addressId = input.InputModel.AddressId ?? await this.addressesService.CreateAsync(userId, input.InputModel.District, input.InputModel.City, input.InputModel.Street);
+            int addressId;
 
-            var orderId = await this.ordersService.CreateAsync(input.InputModel.ShippingType, input.InputModel.RecipientName, input.InputModel.RecipientPhoneNumber, userId, addressId);
+            if (input.InputModel.AddressId == null)
+            {
+                addressId = await this.addressesService.CreateAsync(userId, input.InputModel.District, input.InputModel.City, input.InputModel.Street);
+            }
+            else
+            {
+                addressId = await this.addressesService.UpdateAddressAsync(userId, input.InputModel.AddressId, input.InputModel.District, input.InputModel.City, input.InputModel.Street);
+            }
 
-            return this.RedirectToAction(nameof(this.Confirmation), new { orderId = orderId });
+            if (addressId == 0)
+            {
+                return this.NotFound();
+            }
+
+            var currentOrderId = await this.ordersService.CreateAsync(input.InputModel.ShippingType, input.InputModel.RecipientName, input.InputModel.RecipientPhoneNumber, userId, addressId);
+
+            return this.RedirectToAction(nameof(this.Confirmation), new { orderId = currentOrderId });
         }
 
         public IActionResult Confirmation(string orderId)
