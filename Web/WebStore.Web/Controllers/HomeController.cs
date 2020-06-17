@@ -84,5 +84,16 @@
             return this.View(
                 new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
+
+        public IActionResult HttpError(int statusCode)
+        {
+            if (statusCode == 404)
+            {
+                return this.View("HttpError404", statusCode);
+            }
+
+            return this.View(
+                new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
+        }
     }
 }

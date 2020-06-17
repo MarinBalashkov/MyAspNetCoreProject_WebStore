@@ -54,42 +54,24 @@
                     }
                     <div class="cf-title">Delievery Address</div>
                     <div class="row address-inputs">
+                        <div class="col-md-12">
+                            <span asp-validation-for="@Model.InputModel.District" class="text-danger"></span>
+                            <label type="text" asp-for="@Model.InputModel.District"></label>
+                            <input asp-for="@Model.InputModel.District" placeholder="@Model.InputModel.District">
+                        </div>
+                        <div class="col-md-12">
+                            <span asp-validation-for="@Model.InputModel.City" class="text-danger"></span>
+                            <label type="text" asp-for="@Model.InputModel.City"></label>
+                            <input asp-for="@Model.InputModel.City" placeholder="@Model.InputModel.City">
+                        </div>
+                        <div class="col-md-12">
+                            <span asp-validation-for="@Model.InputModel.Street" class="text-danger"></span>
+                            <label type="text" asp-for="@Model.InputModel.Street"></label>
+                            <input asp-for="@Model.InputModel.Street" placeholder="@Model.InputModel.Street">
+                        </div>
                         @if (Model.InputModel.AddressId != null)
                         {
-                            <div class="col-md-12">
-                                <span asp-validation-for="@Model.InputModel.District" class="text-danger"></span>
-                                <label type="text" asp-for="@Model.InputModel.District"></label>
-                                <input asp-for="@Model.InputModel.District" placeholder="@Model.InputModel.District">
-                            </div>
-                            <div class="col-md-12">
-                                <span asp-validation-for="@Model.InputModel.City" class="text-danger"></span>
-                                <label type="text" asp-for="@Model.InputModel.City"></label>
-                                <input asp-for="@Model.InputModel.City" placeholder="@Model.InputModel.City">
-                            </div>
-                            <div class="col-md-12">
-                                <span asp-validation-for="@Model.InputModel.Street" class="text-danger"></span>
-                                <label type="text" asp-for="@Model.InputModel.Street"></label>
-                                <input asp-for="@Model.InputModel.Street" placeholder="@Model.InputModel.Street">
-                            </div>
                             <input type="hidden" asp-for="@Model.InputModel.AddressId" value="@Model.InputModel.AddressId" />
-                        }
-                        else
-                        {
-                            <div class="col-md-12">
-                                <span asp-validation-for="@Model.InputModel.District" class="text-danger"></span>
-                                <label type="text" asp-for="@Model.InputModel.District"></label>
-                                <input asp-for="@Model.InputModel.District" value="@Model.InputModel.District" disabled="disabled">
-                            </div>
-                            <div class="col-md-12">
-                                <span asp-validation-for="@Model.InputModel.City" class="text-danger"></span>
-                                <label type="text" asp-for="@Model.InputModel.City"></label>
-                                <input asp-for="@Model.InputModel.City" value="@Model.InputModel.City" disabled="disabled">
-                            </div>
-                            <div class="col-md-12">
-                                <span asp-validation-for="@Model.InputModel.Street" class="text-danger"></span>
-                                <label type="text" asp-for="@Model.InputModel.Street"></label>
-                                <input asp-for="@Model.InputModel.Street" value="@Model.InputModel.Street" disabled="disabled">
-                            </div>
                         }
                     </div>
                     <div class="cf-title">Delievery Info</div>

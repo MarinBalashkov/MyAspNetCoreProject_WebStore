@@ -35,7 +35,6 @@
             if (this.shoppingCartItemsService.GetShoppingCartItemsCount(userId) == 0)
             {
                 return this.RedirectToAction("Index", "Home");
-                //this.ModelState.AddModelError(nameof(CreateOrderViewModel.MiniShoppingCart.ShoppingCartItems), "Add Products in ShoppingCart");
             }
 
             var model = new CreateOrderViewModel();
@@ -45,8 +44,8 @@
             model.MiniShoppingCart = new MiniShoppingCartViewModel();
             model.MiniShoppingCart.ShoppingCartItems = this.shoppingCartItemsService.GetAllShoppingCartItems<MiniShoppingCartItemViewModel>(userId);
             model.MiniShoppingCart.TotalPrice = this.shoppingCartItemsService.GetShoppingCartItemsTotalPrice(userId);
-
             model.InputModel = new CreateOrderInputModel();
+
             var address = this.addressesService.GetById<AddressViewModel>(addressId, userId);
             if (address != null)
             {

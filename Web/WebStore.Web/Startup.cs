@@ -160,6 +160,8 @@
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithRedirects("/Home/HttpError?statusCode={0}");
+
             app.UseResponseCompression();
             app.UseResponseCaching();
             app.UseHttpsRedirection();
