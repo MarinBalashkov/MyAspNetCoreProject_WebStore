@@ -18,6 +18,8 @@ namespace WebStore.Web.Areas.Administration.Controllers
     [Area("Administration")]
     public class ProductsController : Controller
     {
+        private const int ItemsPerPage = 12;
+
         private readonly ICategoriesService categoriesService;
         private readonly IProductsService productsService;
         private readonly ICloudinaryService cloudinaryService;
@@ -66,9 +68,24 @@ namespace WebStore.Web.Areas.Administration.Controllers
             return this.RedirectToAction(nameof(this.All));
         }
 
-        public IActionResult All()
+        public IActionResult All(int page = 1)
         {
-            var model = this.productsService.GetLatestProducts<HomeIndexProductViewModel>(null);
+            var model = new ProductsAllViewModel();
+            model.Products = this.productsService.GetLatestProducts<HomeIndexProductViewModel>(ItemsPerPage, (page - 1) * ItemsPerPage);
+            model.CurrentPage = page;
+
+            if (model.Products == null)
+            {
+                return this.RedirectToAction("Create");
+            }
+
+            var count = this.productsService.GetLatestProducts<HomeIndexProductViewModel>().Count();
+            model.PagesCount = (int)Math.Ceiling((double)count / ItemsPerPage);
+            if (model.PagesCount == 0)
+            {
+                model.PagesCount = 1;
+            }
+
             return this.View(model);
         }
 

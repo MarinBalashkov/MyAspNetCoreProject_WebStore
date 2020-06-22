@@ -34,14 +34,21 @@
             return this.productsItemsRepository.All().FirstOrDefault(x => x.Id == id)!.Quantity;
         }
 
-        public IEnumerable<T> GetLatestProducts<T>(int? count = null)
+        public IEnumerable<T> GetLatestProducts<T>(int? take = null, int skip = 0)
         {
             IQueryable<Product> query = this.productsRepository
-                .All()
-                .OrderByDescending(x => x.CreatedOn);
-            if (count.HasValue)
+                .All();
+            if (!query.Any())
             {
-                query = query.Take(count.Value);
+                return null;
+            }
+
+            query = query.OrderByDescending(x => x.CreatedOn);
+
+            query = query.Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
             }
 
             return query.To<T>().ToList();
